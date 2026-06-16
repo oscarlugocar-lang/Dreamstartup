@@ -33,6 +33,13 @@
 |---------|----------|--------|---------|--------|
 | — | — | — | — | — |
 
+## Mundial 2026
+- Dashboard actualizado con calendario de partidos
+- Simulación H2H con probabilidades en tiempo real
+- Sección "Partidos de Hoy" con auto-actualización cada 5 min
+- 48 equipos · 24 partidos · 14 grupos (A-N)
+- Ver en: https://oscarlugocar-lang.github.io/web-mundial/
+
 ## Métricas Semanales
 | Métrica | Valor |
 |---------|-------|

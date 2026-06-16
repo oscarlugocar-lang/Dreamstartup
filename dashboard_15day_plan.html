@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreamscape · Plan 15 Días + Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1119;
+    --surface: #1a1d2e;
+    --surface2: #232738;
+    --border: #2a2e42;
+    --text: #e8eaf0;
+    --text2: #9498b0;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --green: #22c55e;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --pink: #ec4899;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,.3);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+    min-height: 100vh;
+  }
+  .grid {
+    display: grid;
+    gap: 20px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header .sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  .header-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-green {
+    background: var(--green);
+    color: #000;
+  }
+  .btn-green:hover { opacity: .85; }
+
+  /* KPI Cards */
+  .kpi-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    transition: transform .15s;
+  }
+  .kpi:hover { transform: translateY(-2px); }
+  .kpi .label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--text2);
+  }
+  .kpi .value {
+    font-size: 32px;
+    font-weight: 800;
+    margin-top: 4px;
+    line-height: 1;
+  }
+  .kpi .change {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+  .kpi .change.up { color: var(--green); }
+  .kpi .change.down { color: var(--red); }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h2 .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: #fff;
+    margin-left: auto;
+  }
+  .two-col { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* Timeline */
+  .timeline { position: relative; }
+  .day {
+    display: grid;
+    grid-template-columns: 48px 1fr 80px;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background .15s;
+    border-radius: 6px;
+    padding-left: 8px;
+  }
+  .day:hover { background: var(--surface2); }
+  .day .num {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text2);
+    text-align: center;
+  }
+  .day .task { font-size: 13px; line-height: 1.3; }
+  .day .task .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+  }
+  .tag-devops { background: #6366f1; color: #fff; }
+  .tag-frontend { background: #3b82f6; color: #fff; }
+  .tag-backend { background: #22c55e; color: #000; }
+  .tag-video { background: #ec4899; color: #fff; }
+  .tag-auth { background: #f59e0b; color: #000; }
+  .tag-payments { background: #8b5cf6; color: #fff; }
+  .tag-docs { background: #64748b; color: #fff; }
+  .tag-mobile { background: #14b8a6; color: #000; }
+  .tag-ai { background: #f97316; color: #000; }
+
+  .day .status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .status-pending { background: #2a2e42; color: var(--text2); }
+  .status-progress { background: #f59e0b22; color: var(--orange); border: 1px solid var(--orange); }
+  .status-done { background: #22c55e22; color: var(--green); border: 1px solid var(--green); }
+
+  /* Charts container */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .chart-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .chart-box h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 12px;
+  }
+  .chart-box canvas { max-height: 220px; }
+
+  /* Notion Section */
+  .notion-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface2);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .notion-status .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .dot.offline { background: var(--red); }
+  .dot.online { background: var(--green); }
+  .notion-status .info { font-size: 13px; color: var(--text2); }
+  .notion-status .info strong { color: var(--text); }
+
+  .form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+  .form-row label { font-size: 13px; font-weight: 500; min-width: 100px; color: var(--text2); }
+  .form-row input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+  }
+  .form-row input:focus { outline: none; border-color: var(--accent); }
+  .form-row input::placeholder { color: var(--text2); opacity: .5; }
+
+  .log-area {
+    background: #00000033;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+    min-height: 80px;
+    max-height: 140px;
+    overflow-y: auto;
+    margin-top: 12px;
+    white-space: pre-wrap;
+  }
+  .log-area .ok { color: var(--green); }
+  .log-area .err { color: var(--red); }
+  .log-area .info { color: var(--blue); }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-bar .fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .5s ease;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .progress-bar .fill.green { background: linear-gradient(90deg, var(--green), #4ade80); }
+  .progress-bar .fill.orange { background: linear-gradient(90deg, var(--orange), #fbbf24); }
+
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .header { flex-direction: column; gap: 12px; text-align: center; }
+  }
+  @media (max-width: 500px) {
+    .kpi-grid { grid-template-columns: 1fr; }
+    body { padding: 12px; }
+    .day { grid-template-columns: 36px 1fr 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>Dreamscape · 15-Day Plan</h1>
+      <div class="sub">v1.0 — Fundación · Capacidades · Integraciones · Powered by Dreamscape</div>
+    </div>
+    <div class="header-right">
+      <span style="font-size:12px;color:var(--accent2);font-weight:600;margin-right:8px">DREAMSCAPE</span>
+      <button class="btn btn-outline" onclick="resetProgress()">⟳ Reset</button>
+      <button class="btn btn-primary" onclick="exportData()">⬇ Export</button>
+      <span id="dayCounter" style="font-size:14px;font-weight:600;color:var(--accent)">Día 0 / 15</span>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi"><div class="label">Tareas Totales</div><div class="value" id="kpiTotal">15</div><div class="change up">Plan 15 días</div></div>
+    <div class="kpi"><div class="label">Completadas</div><div class="value" id="kpiDone">0</div><div class="change up" id="kpiDonePct">0%</div></div>
+    <div class="kpi"><div class="label">En Progreso</div><div class="value" id="kpiProgress">0</div><div class="change" id="kpiProgressLabel" style="color:var(--orange)">Activas</div></div>
+    <div class="kpi"><div class="label">Categorías</div><div class="value">7</div><div class="change up">Full stack</div></div>
+    <div class="kpi"><div class="label">Notion Sync</div><div class="value" style="font-size:16px" id="kpiNotion">—</div><div class="change" id="kpiNotionStatus" style="color:var(--text2)">Desconectado</div></div>
+  </div>
+
+  <!-- MAIN: Timeline + Charts -->
+  <div class="two-col">
+    <!-- Timeline -->
+    <div class="card" style="grid-column:1">
+      <h2>📋 Plan de Trabajo 15 Días <span class="badge" id="progressPct">0%</span></h2>
+      <div class="progress-bar"><div class="fill" id="progressFill" style="width:0%"></div></div>
+      <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag tag-devops">DevOps</span>
+        <span class="tag tag-payments">Payments</span>
+        <span class="tag tag-auth">Auth</span>
+        <span class="tag tag-frontend">Frontend</span>
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-video">Video</span>
+        <span class="tag tag-mobile">Mobile</span>
+        <span class="tag tag-ai">AI/ML</span>
+        <span class="tag tag-docs">Docs</span>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <!-- Charts -->
+    <div style="grid-column:2;display:flex;flex-direction:column;gap:20px">
+      <div class="chart-grid" style="grid-template-columns:1fr 1fr;gap:16px">
+        <div class="chart-box"><h3>Progreso por Categoría</h3><canvas id="chartCategory"></canvas></div>
+        <div class="chart-box"><h3>Carga por Día</h3><canvas id="chartLoad"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <h3>Distribución de Esfuerzo</h3>
+        <canvas id="chartEffort" style="max-height:180px"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTION INTEGRATION -->
+  <div class="card" style="grid-column:1/-1">
+    <h2>🔗 Integración Notion <span class="badge" id="notionSyncBadge">Offline</span></h2>
+
+    <div class="notion-status">
+      <div class="dot offline" id="notionDot"></div>
+      <div class="info" id="notionInfo">
+        <strong>Modo Local</strong> — Los datos se guardan en tu navegador (localStorage).
+        Conecta Notion para sincronizar en tiempo real.
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Notion Token</label>
+      <input type="password" id="notionToken" placeholder="ntn_xxxxxx…" value="">
+      <button class="btn btn-outline" onclick="toggleToken()">👁</button>
+    </div>
+    <div class="form-row">
+      <label>Database ID</label>
+      <input type="text" id="notionDbId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" value="f8576d14-062c-4db8-9d84-620e1b974eba">
+    </div>
+    <div class="form-row">
+      <label></label>
+      <button class="btn btn-primary" onclick="connectNotion()">🔌 Conectar</button>
+      <button class="btn btn-outline" onclick="syncToNotion()">⬆ Push to Notion</button>
+      <button class="btn btn-outline" onclick="syncFromNotion()">⬇ Pull from Notion</button>
+      <span id="notionSpinner" style="display:none;color:var(--accent)">Sincronizando…</span>
+    </div>
+    <div class="log-area" id="notionLog">
+<span class="info">⎇ Sistema listo. Conecta tu API Key de Notion para habilitar sincronización bidireccional.</span>
+    </div>
+  </div>
+
+  <!-- WORLD CUP WIDGET -->
+  <div class="card" style="grid-column:1/-1">
+    <h2>🌍 Mundial 2026 — Partidos de Hoy <span class="badge" id="wcDate">Cargando...</span></h2>
+    <div id="wcContent" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"></div>
+    <div style="margin-top:12px;text-align:center">
+      <a href="https://oscarlugocar-lang.github.io/web-mundial/" target="_blank" style="color:var(--accent2);font-size:13px">Ver simulador completo →</a>
+      <span style="color:var(--text2);font-size:12px;margin-left:16px">Actualizado: <span id="wcUpdated">ahora</span></span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  PLAN DE 15 DÍAS — Datos
+// ═══════════════════════════════════════════
+const DAYS = [
+  { day:1,  tag:"devops",   task:"DevOps Agent v1 — Docker + GH Actions + deploy automático",                                 cat:"DevOps" },
+  { day:2,  tag:"devops",   task:"DevOps Agent v2 — AWS básico + secrets management + monitoring setup",                      cat:"DevOps" },
+  { day:3,  tag:"payments", task:"Stripe Skill — Checkout + subscripciones + webhooks + Customer Portal",                     cat:"Payments" },
+  { day:4,  tag:"payments", task:"Stripe Skill — Prisma schema + testing + go-live checklist",                                cat:"Payments" },
+  { day:5,  tag:"auth",     task:"Auth Skill — NextAuth.js + providers (GitHub/Google/Email) + middleware + session",         cat:"Auth" },
+  { day:6,  tag:"auth",     task:"Auth Skill — Clerk alternativa + RBAC + JWT pattern + security checklist",                  cat:"Auth" },
+  { day:7,  tag:"frontend", task:"Frontend — Componentes base + Design System (colores, tipografía, spacing, tokens)",        cat:"Frontend" },
+  { day:8,  tag:"frontend", task:"Frontend — Dashboard de inicio + layout responsive + dark mode",                            cat:"Frontend" },
+  { day:9,  tag:"backend",  task:"Backend — API REST base + validación + rate limiting + health check",                       cat:"Backend" },
+  { day:10, tag:"backend",  task:"Backend — Documentación OpenAPI/Swagger + tests de integración",                            cat:"Backend" },
+  { day:11, tag:"video",    task:"Video — Pipeline HyperFrames + 3 plantillas (explicador, producto, captions)",              cat:"Video" },
+  { day:12, tag:"mobile",   task:"Mobile — React Native + Expo scaffold + auth flow + API client",                            cat:"Mobile" },
+  { day:13, tag:"ai",       task:"AI/ML — Skill de LLM integration (OpenAI, LangChain) + RAG pattern con pgvector",          cat:"AI/ML" },
+  { day:14, tag:"docs",     task:"Documentación — Wiki técnica + setup guide + developer onboarding + architecture.md",       cat:"Docs" },
+  { day:15, tag:"docs",     task:"Revisión final — CI/CD polish + cobertura de tests + deploy a producción",                  cat:"Docs" },
+];
+
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+const STORAGE_KEY = 'startup_15day_plan';
+const state = loadState();
+
+function getDefaultState() {
+  return {
+    days: DAYS.map(d => ({ day: d.day, status: 'pending' })),
+    notionToken: '',
+    notionDbId: '',
+    notionConnected: false,
+    lastSync: null,
+  };
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Ensure all days exist
+      DAYS.forEach(d => {
+        if (!parsed.days.find(p => p.day === d.day)) {
+          parsed.days.push({ day: d.day, status: 'pending' });
+        }
+      });
+      return parsed;
+    }
+  } catch(e) {}
+  return getDefaultState();
+}
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// ═══════════════════════════════════════════
+//  RENDER TIMELINE
+// ═══════════════════════════════════════════
+function renderTimeline() {
+  const el = document.getElementById('timeline');
+  el.innerHTML = '';
+  DAYS.forEach(d => {
+    const st = state.days.find(p => p.day === d.day) || { day: d.day, status: 'pending' };
+    const div = document.createElement('div');
+    div.className = 'day';
+    div.innerHTML = `
+      <div class="num">D${String(d.day).padStart(2,'0')}</div>
+      <div class="task">
+        <span class="tag tag-${d.tag}">${d.cat}</span>
+        ${d.task}
+      </div>
+      <div class="status status-${st.status}">${statusLabel(st.status)}</div>
+    `;
+    div.addEventListener('click', () => cycleStatus(d.day));
+    el.appendChild(div);
+  });
+  updateKPIs();
+  updateCharts();
+  saveState();
+}
+
+function statusLabel(s) {
+  return s === 'done' ? '✅ Hecho' : s === 'progress' ? '🔧 En curso' : '⏳ Pendiente';
+}
+
+function cycleStatus(day) {
+  const st = state.days.find(p => p.day === day);
+  if (!st) return;
+  if (st.status === 'pending') st.status = 'progress';
+  else if (st.status === 'progress') st.status = 'done';
+  else st.status = 'pending';
+  renderTimeline();
+  playSound();
+}
+
+function updateKPIs() {
+  const total = DAYS.length;
+  const done = state.days.filter(d => d.status === 'done').length;
+  const progress = state.days.filter(d => d.status === 'progress').length;
+  const pct = Math.round((done / total) * 100);
+
+  document.getElementById('kpiTotal').textContent = total;
+  document.getElementById('kpiDone').textContent = done;
+  document.getElementById('kpiDonePct').textContent = pct + '%';
+  document.getElementById('kpiProgress').textContent = progress;
+  document.getElementById('dayCounter').textContent = `Día ${done} / ${total}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  if (pct >= 80) document.getElementById('progressFill').className = 'fill green';
+  else if (pct >= 40) document.getElementById('progressFill').className = 'fill orange';
+  else document.getElementById('progressFill').className = 'fill';
+}
+
+function resetProgress() {
+  if (!confirm('¿Resetear todo el progreso?')) return;
+  const def = getDefaultState();
+  state.days = def.days;
+  renderTimeline();
+}
+
+function exportData() {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    plan: DAYS,
+    progress: state.days,
+    stats: {
+      total: DAYS.length,
+      done: state.days.filter(d => d.status === 'done').length,
+      progress: state.days.filter(d => d.status === 'progress').length,
+    }
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `startup_plan_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+// ═══════════════════════════════════════════
+//  CHARTS
+// ═══════════════════════════════════════════
+let chartCategory, chartLoad, chartEffort;
+
+function updateCharts() {
+  // Category progress
+  const cats = {};
+  DAYS.forEach(d => {
+    if (!cats[d.cat]) cats[d.cat] = { total: 0, done: 0 };
+    cats[d.cat].total++;
+    const st = state.days.find(p => p.day === d.day);
+    if (st && st.status === 'done') cats[d.cat].done++;
+  });
+  const catLabels = Object.keys(cats);
+  const catDone = catLabels.map(c => cats[c].done);
+  const catTotal = catLabels.map(c => cats[c].total);
+
+  if (chartCategory) chartCategory.destroy();
+  chartCategory = new Chart(document.getElementById('chartCategory'), {
+    type: 'bar',
+    data: {
+      labels: catLabels,
+      datasets: [
+        { label: 'Hecho', data: catDone, backgroundColor: '#22c55e', borderRadius: 4 },
+        { label: 'Total', data: catTotal.map((t,i) => t - catDone[i]), backgroundColor: '#2a2e42', borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { labels: { color: '#9498b0', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: '#9498b0', font: { size: 10 } }, grid: { color: '#2a2e4222' } },
+        y: { ticks: { color: '#9498b0', stepSize: 1 }, grid: { color: '#2a2e4244' } }
+      }
+    }
+  });
+
+  // Daily load
+  const dailyLoad = DAYS.map(d => {
+    const catDays = DAYS.filter(x => x.cat === d.cat);
+    const idx = catDays.findIndex(x => x.day === d.day);
+    return { day: d.day, cat: d.cat, load: idx === 0 ? 1 : 0.5 };
+  });
+
+  if (chartLoad) chartLoad.destroy();
+  chartLoad = new Chart(document.getElementById('chartLoad'), {
+    type: 'line',
+    data: {
+      labels: DAYS.map(d => 'D' + d.day),
+      datasets: [{
+        label: 'Carga estimada',
+        data: dailyLoad.map(d => d.load),
+        borderColor: '#6366f1',
+        backgroundColor: '#6366f133',
+        fill: true,
+        tension: .3,
+        pointRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { labels: { color: '#9498b0', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: '#9498b0', font: { size: 9 } }, grid: { color: '#2a2e4222' } },
+        y: { min: 0, max: 1.5, ticks: { color: '#9498b0', stepSize: 0.5 }, grid: { color: '#2a2e4244' } }
+      }
+    }
+  });
+
+  // Effort distribution (pie)
+  const effortData = {};
+  DAYS.forEach(d => {
+    effortData[d.cat] = (effortData[d.cat] || 0) + 1;
+  });
+
+  if (chartEffort) chartEffort.destroy();
+  const colors = ['#6366f1','#22c55e','#f59e0b','#3b82f6','#ec4899','#14b8a6','#f97316'];
+  chartEffort = new Chart(document.getElementById('chartEffort'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(effortData),
+      datasets: [{
+        data: Object.values(effortData),
+        backgroundColor: colors.slice(0, Object.keys(effortData).length),
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'right', labels: { color: '#9498b0', font: { size: 11 }, padding: 12 } }
+      },
+      cutout: '60%',
+    }
+  });
+}
+
+// ═══════════════════════════════════════════
+//  SOUND (Mario Coin)
+// ═══════════════════════════════════════════
+let soundEnabled = true;
+function playSound() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.frequency.value = 988;
+    osc1.type = 'square';
+    gain1.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(ctx.currentTime);
+    osc1.stop(ctx.currentTime + 0.08);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.frequency.value = 1319;
+    osc2.type = 'square';
+    gain2.gain.setValueAtTime(0.15, ctx.currentTime + 0.11);
+    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.26);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(ctx.currentTime + 0.11);
+    osc2.stop(ctx.currentTime + 0.26);
+  } catch(e) { /* silent fallback */ }
+}
+
+// ═══════════════════════════════════════════
+//  NOTION INTEGRATION
+// ═══════════════════════════════════════════
+function logNotion(msg, type = 'info') {
+  const el = document.getElementById('notionLog');
+  el.innerHTML += `<div class="${type}">${msg}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function toggleToken() {
+  const inp = document.getElementById('notionToken');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function connectNotion() {
+  const token = document.getElementById('notionToken').value.trim();
+  const dbId = document.getElementById('notionDbId').value.trim();
+  if (!token) { logNotion('✖ Ingresa un Notion Token (ntn_...)', 'err'); return; }
+  if (!dbId) { logNotion('✖ Ingresa un Database ID de Notion', 'err'); return; }
+
+  state.notionToken = token;
+  state.notionDbId = dbId;
+  state.notionConnected = true;
+  saveState();
+
+  document.getElementById('notionDot').className = 'dot online';
+  document.getElementById('notionInfo').innerHTML =
+    '<strong>✅ Conectado a Notion</strong> — Pull/Push disponible';
+  document.getElementById('notionSyncBadge').textContent = 'Online';
+  document.getElementById('notionSyncBadge').style.background = '#22c55e';
+  logNotion(`🔌 Conectado a Notion DB: ${dbId.slice(0,12)}…`, 'ok');
+  logNotion(`💡 Token almacenado en localStorage (seguro localmente)`, 'info');
+}
+
+async function syncToNotion() {
+  if (!state.notionConnected) { logNotion('✖ Conecta Notion primero', 'err'); return; }
+  setSpinner(true);
+  logNotion(`⬆ Push: ${state.days.filter(d=>d.status==='done').length} tareas completadas → Notion`, 'info');
+
+  try {
+    const response = await fetch('https://api.notion.com/v1/pages', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${state.notionToken}`,
+        'Content-Type': 'application/json',
+        'Notion-Version': '2022-06-28',
+      },
+      body: JSON.stringify({
+        parent: { database_id: state.notionDbId },
+        properties: {
+          'Name': { title: [{ text: { content: `Sync ${new Date().toISOString().slice(0,10)}` } }] },
+          'Status': { status: { name: 'Done' } },
+          'Completed': { number: state.days.filter(d => d.status === 'done').length },
+          'Progress': { rich_text: [{ text: { content: `${Math.round((state.days.filter(d=>d.status==='done').length/DAYS.length)*100)}%` } }] },
+        }
+      })
+    });
+
+    if (response.ok) {
+      logNotion(`✅ Push exitoso — página creada en Notion`, 'ok');
+      state.lastSync = new Date().toISOString();
+      saveState();
+    } else {
+      const err = await response.text();
+      logNotion(`✖ Error Notion API: ${err}`, 'err');
+    }
+  } catch(e) {
+    logNotion(`✖ Error de conexión: ${e.message}`, 'err');
+  }
+  setSpinner(false);
+}
+
+async function syncFromNotion() {
+  if (!state.notionConnected) { logNotion('✖ Conecta Notion primero', 'err'); return; }
+  setSpinner(true);
+  logNotion(`⬇ Pull: consultando database de Notion…`, 'info');
+
+  try {
+    const response = await fetch(`https://api.notion.com/v1/databases/${state.notionDbId}/query`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${state.notionToken}`,
+        'Content-Type': 'application/json',
+        'Notion-Version': '2022-06-28',
+      },
+      body: JSON.stringify({ page_size: 10 })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      logNotion(`✅ Pull exitoso — ${data.results.length} páginas encontradas`, 'ok');
+      state.lastSync = new Date().toISOString();
+      saveState();
+    } else {
+      const err = await response.text();
+      logNotion(`✖ Error Notion API: ${err}`, 'err');
+    }
+  } catch(e) {
+    logNotion(`✖ Error de conexión: ${e.message}`, 'err');
+  }
+  setSpinner(false);
+}
+
+function setSpinner(on) {
+  document.getElementById('notionSpinner').style.display = on ? 'inline' : 'none';
+}
+
+// ═══════════════════════════════════════════
+//  WORLD CUP 2026
+// ═══════════════════════════════════════════
+const WC_TEAMS = {
+  "Argentina": {win:75,gf:1.8,gc:0.4,poss:62,flag:"🇦🇷"},"Colombia": {win:60,gf:1.5,gc:0.6,poss:54,flag:"🇨🇴"},
+  "Uruguay": {win:55,gf:1.8,gc:0.8,poss:55,flag:"🇺🇾"},"Brasil": {win:50,gf:1.4,gc:1.1,poss:58,flag:"🇧🇷"},
+  "Ecuador": {win:59,gf:0.9,gc:1.6,poss:46,flag:"🇪🇨"},"Venezuela": {win:49,gf:1.6,gc:1.2,poss:47,flag:"🇻🇪"},
+  "Paraguay": {win:40,gf:1.0,gc:1.2,poss:45,flag:"🇵🇾"},"Chile": {win:33,gf:1.3,gc:1.3,poss:50,flag:"🇨🇱"},
+  "Peru": {win:37,gf:1.3,gc:1.1,poss:42,flag:"🇵🇪"},"Francia": {win:59,gf:1.8,gc:1.8,poss:42,flag:"🇫🇷"},
+  "Inglaterra": {win:55,gf:0.9,gc:1.4,poss:51,flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿"},"Alemania": {win:62,gf:2.1,gc:1.0,poss:57,flag:"🇩🇪"},
+  "Espana": {win:58,gf:1.7,gc:0.9,poss:65,flag:"🇪🇸"},"Italia": {win:53,gf:1.5,gc:0.8,poss:56,flag:"🇮🇹"},
+  "Paises Bajos": {win:57,gf:1.9,gc:1.0,poss:58,flag:"🇳🇱"},"Belgica": {win:54,gf:1.6,gc:1.1,poss:59,flag:"🇧🇪"},
+  "Portugal": {win:52,gf:1.4,gc:1.2,poss:55,flag:"🇵🇹"},"Croacia": {win:48,gf:1.3,gc:1.1,poss:53,flag:"🇭🇷"},
+  "Suiza": {win:45,gf:1.2,gc:1.3,poss:49,flag:"🇨🇭"},"Dinamarca": {win:51,gf:1.5,gc:0.9,poss:52,flag:"🇩🇰"},
+  "Serbia": {win:44,gf:1.4,gc:1.4,poss:47,flag:"🇷🇸"},"Austria": {win:42,gf:1.3,gc:1.5,poss:48,flag:"🇦🇹"},
+  "Polonia": {win:43,gf:1.2,gc:1.3,poss:46,flag:"🇵🇱"},"Chequia": {win:41,gf:1.1,gc:1.4,poss:44,flag:"🇨🇿"},
+  "USA": {win:38,gf:1.0,gc:1.3,poss:43,flag:"🇺🇸"},"Canada": {win:36,gf:0.9,gc:1.5,poss:41,flag:"🇨🇦"},
+  "Mexico": {win:47,gf:1.3,gc:1.0,poss:48,flag:"🇲🇽"},"Japon": {win:46,gf:1.2,gc:1.1,poss:50,flag:"🇯🇵"},
+  "Corea del Sur": {win:40,gf:1.1,gc:1.3,poss:45,flag:"🇰🇷"},"Arabia Saudita": {win:35,gf:0.8,gc:1.6,poss:38,flag:"🇸🇦"},
+  "Iran": {win:34,gf:0.9,gc:1.5,poss:39,flag:"🇮🇷"},"Australia": {win:39,gf:1.0,gc:1.4,poss:42,flag:"🇦🇺"},
+  "Costa Rica": {win:32,gf:0.8,gc:1.7,poss:40,flag:"🇨🇷"},"Jamaica": {win:31,gf:0.7,gc:1.8,poss:38,flag:"🇯🇲"},
+  "Marruecos": {win:44,gf:1.1,gc:0.9,poss:45,flag:"🇲🇦"},"Tunez": {win:38,gf:0.9,gc:1.2,poss:41,flag:"🇹🇳"},
+  "Egipto": {win:42,gf:1.3,gc:1.0,poss:44,flag:"🇪🇬"},"Nigeria": {win:40,gf:1.2,gc:1.1,poss:43,flag:"🇳🇬"},
+  "Camerun": {win:37,gf:1.0,gc:1.4,poss:41,flag:"🇨🇲"},"Senegal": {win:41,gf:1.1,gc:1.2,poss:42,flag:"🇸🇳"},
+  "Costa de Marfil": {win:39,gf:1.0,gc:1.3,poss:40,flag:"🇨🇮"},"Argelia": {win:43,gf:1.2,gc:1.0,poss:44,flag:"🇩🇿"},
+  "Mali": {win:33,gf:0.8,gc:1.5,poss:37,flag:"🇲🇱"},"Panama": {win:30,gf:0.7,gc:1.9,poss:36,flag:"🇵🇦"},
+  "Uzbekistan": {win:34,gf:0.8,gc:1.6,poss:38,flag:"🇺🇿"},"Qatar": {win:29,gf:0.6,gc:2.0,poss:35,flag:"🇶🇦"},
+  "Nueva Zelanda": {win:36,gf:0.9,gc:1.5,poss:39,flag:"🇳🇿"},"Bosnia": {win:35,gf:0.9,gc:1.6,poss:40,flag:"🇧🇦"},
+};
+
+const WC_MATCHES = [
+  {d:"2026-06-12",g:"D",a:"USA",b:"Paraguay"},{d:"2026-06-12",g:"B",a:"Canada",b:"Bosnia"},{d:"2026-06-12",g:"A",a:"Corea del Sur",b:"Chequia"},
+  {d:"2026-06-13",g:"E",a:"Iran",b:"Chile"},{d:"2026-06-13",g:"F",a:"Uzbekistan",b:"Alemania"},
+  {d:"2026-06-14",g:"G",a:"Polonia",b:"Panama"},{d:"2026-06-14",g:"H",a:"Venezuela",b:"Senegal"},
+  {d:"2026-06-15",g:"I",a:"Jamaica",b:"Qatar"},{d:"2026-06-15",g:"J",a:"Croacia",b:"Austria"},
+  {d:"2026-06-16",g:"K",a:"Marruecos",b:"Japon"},{d:"2026-06-16",g:"L",a:"Mexico",b:"Argentina"},
+  {d:"2026-06-17",g:"M",a:"Australia",b:"Brasil"},{d:"2026-06-17",g:"N",a:"Belgica",b:"Uruguay"},
+  {d:"2026-06-18",g:"E",a:"Serbia",b:"Italia"},{d:"2026-06-18",g:"F",a:"Costa Rica",b:"Ecuador"},
+  {d:"2026-06-19",g:"G",a:"Costa de Marfil",b:"Argelia"},{d:"2026-06-19",g:"H",a:"Espana",b:"Mali"},
+  {d:"2026-06-20",g:"I",a:"Dinamarca",b:"Francia"},{d:"2026-06-20",g:"J",a:"Suiza",b:"Colombia"},
+  {d:"2026-06-21",g:"K",a:"Tunez",b:"Paises Bajos"},{d:"2026-06-21",g:"L",a:"Nueva Zelanda",b:"Peru"},
+  {d:"2026-06-22",g:"M",a:"Inglaterra",b:"Camerun"},{d:"2026-06-22",g:"N",a:"Arabia Saudita",b:"Egipto"},
+];
+
+function simulateWCMatch(a, b) {
+  const dA = WC_TEAMS[a], dB = WC_TEAMS[b];
+  const pA = dA.win + (dA.gf*15) - (dB.gc*10) + (dA.poss*0.2);
+  const pB = dB.win + (dB.gf*15) - (dA.gc*10) + (dB.poss*0.2);
+  let probA = pA/(pA+pB), probB = pB/(pA+pB);
+  const diff = Math.abs(probA-probB);
+  let probD = Math.max(0.05, 0.25-(diff*0.3));
+  const rem = 1-probD;
+  probA = (probA/(probA+probB))*rem;
+  probB = (probB/(probA+probB))*rem;
+  const fav = probA >= probB ? a : b;
+  const favProb = Math.max(probA, probB)*100;
+  return { probA, probB, probD, fav, favProb: favProb.toFixed(0), totalGF: ((dA.gf+dB.gc)/2+(dB.gf+dA.gc)/2).toFixed(1) };
+}
+
+function renderWorldCup() {
+  const today = new Date().toISOString().slice(0,10);
+  const el = document.getElementById('wcContent');
+  document.getElementById('wcDate').textContent = today;
+
+  const todaysMatches = WC_MATCHES.filter(m => m.d === today);
+  const matches = todaysMatches.length ? todaysMatches : WC_MATCHES.filter(m => m.d >= today).slice(0,3);
+
+  if (!matches.length) {
+    el.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)">🏆 No hay partidos programados para esta fecha</div>';
+    return;
+  }
+
+  el.innerHTML = matches.map(m => {
+    const s = simulateWCMatch(m.a, m.b);
+    const barA = (s.probA*100).toFixed(0);
+    const barD = (s.probD*100).toFixed(0);
+    const barB = (s.probB*100).toFixed(0);
+    const fA = WC_TEAMS[m.a]?.flag||'', fB = WC_TEAMS[m.b]?.flag||'';
+    return `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="background:var(--accent);color:#fff;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">Grupo ${m.g}</span>
+          <span style="font-size:11px;color:var(--text2)">${todaysMatches.length ? '🔥 HOY' : '📅 Próximo'}</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px">
+          <div style="flex:1;text-align:right;font-weight:700;font-size:14px">${fA} ${m.a}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text2)">VS</div>
+          <div style="flex:1;text-align:left;font-weight:700;font-size:14px">${fB} ${m.b}</div>
+        </div>
+        <div style="height:20px;display:flex;border-radius:6px;overflow:hidden;margin-bottom:6px">
+          <div style="background:var(--accent);width:${barA}%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">${barA}%</div>
+          <div style="background:var(--text2);width:${barD}%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">X</div>
+          <div style="background:var(--accent2);width:${barB}%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">${barB}%</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2)">
+          <span>⚡ Favorito: <strong style="color:var(--accent2)">${s.fav}</strong> (${s.favProb}%)</span>
+          <span>🎯 ${s.totalGF} goles</span>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('wcUpdated').textContent = new Date().toLocaleTimeString('es-CO');
+}
+
+// ═══════════════════════════════════════════
+//  KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const current = state.days.findIndex(d => d.status === 'progress' || d.status === 'pending');
+    if (current >= 0) {
+      cycleStatus(state.days[current].day);
+    }
+  }
+  if (e.key === 'r' && e.ctrlKey) { e.preventDefault(); resetProgress(); }
+  if (e.key === 's' && e.ctrlKey) { e.preventDefault(); exportData(); }
+});
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+// Restore Notion inputs
+document.getElementById('notionToken').value = state.notionToken || '';
+document.getElementById('notionDbId').value = state.notionDbId || '';
+if (state.notionConnected) {
+  document.getElementById('notionDot').className = 'dot online';
+  document.getElementById('notionInfo').innerHTML =
+    '<strong>✅ Conectado a Notion</strong> — Pull/Push disponible';
+  document.getElementById('notionSyncBadge').textContent = 'Online';
+  document.getElementById('notionSyncBadge').style.background = '#22c55e';
+}
+
+// First interaction → enable sound
+document.addEventListener('click', () => { soundEnabled = true; }, { once: true });
+
+renderTimeline();
+renderWorldCup();
+setInterval(renderWorldCup, 300000);
+logNotion('🚀 Dashboard listo. Haz clic en cualquier tarea para cambiar su estado.', 'info');
+logNotion(`📅 Plan: ${DAYS.length} días · ${new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' })}`, 'info');
+</script>
+</body>
+</html>

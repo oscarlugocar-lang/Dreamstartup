@@ -2,4 +2,5 @@ Dia,Fecha,Area,Tarea,Estado,Notas
 1,2026-06-16,DevOps,GitHub Actions + deploy automático,Completado,Creado workflows deploy.yml y quality.yml
 2,2026-06-16,DevOps,Terraform + infra AWS + monitoring,Completado,Estructura Terraform + scripts + status badges en footer
 3,2026-06-16,Payments,Stripe Skill - Checkout + suscripciones + webhooks,Completado,API checkout + webhooks + pagina publica + botones en landing
-4,2026-06-16,Payments,Stripe Skill - Prisma schema + testing + go-live,En curso,
+4,2026-06-16,Payments,Stripe Skill - Prisma schema + testing + go-live,Completado,Schema + Jest tests + checklist produccion
+5,2026-06-16,Auth,NextAuth.js + providers + middleware,Completado,Tres providers + JWT + route protection + login UI

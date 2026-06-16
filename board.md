@@ -26,6 +26,7 @@
 | 2 | DevOps v2 — Terraform + AWS infra | ✅ | 2026-06-16 |
 | 3 | Stripe — Checkout + suscripciones | ✅ | 2026-06-16 |
 | 4 | Stripe — Schema + testing + go-live | ✅ | 2026-06-16 |
+| 5 | Auth — NextAuth.js + providers | ✅ | 2026-06-16 |
 
 ## Proyectos Activos
 | Cliente | Proyecto | Inicio | Entrega | Estado |

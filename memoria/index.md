@@ -10,6 +10,7 @@ Registro diario del proyecto de 15 días.
 | [Día 02](dia-02.md) | 2026-06-16 | DevOps v2 | ✅ |
 | [Día 03](dia-03.md) | 2026-06-16 | Stripe v1 | ✅ |
 | [Día 04](dia-04.md) | 2026-06-16 | Stripe v2 | ✅ |
+| [Día 05](dia-05.md) | 2026-06-16 | Auth v1 | ✅ |
 
 ## Resumen
 - **Días completados:** 2 / 15

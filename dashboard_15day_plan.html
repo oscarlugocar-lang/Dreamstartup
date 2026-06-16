@@ -800,32 +800,15 @@ function setSpinner(on) {
 // ═══════════════════════════════════════════
 //  WORLD CUP 2026
 // ═══════════════════════════════════════════
-const WC_TEAMS = {
-  "Argentina": {win:75,gf:1.8,gc:0.4,poss:62,flag:"🇦🇷"},"Colombia": {win:60,gf:1.5,gc:0.6,poss:54,flag:"🇨🇴"},
-  "Uruguay": {win:55,gf:1.8,gc:0.8,poss:55,flag:"🇺🇾"},"Brasil": {win:50,gf:1.4,gc:1.1,poss:58,flag:"🇧🇷"},
-  "Ecuador": {win:59,gf:0.9,gc:1.6,poss:46,flag:"🇪🇨"},"Venezuela": {win:49,gf:1.6,gc:1.2,poss:47,flag:"🇻🇪"},
-  "Paraguay": {win:40,gf:1.0,gc:1.2,poss:45,flag:"🇵🇾"},"Chile": {win:33,gf:1.3,gc:1.3,poss:50,flag:"🇨🇱"},
-  "Peru": {win:37,gf:1.3,gc:1.1,poss:42,flag:"🇵🇪"},"Francia": {win:59,gf:1.8,gc:1.8,poss:42,flag:"🇫🇷"},
-  "Inglaterra": {win:55,gf:0.9,gc:1.4,poss:51,flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿"},"Alemania": {win:62,gf:2.1,gc:1.0,poss:57,flag:"🇩🇪"},
-  "Espana": {win:58,gf:1.7,gc:0.9,poss:65,flag:"🇪🇸"},"Italia": {win:53,gf:1.5,gc:0.8,poss:56,flag:"🇮🇹"},
-  "Paises Bajos": {win:57,gf:1.9,gc:1.0,poss:58,flag:"🇳🇱"},"Belgica": {win:54,gf:1.6,gc:1.1,poss:59,flag:"🇧🇪"},
-  "Portugal": {win:52,gf:1.4,gc:1.2,poss:55,flag:"🇵🇹"},"Croacia": {win:48,gf:1.3,gc:1.1,poss:53,flag:"🇭🇷"},
-  "Suiza": {win:45,gf:1.2,gc:1.3,poss:49,flag:"🇨🇭"},"Dinamarca": {win:51,gf:1.5,gc:0.9,poss:52,flag:"🇩🇰"},
-  "Serbia": {win:44,gf:1.4,gc:1.4,poss:47,flag:"🇷🇸"},"Austria": {win:42,gf:1.3,gc:1.5,poss:48,flag:"🇦🇹"},
-  "Polonia": {win:43,gf:1.2,gc:1.3,poss:46,flag:"🇵🇱"},"Chequia": {win:41,gf:1.1,gc:1.4,poss:44,flag:"🇨🇿"},
-  "USA": {win:38,gf:1.0,gc:1.3,poss:43,flag:"🇺🇸"},"Canada": {win:36,gf:0.9,gc:1.5,poss:41,flag:"🇨🇦"},
-  "Mexico": {win:47,gf:1.3,gc:1.0,poss:48,flag:"🇲🇽"},"Japon": {win:46,gf:1.2,gc:1.1,poss:50,flag:"🇯🇵"},
-  "Corea del Sur": {win:40,gf:1.1,gc:1.3,poss:45,flag:"🇰🇷"},"Arabia Saudita": {win:35,gf:0.8,gc:1.6,poss:38,flag:"🇸🇦"},
-  "Iran": {win:34,gf:0.9,gc:1.5,poss:39,flag:"🇮🇷"},"Australia": {win:39,gf:1.0,gc:1.4,poss:42,flag:"🇦🇺"},
-  "Costa Rica": {win:32,gf:0.8,gc:1.7,poss:40,flag:"🇨🇷"},"Jamaica": {win:31,gf:0.7,gc:1.8,poss:38,flag:"🇯🇲"},
-  "Marruecos": {win:44,gf:1.1,gc:0.9,poss:45,flag:"🇲🇦"},"Tunez": {win:38,gf:0.9,gc:1.2,poss:41,flag:"🇹🇳"},
-  "Egipto": {win:42,gf:1.3,gc:1.0,poss:44,flag:"🇪🇬"},"Nigeria": {win:40,gf:1.2,gc:1.1,poss:43,flag:"🇳🇬"},
-  "Camerun": {win:37,gf:1.0,gc:1.4,poss:41,flag:"🇨🇲"},"Senegal": {win:41,gf:1.1,gc:1.2,poss:42,flag:"🇸🇳"},
-  "Costa de Marfil": {win:39,gf:1.0,gc:1.3,poss:40,flag:"🇨🇮"},"Argelia": {win:43,gf:1.2,gc:1.0,poss:44,flag:"🇩🇿"},
-  "Mali": {win:33,gf:0.8,gc:1.5,poss:37,flag:"🇲🇱"},"Panama": {win:30,gf:0.7,gc:1.9,poss:36,flag:"🇵🇦"},
-  "Uzbekistan": {win:34,gf:0.8,gc:1.6,poss:38,flag:"🇺🇿"},"Qatar": {win:29,gf:0.6,gc:2.0,poss:35,flag:"🇶🇦"},
-  "Nueva Zelanda": {win:36,gf:0.9,gc:1.5,poss:39,flag:"🇳🇿"},"Bosnia": {win:35,gf:0.9,gc:1.6,poss:40,flag:"🇧🇦"},
-};
+const WC_TEAMS = [
+  "Argentina","Colombia","Uruguay","Brasil","Ecuador","Venezuela","Paraguay","Chile","Peru",
+  "Francia","Inglaterra","Alemania","Espana","Italia","Paises Bajos","Belgica","Portugal","Croacia","Suiza","Dinamarca",
+  "Serbia","Austria","Polonia","Chequia","USA","Canada","Mexico","Japon","Corea del Sur","Arabia Saudita","Iran",
+  "Australia","Costa Rica","Jamaica","Marruecos","Tunez","Egipto","Nigeria","Camerun","Senegal",
+  "Costa de Marfil","Argelia","Mali","Panama","Uzbekistan","Qatar","Nueva Zelanda","Bosnia",
+];
+const WC_FLAGS = {"Argentina":"🇦🇷","Colombia":"🇨🇴","Uruguay":"🇺🇾","Brasil":"🇧🇷","Ecuador":"🇪🇨","Venezuela":"🇻🇪","Paraguay":"🇵🇾","Chile":"🇨🇱","Peru":"🇵🇪","Francia":"🇫🇷","Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Alemania":"🇩🇪","Espana":"🇪🇸","Italia":"🇮🇹","Paises Bajos":"🇳🇱","Belgica":"🇧🇪","Portugal":"🇵🇹","Croacia":"🇭🇷","Suiza":"🇨🇭","Dinamarca":"🇩🇰","Serbia":"🇷🇸","Austria":"🇦🇹","Polonia":"🇵🇱","Chequia":"🇨🇿","USA":"🇺🇸","Canada":"🇨🇦","Mexico":"🇲🇽","Japon":"🇯🇵","Corea del Sur":"🇰🇷","Arabia Saudita":"🇸🇦","Iran":"🇮🇷","Australia":"🇦🇺","Costa Rica":"🇨🇷","Jamaica":"🇯🇲","Marruecos":"🇲🇦","Tunez":"🇹🇳","Egipto":"🇪🇬","Nigeria":"🇳🇬","Camerun":"🇨🇲","Senegal":"🇸🇳","Costa de Marfil":"🇨🇮","Argelia":"🇩🇿","Mali":"🇲🇱","Panama":"🇵🇦","Uzbekistan":"🇺🇿","Qatar":"🇶🇦","Nueva Zelanda":"🇳🇿","Bosnia":"🇧🇦"};
+const WC_GROUPS = {A:["Corea del Sur","Chequia"],B:["Canada","Bosnia"],D:["USA","Paraguay"],E:["Iran","Chile","Serbia","Italia"],F:["Uzbekistan","Alemania","Costa Rica","Ecuador"],G:["Polonia","Panama","Costa de Marfil","Argelia"],H:["Venezuela","Senegal","Espana","Mali"],I:["Jamaica","Qatar","Dinamarca","Francia"],J:["Croacia","Austria","Suiza","Colombia"],K:["Marruecos","Japon","Tunez","Paises Bajos"],L:["Mexico","Argentina","Nueva Zelanda","Peru"],M:["Australia","Brasil","Inglaterra","Camerun"],N:["Belgica","Uruguay","Arabia Saudita","Egipto"]};
 
 const WC_MATCHES = [
   {d:"2026-06-12",g:"D",a:"USA",b:"Paraguay"},{d:"2026-06-12",g:"B",a:"Canada",b:"Bosnia"},{d:"2026-06-12",g:"A",a:"Corea del Sur",b:"Chequia"},
@@ -841,19 +824,37 @@ const WC_MATCHES = [
   {d:"2026-06-22",g:"M",a:"Inglaterra",b:"Camerun"},{d:"2026-06-22",g:"N",a:"Arabia Saudita",b:"Egipto"},
 ];
 
-function simulateWCMatch(a, b) {
-  const dA = WC_TEAMS[a], dB = WC_TEAMS[b];
-  const pA = dA.win + (dA.gf*15) - (dB.gc*10) + (dA.poss*0.2);
-  const pB = dB.win + (dB.gf*15) - (dA.gc*10) + (dB.poss*0.2);
-  let probA = pA/(pA+pB), probB = pB/(pA+pB);
-  const diff = Math.abs(probA-probB);
-  let probD = Math.max(0.05, 0.25-(diff*0.3));
-  const rem = 1-probD;
-  probA = (probA/(probA+probB))*rem;
-  probB = (probB/(probA+probB))*rem;
-  const fav = probA >= probB ? a : b;
-  const favProb = Math.max(probA, probB)*100;
-  return { probA, probB, probD, fav, favProb: favProb.toFixed(0), totalGF: ((dA.gf+dB.gc)/2+(dB.gf+dA.gc)/2).toFixed(1) };
+const WC_KEY = 'dreamscape_wc_results';
+
+function wcResults() {
+  try { return JSON.parse(localStorage.getItem(WC_KEY)) || {}; } catch(e) { return {}; }
+}
+
+function wcSetResult(idx, winner) {
+  const r = wcResults();
+  r[idx] = winner;
+  localStorage.setItem(WC_KEY, JSON.stringify(r));
+  renderWorldCup();
+}
+
+function wcClearAll() {
+  if (!confirm('¿Borrar todos los resultados del Mundial?')) return;
+  localStorage.removeItem(WC_KEY);
+  renderWorldCup();
+}
+
+function groupStandings(g) {
+  const teams = WC_GROUPS[g] || [];
+  const pts = {}, gf = {}, gc = {};
+  teams.forEach(t => { pts[t]=0; gf[t]=0; gc[t]=0; });
+  const results = wcResults();
+  WC_MATCHES.forEach((m,i) => {
+    if (m.g !== g || !results[i]) return;
+    if (results[i] === 'A') { pts[m.a]+=3; gf[m.a]+=1; gc[m.b]+=1; }
+    else if (results[i] === 'B') { pts[m.b]+=3; gf[m.b]+=1; gc[m.a]+=1; }
+    else { pts[m.a]+=1; pts[m.b]+=1; gf[m.a]+=0.5; gf[m.b]+=0.5; gc[m.a]+=0.5; gc[m.b]+=0.5; }
+  });
+  return teams.map(t => ({t,pts:pts[t],gd:gf[t]-gc[t]})).sort((a,b) => b.pts-a.pts || b.gd-a.gd);
 }
 
 function renderWorldCup() {
@@ -861,42 +862,64 @@ function renderWorldCup() {
   const el = document.getElementById('wcContent');
   document.getElementById('wcDate').textContent = today;
 
-  const todaysMatches = WC_MATCHES.filter(m => m.d === today);
-  const matches = todaysMatches.length ? todaysMatches : WC_MATCHES.filter(m => m.d >= today).slice(0,3);
+  const results = wcResults();
+  const groupKeys = Object.keys(WC_GROUPS).sort();
 
-  if (!matches.length) {
-    el.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text2)">🏆 No hay partidos programados para esta fecha</div>';
-    return;
-  }
+  let html = '';
 
-  el.innerHTML = matches.map(m => {
-    const s = simulateWCMatch(m.a, m.b);
-    const barA = (s.probA*100).toFixed(0);
-    const barD = (s.probD*100).toFixed(0);
-    const barB = (s.probB*100).toFixed(0);
-    const fA = WC_TEAMS[m.a]?.flag||'', fB = WC_TEAMS[m.b]?.flag||'';
-    return `
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <span style="background:var(--accent);color:#fff;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600">Grupo ${m.g}</span>
-          <span style="font-size:11px;color:var(--text2)">${todaysMatches.length ? '🔥 HOY' : '📅 Próximo'}</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px">
-          <div style="flex:1;text-align:right;font-weight:700;font-size:14px">${fA} ${m.a}</div>
-          <div style="font-size:12px;font-weight:700;color:var(--text2)">VS</div>
-          <div style="flex:1;text-align:left;font-weight:700;font-size:14px">${fB} ${m.b}</div>
-        </div>
-        <div style="height:20px;display:flex;border-radius:6px;overflow:hidden;margin-bottom:6px">
-          <div style="background:var(--accent);width:${barA}%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">${barA}%</div>
-          <div style="background:var(--text2);width:${barD}%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff">X</div>
-          <div style="background:var(--accent2);width:${barB}%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">${barB}%</div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2)">
-          <span>⚡ Favorito: <strong style="color:var(--accent2)">${s.fav}</strong> (${s.favProb}%)</span>
-          <span>🎯 ${s.totalGF} goles</span>
-        </div>
-      </div>`;
-  }).join('');
+  // Full match list
+  html += '<div style="grid-column:1/-1"><h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--accent2)">📅 Todos los Partidos</h3></div>';
+
+  const dateHeaders = {};
+  WC_MATCHES.forEach((m,i) => {
+    if (!dateHeaders[m.d]) dateHeaders[m.d] = [];
+    dateHeaders[m.d].push(i);
+  });
+
+  Object.keys(dateHeaders).sort().forEach(date => {
+    const isToday = date === today;
+    html += `<div style="grid-column:1/-1;font-size:12px;font-weight:600;color:${isToday?'var(--green)':'var(--text2)'};margin:4px 0 0 0;padding:6px 8px;background:var(--surface2);border-radius:6px">${isToday?'🔥 ':'📅 '}${date}</div>`;
+    dateHeaders[date].forEach(i => {
+      const m = WC_MATCHES[i];
+      const r = results[i];
+      const fA = WC_FLAGS[m.a]||'', fB = WC_FLAGS[m.b]||'';
+      const todayClass = isToday ? ' style="border-color:var(--green)"' : '';
+      html += `<div${todayClass} style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px">`;
+      html += `<span style="background:var(--accent);color:#fff;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:600">${m.g}</span>`;
+      html += `<div style="flex:2;text-align:right;font-weight:${r==='A'?'800':'400'};font-size:13px;color:${r==='A'?'var(--green)':'var(--text)'}">${fA} ${m.a}</div>`;
+      html += `<div style="display:flex;gap:4px">`;
+      html += `<button onclick="wcSetResult(${i},'A')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${r==='A'?'var(--green)':'transparent'};color:${r==='A'?'#000':'var(--text)'};cursor:pointer;font-size:11px;font-weight:700">${r==='A'?'✅':'1'}</button>`;
+      html += `<button onclick="wcSetResult(${i},'X')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${r==='X'?'var(--orange)':'transparent'};color:${r==='X'?'#000':'var(--text)'};cursor:pointer;font-size:11px;font-weight:700">${r==='X'?'✅':'X'}</button>`;
+      html += `<button onclick="wcSetResult(${i},'B')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${r==='B'?'var(--accent2)':'transparent'};color:${r==='B'?'#000':'var(--text)'};cursor:pointer;font-size:11px;font-weight:700">${r==='B'?'✅':'2'}</button>`;
+      html += `</div>`;
+      html += `<div style="flex:2;text-align:left;font-weight:${r==='B'?'800':'400'};font-size:13px;color:${r==='B'?'var(--accent2)':'var(--text)'}">${m.b} ${fB}</div>`;
+      html += `</div>`;
+    });
+  });
+
+  html += '<div style="grid-column:1/-1;margin-top:16px"><h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--accent2)">🏆 Tabla de Posiciones</h3></div>';
+
+  const groupsWithData = groupKeys.filter(g => WC_MATCHES.some((m,i) => m.g===g && results[i]));
+  (groupsWithData.length ? groupsWithData : groupKeys.slice(0,4)).forEach(g => {
+    const standings = groupStandings(g);
+    html += `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">`;
+    html += `<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px">Grupo ${g}</div>`;
+    standings.forEach((s,j) => {
+      const medal = j===0?'🥇':j===1?'🥈':j===2?'🥉':'';
+      html += `<div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)">`;
+      html += `<span>${medal} ${WC_FLAGS[s.t]||''} ${s.t}</span>`;
+      html += `<span><strong>${s.pts}</strong> pts (${s.gd>0?'+':''}${s.gd})</span>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `<div style="grid-column:1/-1;text-align:center;margin-top:8px">
+    <button onclick="wcClearAll()" style="padding:4px 14px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--red);cursor:pointer;font-size:11px">🗑 Borrar resultados</button>
+    <a href="https://oscarlugocar-lang.github.io/web-mundial/" target="_blank" style="color:var(--accent2);font-size:12px;margin-left:12px">Simulador H2H →</a>
+  </div>`;
+
+  el.innerHTML = html;
   document.getElementById('wcUpdated').textContent = new Date().toLocaleTimeString('es-CO');
 }
 

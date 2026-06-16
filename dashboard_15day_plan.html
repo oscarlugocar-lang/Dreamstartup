@@ -800,47 +800,105 @@ function setSpinner(on) {
 // ═══════════════════════════════════════════
 //  WORLD CUP 2026
 // ═══════════════════════════════════════════
-const WC_TEAMS = [
-  "Argentina","Colombia","Uruguay","Brasil","Ecuador","Venezuela","Paraguay","Chile","Peru",
-  "Francia","Inglaterra","Alemania","Espana","Italia","Paises Bajos","Belgica","Portugal","Croacia","Suiza","Dinamarca",
-  "Serbia","Austria","Polonia","Chequia","USA","Canada","Mexico","Japon","Corea del Sur","Arabia Saudita","Iran",
-  "Australia","Costa Rica","Jamaica","Marruecos","Tunez","Egipto","Nigeria","Camerun","Senegal",
-  "Costa de Marfil","Argelia","Mali","Panama","Uzbekistan","Qatar","Nueva Zelanda","Bosnia",
-];
+// ═══════════════════════════════════════════
+//  WORLD CUP 2026 — Full Groups + All Matches
+// ═══════════════════════════════════════════
 const WC_FLAGS = {"Argentina":"🇦🇷","Colombia":"🇨🇴","Uruguay":"🇺🇾","Brasil":"🇧🇷","Ecuador":"🇪🇨","Venezuela":"🇻🇪","Paraguay":"🇵🇾","Chile":"🇨🇱","Peru":"🇵🇪","Francia":"🇫🇷","Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Alemania":"🇩🇪","Espana":"🇪🇸","Italia":"🇮🇹","Paises Bajos":"🇳🇱","Belgica":"🇧🇪","Portugal":"🇵🇹","Croacia":"🇭🇷","Suiza":"🇨🇭","Dinamarca":"🇩🇰","Serbia":"🇷🇸","Austria":"🇦🇹","Polonia":"🇵🇱","Chequia":"🇨🇿","USA":"🇺🇸","Canada":"🇨🇦","Mexico":"🇲🇽","Japon":"🇯🇵","Corea del Sur":"🇰🇷","Arabia Saudita":"🇸🇦","Iran":"🇮🇷","Australia":"🇦🇺","Costa Rica":"🇨🇷","Jamaica":"🇯🇲","Marruecos":"🇲🇦","Tunez":"🇹🇳","Egipto":"🇪🇬","Nigeria":"🇳🇬","Camerun":"🇨🇲","Senegal":"🇸🇳","Costa de Marfil":"🇨🇮","Argelia":"🇩🇿","Mali":"🇲🇱","Panama":"🇵🇦","Uzbekistan":"🇺🇿","Qatar":"🇶🇦","Nueva Zelanda":"🇳🇿","Bosnia":"🇧🇦"};
-const WC_GROUPS = {A:["Corea del Sur","Chequia"],B:["Canada","Bosnia"],D:["USA","Paraguay"],E:["Iran","Chile","Serbia","Italia"],F:["Uzbekistan","Alemania","Costa Rica","Ecuador"],G:["Polonia","Panama","Costa de Marfil","Argelia"],H:["Venezuela","Senegal","Espana","Mali"],I:["Jamaica","Qatar","Dinamarca","Francia"],J:["Croacia","Austria","Suiza","Colombia"],K:["Marruecos","Japon","Tunez","Paises Bajos"],L:["Mexico","Argentina","Nueva Zelanda","Peru"],M:["Australia","Brasil","Inglaterra","Camerun"],N:["Belgica","Uruguay","Arabia Saudita","Egipto"]};
+const WC_TEAM_DATA = {"Argentina":{w:75,gf:1.8,gc:0.4,p:62},"Colombia":{w:60,gf:1.5,gc:0.6,p:54},"Uruguay":{w:55,gf:1.8,gc:0.8,p:55},"Brasil":{w:50,gf:1.4,gc:1.1,p:58},"Ecuador":{w:59,gf:0.9,gc:1.6,p:46},"Venezuela":{w:49,gf:1.6,gc:1.2,p:47},"Paraguay":{w:40,gf:1.0,gc:1.2,p:45},"Chile":{w:33,gf:1.3,gc:1.3,p:50},"Peru":{w:37,gf:1.3,gc:1.1,p:42},"Francia":{w:59,gf:1.8,gc:1.8,p:42},"Inglaterra":{w:55,gf:0.9,gc:1.4,p:51},"Alemania":{w:62,gf:2.1,gc:1.0,p:57},"Espana":{w:58,gf:1.7,gc:0.9,p:65},"Italia":{w:53,gf:1.5,gc:0.8,p:56},"Paises Bajos":{w:57,gf:1.9,gc:1.0,p:58},"Belgica":{w:54,gf:1.6,gc:1.1,p:59},"Portugal":{w:52,gf:1.4,gc:1.2,p:55},"Croacia":{w:48,gf:1.3,gc:1.1,p:53},"Suiza":{w:45,gf:1.2,gc:1.3,p:49},"Dinamarca":{w:51,gf:1.5,gc:0.9,p:52},"Serbia":{w:44,gf:1.4,gc:1.4,p:47},"Austria":{w:42,gf:1.3,gc:1.5,p:48},"Polonia":{w:43,gf:1.2,gc:1.3,p:46},"Chequia":{w:41,gf:1.1,gc:1.4,p:44},"USA":{w:38,gf:1.0,gc:1.3,p:43},"Canada":{w:36,gf:0.9,gc:1.5,p:41},"Mexico":{w:47,gf:1.3,gc:1.0,p:48},"Japon":{w:46,gf:1.2,gc:1.1,p:50},"Corea del Sur":{w:40,gf:1.1,gc:1.3,p:45},"Arabia Saudita":{w:35,gf:0.8,gc:1.6,p:38},"Iran":{w:34,gf:0.9,gc:1.5,p:39},"Australia":{w:39,gf:1.0,gc:1.4,p:42},"Costa Rica":{w:32,gf:0.8,gc:1.7,p:40},"Jamaica":{w:31,gf:0.7,gc:1.8,p:38},"Marruecos":{w:44,gf:1.1,gc:0.9,p:45},"Tunez":{w:38,gf:0.9,gc:1.2,p:41},"Egipto":{w:42,gf:1.3,gc:1.0,p:44},"Nigeria":{w:40,gf:1.2,gc:1.1,p:43},"Camerun":{w:37,gf:1.0,gc:1.4,p:41},"Senegal":{w:41,gf:1.1,gc:1.2,p:42},"Costa de Marfil":{w:39,gf:1.0,gc:1.3,p:40},"Argelia":{w:43,gf:1.2,gc:1.0,p:44},"Mali":{w:33,gf:0.8,gc:1.5,p:37},"Panama":{w:30,gf:0.7,gc:1.9,p:36},"Uzbekistan":{w:34,gf:0.8,gc:1.6,p:38},"Qatar":{w:29,gf:0.6,gc:2.0,p:35},"Nueva Zelanda":{w:36,gf:0.9,gc:1.5,p:39},"Bosnia":{w:35,gf:0.9,gc:1.6,p:40}};
 
-const WC_MATCHES = [
-  {d:"2026-06-12",g:"D",a:"USA",b:"Paraguay"},{d:"2026-06-12",g:"B",a:"Canada",b:"Bosnia"},{d:"2026-06-12",g:"A",a:"Corea del Sur",b:"Chequia"},
-  {d:"2026-06-13",g:"E",a:"Iran",b:"Chile"},{d:"2026-06-13",g:"F",a:"Uzbekistan",b:"Alemania"},
-  {d:"2026-06-14",g:"G",a:"Polonia",b:"Panama"},{d:"2026-06-14",g:"H",a:"Venezuela",b:"Senegal"},
-  {d:"2026-06-15",g:"I",a:"Jamaica",b:"Qatar"},{d:"2026-06-15",g:"J",a:"Croacia",b:"Austria"},
-  {d:"2026-06-16",g:"K",a:"Marruecos",b:"Japon"},{d:"2026-06-16",g:"L",a:"Mexico",b:"Argentina"},
-  {d:"2026-06-17",g:"M",a:"Australia",b:"Brasil"},{d:"2026-06-17",g:"N",a:"Belgica",b:"Uruguay"},
-  {d:"2026-06-18",g:"E",a:"Serbia",b:"Italia"},{d:"2026-06-18",g:"F",a:"Costa Rica",b:"Ecuador"},
-  {d:"2026-06-19",g:"G",a:"Costa de Marfil",b:"Argelia"},{d:"2026-06-19",g:"H",a:"Espana",b:"Mali"},
-  {d:"2026-06-20",g:"I",a:"Dinamarca",b:"Francia"},{d:"2026-06-20",g:"J",a:"Suiza",b:"Colombia"},
-  {d:"2026-06-21",g:"K",a:"Tunez",b:"Paises Bajos"},{d:"2026-06-21",g:"L",a:"Nueva Zelanda",b:"Peru"},
-  {d:"2026-06-22",g:"M",a:"Inglaterra",b:"Camerun"},{d:"2026-06-22",g:"N",a:"Arabia Saudita",b:"Egipto"},
+const WC_GROUPS = {
+  A:["Corea del Sur","Chequia","Nigeria","Portugal"],
+  B:["Canada","Bosnia"],
+  C:["USA","Paraguay"],
+  D:["Iran","Chile","Serbia","Italia"],
+  E:["Uzbekistan","Alemania","Costa Rica","Ecuador"],
+  F:["Polonia","Panama","Costa de Marfil","Argelia"],
+  G:["Venezuela","Senegal","Espana","Mali"],
+  H:["Jamaica","Qatar","Dinamarca","Francia"],
+  I:["Croacia","Austria","Suiza","Colombia"],
+  J:["Marruecos","Japon","Tunez","Paises Bajos"],
+  K:["Mexico","Argentina","Nueva Zelanda","Peru"],
+  L:["Australia","Brasil","Inglaterra","Camerun"],
+  M:["Belgica","Uruguay","Arabia Saudita","Egipto"],
+};
+
+const WC_ORIGINAL = [
+  {d:"2026-06-12",g:"A",a:"Corea del Sur",b:"Chequia"},{d:"2026-06-12",g:"B",a:"Canada",b:"Bosnia"},{d:"2026-06-12",g:"C",a:"USA",b:"Paraguay"},
+  {d:"2026-06-13",g:"D",a:"Iran",b:"Chile"},{d:"2026-06-13",g:"E",a:"Uzbekistan",b:"Alemania"},
+  {d:"2026-06-14",g:"F",a:"Polonia",b:"Panama"},{d:"2026-06-14",g:"G",a:"Venezuela",b:"Senegal"},
+  {d:"2026-06-15",g:"H",a:"Jamaica",b:"Qatar"},{d:"2026-06-15",g:"I",a:"Croacia",b:"Austria"},
+  {d:"2026-06-16",g:"J",a:"Marruecos",b:"Japon"},{d:"2026-06-16",g:"K",a:"Mexico",b:"Argentina"},
+  {d:"2026-06-17",g:"L",a:"Australia",b:"Brasil"},{d:"2026-06-17",g:"M",a:"Belgica",b:"Uruguay"},
+  {d:"2026-06-18",g:"D",a:"Serbia",b:"Italia"},{d:"2026-06-18",g:"E",a:"Costa Rica",b:"Ecuador"},
+  {d:"2026-06-19",g:"F",a:"Costa de Marfil",b:"Argelia"},{d:"2026-06-19",g:"G",a:"Espana",b:"Mali"},
+  {d:"2026-06-20",g:"H",a:"Dinamarca",b:"Francia"},{d:"2026-06-20",g:"I",a:"Suiza",b:"Colombia"},
+  {d:"2026-06-21",g:"J",a:"Tunez",b:"Paises Bajos"},{d:"2026-06-21",g:"K",a:"Nueva Zelanda",b:"Peru"},
+  {d:"2026-06-22",g:"L",a:"Inglaterra",b:"Camerun"},{d:"2026-06-22",g:"M",a:"Arabia Saudita",b:"Egipto"},
 ];
 
+// Generate all round-robin matches for each group
+function genAllMatches() {
+  const map = {}; // "g:teamA:teamB" -> date
+  WC_ORIGINAL.forEach(m => { map[m.g+':'+m.a+':'+m.b] = m.d; map[m.g+':'+m.b+':'+m.a] = m.d; });
+
+  const all = [];
+  Object.keys(WC_GROUPS).forEach(g => {
+    const teams = WC_GROUPS[g];
+    for (let i = 0; i < teams.length; i++) {
+      for (let j = i + 1; j < teams.length; j++) {
+        const a = teams[i], b = teams[j];
+        const key = g+':'+a+':'+b;
+        all.push({ d: map[key] || null, g, a, b });
+      }
+    }
+  });
+
+  // Assign dates to matches without one (from today forward)
+  const today = new Date();
+  const used = all.filter(m => m.d).map(m => m.d);
+  let dateIdx = 0;
+  all.forEach(m => {
+    if (m.d) return;
+    const d = new Date(today);
+    d.setDate(d.getDate() + dateIdx);
+    const ds = d.toISOString().slice(0,10);
+    if (!used.includes(ds)) { used.push(ds); }
+    m.d = ds;
+    dateIdx++;
+  });
+  return all;
+}
+
+const WC_MATCHES = genAllMatches();
 const WC_KEY = 'dreamscape_wc_results';
 
 function wcResults() {
   try { return JSON.parse(localStorage.getItem(WC_KEY)) || {}; } catch(e) { return {}; }
 }
-
 function wcSetResult(idx, winner) {
-  const r = wcResults();
-  r[idx] = winner;
+  const r = wcResults(); r[idx] = winner;
   localStorage.setItem(WC_KEY, JSON.stringify(r));
   renderWorldCup();
 }
-
 function wcClearAll() {
   if (!confirm('¿Borrar todos los resultados del Mundial?')) return;
   localStorage.removeItem(WC_KEY);
   renderWorldCup();
+}
+
+function simulateProb(a, b) {
+  const dA = WC_TEAM_DATA[a], dB = WC_TEAM_DATA[b];
+  if (!dA || !dB) return { pA:33, pD:34, pB:33, fav:a, favP:50, goles:'2.0' };
+  const pA = dA.w + (dA.gf*15) - (dB.gc*10) + (dA.p*0.2);
+  const pB = dB.w + (dB.gf*15) - (dA.gc*10) + (dB.p*0.2);
+  let probA = pA/(pA+pB), probB = pB/(pA+pB);
+  const diff = Math.abs(probA-probB);
+  let probD = Math.max(0.05, 0.25-(diff*0.3));
+  const rem = 1-probD;
+  probA = (probA/(probA+probB))*rem;
+  probB = (probB/(probA+probB))*rem;
+  const fav = probA >= probB ? a : b;
+  return { pA:+(probA*100).toFixed(0), pD:+(probD*100).toFixed(0), pB:+(probB*100).toFixed(0), fav, favP:Math.max(probA,probB)*100, goles:((dA.gf+dB.gc)/2+(dB.gf+dA.gc)/2).toFixed(1) };
 }
 
 function groupStandings(g) {
@@ -861,58 +919,86 @@ function renderWorldCup() {
   const today = new Date().toISOString().slice(0,10);
   const el = document.getElementById('wcContent');
   document.getElementById('wcDate').textContent = today;
-
   const results = wcResults();
-  const groupKeys = Object.keys(WC_GROUPS).sort();
+  const groupKeys = Object.keys(WC_GROUPS);
 
   let html = '';
 
-  // Full match list
-  html += '<div style="grid-column:1/-1"><h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--accent2)">📅 Todos los Partidos</h3></div>';
+  // Group tabs
+  html += '<div style="grid-column:1/-1;display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">';
+  groupKeys.forEach(g => {
+    const played = WC_MATCHES.filter((m,i) => m.g===g && results[i]).length;
+    const total = WC_MATCHES.filter(m => m.g===g).length;
+    html += `<button onclick="document.getElementById('wcGroup').value='${g}';renderWorldCup()" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-size:11px;font-weight:600">${g} (${played}/${total})</button>`;
+  });
+  html += `<button onclick="document.getElementById('wcGroup').value='';renderWorldCup()" style="padding:4px 10px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:#000;cursor:pointer;font-size:11px;font-weight:600;margin-left:8px">Ver todos</button>`;
+  html += '</div>';
 
-  const dateHeaders = {};
+  // Hidden selector for group filter
+  html += `<input type="hidden" id="wcGroup" value="">`;
+
+  const filterGroup = document.getElementById('wcGroup')?.value || '';
+
+  // Group matches by date
+  const byDate = {};
   WC_MATCHES.forEach((m,i) => {
-    if (!dateHeaders[m.d]) dateHeaders[m.d] = [];
-    dateHeaders[m.d].push(i);
+    if (filterGroup && m.g !== filterGroup) return;
+    if (!byDate[m.d]) byDate[m.d] = [];
+    byDate[m.d].push({...m, idx:i});
   });
 
-  Object.keys(dateHeaders).sort().forEach(date => {
+  Object.keys(byDate).sort().forEach(date => {
     const isToday = date === today;
-    html += `<div style="grid-column:1/-1;font-size:12px;font-weight:600;color:${isToday?'var(--green)':'var(--text2)'};margin:4px 0 0 0;padding:6px 8px;background:var(--surface2);border-radius:6px">${isToday?'🔥 ':'📅 '}${date}</div>`;
-    dateHeaders[date].forEach(i => {
-      const m = WC_MATCHES[i];
-      const r = results[i];
+    const isPast = date < today;
+    const headerStyle = isToday ? 'var(--green)' : isPast ? 'var(--text2)' : 'var(--orange)';
+    const icon = isToday ? '🔥' : isPast ? '✅' : '📅';
+    html += `<div style="grid-column:1/-1;font-size:12px;font-weight:600;color:${headerStyle};margin:2px 0 0 0;padding:5px 8px;background:var(--surface2);border-radius:6px">${icon} ${date}</div>`;
+
+    byDate[date].forEach((m,i) => {
+      const r = results[m.idx];
+      const s = simulateProb(m.a, m.b);
       const fA = WC_FLAGS[m.a]||'', fB = WC_FLAGS[m.b]||'';
-      const todayClass = isToday ? ' style="border-color:var(--green)"' : '';
-      html += `<div${todayClass} style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px">`;
-      html += `<span style="background:var(--accent);color:#fff;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:600">${m.g}</span>`;
-      html += `<div style="flex:2;text-align:right;font-weight:${r==='A'?'800':'400'};font-size:13px;color:${r==='A'?'var(--green)':'var(--text)'}">${fA} ${m.a}</div>`;
-      html += `<div style="display:flex;gap:4px">`;
-      html += `<button onclick="wcSetResult(${i},'A')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${r==='A'?'var(--green)':'transparent'};color:${r==='A'?'#000':'var(--text)'};cursor:pointer;font-size:11px;font-weight:700">${r==='A'?'✅':'1'}</button>`;
-      html += `<button onclick="wcSetResult(${i},'X')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${r==='X'?'var(--orange)':'transparent'};color:${r==='X'?'#000':'var(--text)'};cursor:pointer;font-size:11px;font-weight:700">${r==='X'?'✅':'X'}</button>`;
-      html += `<button onclick="wcSetResult(${i},'B')" style="padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:${r==='B'?'var(--accent2)':'transparent'};color:${r==='B'?'#000':'var(--text)'};cursor:pointer;font-size:11px;font-weight:700">${r==='B'?'✅':'2'}</button>`;
-      html += `</div>`;
-      html += `<div style="flex:2;text-align:left;font-weight:${r==='B'?'800':'400'};font-size:13px;color:${r==='B'?'var(--accent2)':'var(--text)'}">${m.b} ${fB}</div>`;
+      const border = isToday ? 'border-color:var(--green);' : '';
+      const isDone = !!r;
+      html += `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:6px;${border}font-size:13px">`;
+      html += `<span style="background:var(--accent);color:#fff;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:600;min-width:28px;text-align:center">${m.g}</span>`;
+      html += `<div style="flex:2;text-align:right;font-weight:${r==='A'?'800':'400'};color:${r==='A'?'var(--green)':'var(--text)'};font-size:${isDone?'14':'13'}px">${fA} ${m.a}</div>`;
+
+      if (!isDone) {
+        html += `<div style="display:flex;gap:3px">`;
+        html += `<button onclick="wcSetResult(${m.idx},'A')" style="padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--accent);cursor:pointer;font-size:10px;font-weight:600">${s.pA}%</button>`;
+        html += `<span style="font-size:10px;color:var(--text2);font-weight:600;padding:3px 2px">X</span>`;
+        html += `<button onclick="wcSetResult(${m.idx},'B')" style="padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--accent2);cursor:pointer;font-size:10px;font-weight:600">${s.pB}%</button>`;
+        html += `</div>`;
+      } else {
+        html += `<div style="display:flex;gap:3px;align-items:center">`;
+        if (r === 'A') html += `<span style="background:var(--green);color:#000;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:700">✅ ${m.a}</span>`;
+        else if (r === 'X') html += `<span style="background:var(--orange);color:#000;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:700">🤝 Empate</span>`;
+        else html += `<span style="background:var(--accent2);color:#000;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:700">✅ ${m.b}</span>`;
+        html += `</div>`;
+      }
+
+      html += `<div style="flex:2;text-align:left;font-weight:${r==='B'?'800':'400'};color:${r==='B'?'var(--accent2)':'var(--text)'};font-size:${isDone?'14':'13'}px">${m.b} ${fB}</div>`;
       html += `</div>`;
     });
   });
 
-  html += '<div style="grid-column:1/-1;margin-top:16px"><h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:var(--accent2)">🏆 Tabla de Posiciones</h3></div>';
-
-  const groupsWithData = groupKeys.filter(g => WC_MATCHES.some((m,i) => m.g===g && results[i]));
-  (groupsWithData.length ? groupsWithData : groupKeys.slice(0,4)).forEach(g => {
+  // Standings
+  html += '<div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:16px">';
+  groupKeys.forEach(g => {
     const standings = groupStandings(g);
-    html += `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px">`;
-    html += `<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px">Grupo ${g}</div>`;
+    const hasResults = standings.some(s => s.pts > 0);
+    html += `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px">`;
+    html += `<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Grupo ${g}</div>`;
     standings.forEach((s,j) => {
       const medal = j===0?'🥇':j===1?'🥈':j===2?'🥉':'';
-      html += `<div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)">`;
+      html += `<div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid var(--border)">`;
       html += `<span>${medal} ${WC_FLAGS[s.t]||''} ${s.t}</span>`;
-      html += `<span><strong>${s.pts}</strong> pts (${s.gd>0?'+':''}${s.gd})</span>`;
-      html += `</div>`;
+      html += `<span><strong>${s.pts}</strong> pts</span></div>`;
     });
     html += `</div>`;
   });
+  html += '</div>';
 
   html += `<div style="grid-column:1/-1;text-align:center;margin-top:8px">
     <button onclick="wcClearAll()" style="padding:4px 14px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--red);cursor:pointer;font-size:11px">🗑 Borrar resultados</button>

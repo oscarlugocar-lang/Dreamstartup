@@ -25,7 +25,7 @@
 | 1 | DevOps v1 — GH Actions + deploy | ✅ | 2026-06-16 |
 | 2 | DevOps v2 — Terraform + AWS infra | ✅ | 2026-06-16 |
 | 3 | Stripe — Checkout + suscripciones | ✅ | 2026-06-16 |
-| 4 | Stripe — Schema + testing | 🔧 | 2026-06-16 |
+| 4 | Stripe — Schema + testing + go-live | ✅ | 2026-06-16 |
 
 ## Proyectos Activos
 | Cliente | Proyecto | Inicio | Entrega | Estado |

@@ -1,0 +1,4 @@
+Dia,Fecha,Area,Tarea,Estado,Notas
+1,2026-06-16,DevOps,GitHub Actions + deploy automático,Completado,Creado workflows deploy.yml y quality.yml
+2,2026-06-16,DevOps,Terraform + infra AWS + monitoring,Completado,Estructura Terraform + scripts + status badges
+3,2026-06-16,Payments,Stripe Skill - Checkout + suscripciones + webhooks,En curso,

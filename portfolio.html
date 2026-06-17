@@ -4,30 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dreamscape — Portfolio de trabajos en edición de video, motion graphics y producción audiovisual con IA. Highway43 — Oscar Lugo Productions.">
-  <title>Portfolio — Dreamscape Trabajos</title>
+  <title>Portfolio — Dreamscape</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .portfolio-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .portfolio-item { position: relative; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); transition: var(--transition); cursor: pointer; background: var(--bg-card); }
+    .portfolio-item:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,.3); }
+    .portfolio-item img { width: 100%; display: block; }
+    .portfolio-item .thumb { width: 100%; aspect-ratio: 4/3; background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-violet); border-bottom: 1px solid var(--border); overflow: hidden; }
+    .portfolio-item .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .portfolio-item:hover .thumb img { transform: scale(1.08); }
+    .portfolio-info { padding: 20px 24px; }
+    .portfolio-info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .portfolio-info p { font-size: .85rem; color: var(--text-muted); }
+    .portfolio-info .cat { display: inline-block; padding: 2px 10px; background: rgba(139,92,246,.1); border-radius: 20px; font-size: .7rem; color: var(--accent-violet-light); margin-top: 6px; }
+    @media (max-width: 1024px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .portfolio-grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-
   <nav class="nav">
     <div class="container">
       <a href="index.html" class="nav-brand">DREAMSCAPE</a>
       <div class="nav-links">
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
-        <a href="portfolio.html">Portfolio</a>
+        <a href="portfolio.html" style="color:var(--accent-violet-light)">Portfolio</a>
         <a href="precios.html">Precios</a>
+        <a href="brief-cliente.html">Brief</a>
+        <a href="blog/index.html">Blog</a>
         <a href="contacto.html">Contacto</a>
         <a href="contacto.html" class="nav-cta">Cotizar</a>
       </div>
-      <button class="nav-toggle hamburger" aria-label="Menú">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <button class="nav-toggle hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -35,61 +47,18 @@
     <div class="container">
       <div class="section-tag">Portfolio</div>
       <h1>Trabajos Destacados</h1>
-      <p>Highway43 — Oscar Lugo Productions. Proyectos que combinan creatividad humana y el poder de la inteligencia artificial.</p>
+      <p>Highway43 — Oscar Lugo Productions. Haz clic en cualquier proyecto para verlo en Behance.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="portfolio-grid">
-        <div class="portfolio-item">
-          <div class="portfolio-thumb">🎬</div>
-          <div class="portfolio-info">
-            <h4>Spot Publicitario — Marca Auto</h4>
-            <p>Producción completa con efectos generados por IA, color grading cinematográfico y motion graphics.</p>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <div class="portfolio-thumb">🎵</div>
-          <div class="portfolio-info">
-            <h4>Videoclip Musical</h4>
-            <p>Edición rítmica, efectos visuales generativos y sincronización perfecta con IA.</p>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <div class="portfolio-thumb">📱</div>
-          <div class="portfolio-info">
-            <h4>Contenido para Redes</h4>
-            <p>Serie de videos cortos optimizados para Instagram, TikTok y YouTube Shorts con IA generativa.</p>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <div class="portfolio-thumb">🎥</div>
-          <div class="portfolio-info">
-            <h4>Documental Corporativo</h4>
-            <p>Restauración de material de archivo, estabilización avanzada y narrativa visual potenciada por IA.</p>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <div class="portfolio-thumb">📺</div>
-          <div class="portfolio-info">
-            <h4>Intro para Live Stream</h4>
-            <p>Motion graphics animados con efectos generados por texto y transiciones cinemáticas automatizadas.</p>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <div class="portfolio-thumb">🏢</div>
-          <div class="portfolio-info">
-            <h4>Video Institucional</h4>
-            <p>Producción audiovisual completa con super-resolución 4K, locución y post-producción integral con IA.</p>
-          </div>
-        </div>
-      </div>
+      <div class="portfolio-grid" id="portfolioGrid"></div>
     </div>
   </section>
 
-  <section class="section" style="background: var(--bg-secondary);">
-    <div class="container" style="text-align: center;">
+  <section class="section" style="background: var(--bg-secondary); text-align: center;">
+    <div class="container">
       <div class="section-header">
         <h2 class="section-title">Explora Más Trabajos</h2>
         <p class="section-subtitle">Descubre todos nuestros proyectos en Behance.</p>
@@ -102,29 +71,45 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo">DREAMSCAPE</div>
-          <p>Donde la creatividad humana se encuentra con el poder de la inteligencia artificial.</p>
+          <div class="nav-brand">DREAMSCAPE</div>
+          <p>Edición de video profesional impulsada por inteligencia artificial.</p>
         </div>
         <div class="footer-col">
-          <h5>Servicios</h5>
-          <a href="servicios.html">Automatización</a>
-          <a href="servicios.html">Flujo Acelerado</a>
-          <a href="servicios.html">Creatividad IA</a>
+          <h4>Servicios</h4>
+          <ul>
+            <li><a href="servicios.html">Automatización Inteligente</a></li>
+            <li><a href="servicios.html">Flujo Acelerado</a></li>
+            <li><a href="servicios.html">Creatividad Potenciada</a></li>
+            <li><a href="brief-cliente.html">Brief Interactivo</a></li>
+          </ul>
         </div>
         <div class="footer-col">
-          <h5>Compañía</h5>
-          <a href="portfolio.html">Portfolio</a>
-          <a href="precios.html">Precios</a>
-          <a href="contacto.html">Contacto</a>
+          <h4>Compañía</h4>
+          <ul>
+            <li><a href="index.html">Sobre Nosotros</a></li>
+            <li><a href="blog/index.html">Blog</a></li>
+            <li><a href="caso-de-estudio.html">Casos de Estudio</a></li>
+            <li><a href="cv-oscar-lugo.html">Nuestro Equipo</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
         </div>
         <div class="footer-col">
-          <h5>Legal</h5>
-          <a href="#">Privacidad</a>
-          <a href="#">Términos</a>
+          <h4>Asistente Virtual</h4>
+          <ul>
+            <li><a href="cv-asistente-virtual.html">CV Asistente Virtual</a></li>
+            <li><a href="va-upwork-profile.md">Perfil Upwork</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacidad</a></li>
+            <li><a href="#">Términos</a></li>
+          </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 Dreamscape. Todos los derechos reservados.</span>
+        <span>© 2026 Dreamscape. Hecho en Colombia.</span>
         <div class="footer-social">
           <a href="https://instagram.com/dreamscape.ai" target="_blank">Instagram</a>
           <a href="https://linkedin.com/company/dreamscape" target="_blank">LinkedIn</a>
@@ -135,5 +120,26 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script>
+    const projects = [
+      {title:"Showreel 2026",cat:"Video",img:"https://mir-s3-cdn-cf.behance.net/projects/404/6e67cc246797387.Y3JvcCw5MjAsNzIwLDAsMA.png",url:"https://www.behance.net/gallery/246797387/Showreel-2026-Video-Editor-para-Marcas-y-Social-Media"},
+      {title:"Reels de Alto Impacto",cat:"Video",img:"https://mir-s3-cdn-cf.behance.net/projects/404/b52bc2201723559.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/201723559/Reels-de-Alto-Impacto-Edicion-para-Instagram-y-TikTok"},
+      {title:"Reel Publicitario",cat:"Video",img:"https://mir-s3-cdn-cf.behance.net/projects/404/d3dc17201723443.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/201723443/Reel-Publicitario-para-Redes-Sociales-Marca-y-Alcance"},
+      {title:"Diseño Redes Sociales",cat:"Diseño",img:"https://mir-s3-cdn-cf.behance.net/projects/404/ae9088193273925.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/193273925/Diseno-para-Redes-Sociales-Piezas-Visuales-para-Marca"},
+      {title:"Carrusel Estratégico",cat:"Diseño",img:"https://mir-s3-cdn-cf.behance.net/projects/404/3c6c8e193273879.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/193273879/Carrusel-para-Redes-Sociales-Diseno-Estratgico"},
+      {title:"Ilustración Digital",cat:"Ilustración",img:"https://mir-s3-cdn-cf.behance.net/projects/404/d1121f193273453.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/193273453/Ilustracion-Digital-Arte-Visual-para-Branding-y-Marca"},
+      {title:"Ilustración Identidad",cat:"Ilustración",img:"https://mir-s3-cdn-cf.behance.net/projects/404/6cf2d4193273345.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/193273345/Ilustracion-Digital-Desarrollo-Visual-para-Identidad"},
+      {title:"Diseño de Logotipo",cat:"Branding",img:"https://mir-s3-cdn-cf.behance.net/projects/404/264ea3193273285.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/193273285/Diseno-de-Logotipo-Identidad-Visual-para-tu-Marca"},
+      {title:"Piezas Gráficas",cat:"Diseño",img:"https://mir-s3-cdn-cf.behance.net/projects/404/ea86b0193273177.Y3JvcCwxODQxLDE0NDAsMzYwLDA.png",url:"https://www.behance.net/gallery/193273177/Piezas-Graficas-para-Social-Media-Diseno-Visual"},
+    ];
+    const grid = document.getElementById('portfolioGrid');
+    projects.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'portfolio-item';
+      el.innerHTML = '<div class="thumb"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy"></div><div class="portfolio-info"><h4>'+p.title+'</h4><span class="cat">'+p.cat+'</span></div>';
+      el.addEventListener('click', () => window.open(p.url, '_blank'));
+      grid.appendChild(el);
+    });
+  </script>
 </body>
 </html>

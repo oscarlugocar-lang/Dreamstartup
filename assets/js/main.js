@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         top: 100%;
         left: 0;
         right: 0;
-        background: #fff;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        background: var(--bg-primary, #0a0a0f);
+        border-bottom: 1px solid var(--border, #1e293b);
         padding: 1rem;
         z-index: 1000;
       }

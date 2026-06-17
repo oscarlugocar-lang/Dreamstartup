@@ -6,145 +6,46 @@
   <title>Dashboard — Dreamscape</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="assets/css/design-tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <style>
     body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
     .app-layout { display: flex; min-height: 100vh; }
-
-    .sidebar {
-      width: 240px;
-      background: var(--bg-secondary);
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      z-index: 100;
-    }
-
-    .sidebar-brand {
-      font-size: 1.25rem;
-      font-weight: 800;
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      padding: 0.5rem 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.625rem 0.75rem;
-      border-radius: var(--radius-md);
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-
+    .sidebar { width: 240px; background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+    .sidebar-brand { font-size: 1.25rem; font-weight: 800; background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding: 0.5rem 0.75rem; margin-bottom: 1.5rem; }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.75rem; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: var(--transition); }
     .sidebar-link:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
     .sidebar-link.active { background: rgba(139,92,246,0.1); color: var(--accent-violet-light); }
-
-    .sidebar-section {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      padding: 0.5rem 0.75rem;
-      margin-top: 0.5rem;
-    }
-
-    .main-content {
-      margin-left: 240px;
-      flex: 1;
-      padding: 2rem;
-      max-width: calc(100vw - 240px);
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .sidebar-section { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); padding: 0.5rem 0.75rem; margin-top: 0.5rem; }
+    .main-content { margin-left: 240px; flex: 1; padding: 2rem; max-width: calc(100vw - 240px); }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
     .topbar h1 { font-size: 1.5rem; font-weight: 700; }
     .topbar p { font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .activity-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .activity-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
     .activity-item:last-child { border-bottom: none; }
-
-    .activity-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .sidebar-toggle {
-      display: none;
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 200;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      color: var(--text-primary);
-      width: 40px;
-      height: 40px;
-      font-size: 1.25rem;
-      cursor: pointer;
-    }
-
-    .overlay { display: none; }
-
-    @media (max-width: 1024px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .sidebar-toggle { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); width: 40px; height: 40px; font-size: 1.25rem; cursor: pointer; }
+    .badge-pending { background: rgba(100,116,139,0.15); color: var(--text-secondary); }
+    .badge-potencial { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+    .badge-enviada { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+    .badge-cerrada { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+    .leads-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+    .proposal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; transition: var(--transition); }
+    .proposal-card:hover { border-color: var(--accent-violet); }
+    .proposal-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .proposal-card .meta { font-size: 0.8rem; color: var(--text-muted); }
+    .proposal-card .meta strong { color: var(--accent-green); }
+    @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } }
     @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; max-width: 100vw; padding: 1.5rem; }
       .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
       .stats-grid { grid-template-columns: 1fr; }
       .topbar { padding-left: 3rem; }
-      .overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.5);
-        z-index: 99;
-      }
+      .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
       .overlay.show { display: block; }
     }
   </style>
@@ -156,31 +57,24 @@
   <div class="app-layout">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand">DREAMSCAPE</div>
-
       <div class="sidebar-section">Principal</div>
       <a href="#" class="sidebar-link active">📊 Dashboard</a>
       <a href="dashboard_15day_plan.html" class="sidebar-link">📋 Plan 15 Días</a>
-      <a href="index.html" class="sidebar-link">🌐 Sitio Web</a>
-
-      <div class="sidebar-section">Gestión</div>
-      <a href="#" class="sidebar-link">👥 Clientes</a>
-      <a href="#" class="sidebar-link">📁 Proyectos</a>
-      <a href="#" class="sidebar-link">💰 Facturación</a>
-
-      <div class="sidebar-section">Contenido</div>
-      <a href="#" class="sidebar-link">📝 Blog</a>
-      <a href="#" class="sidebar-link">📱 Redes Sociales</a>
-      <a href="#" class="sidebar-link">📊 Analytics</a>
-
+      <a href="dreamscape-landing/index.html" class="sidebar-link">🌐 Landing Page</a>
+      <a href="index.html" class="sidebar-link">🏠 Sitio Web</a>
+      <div class="sidebar-section">Comercial</div>
+      <a href="#leads" class="sidebar-link">👥 Leads</a>
+      <a href="#proposals" class="sidebar-link">📁 Propuestas</a>
+      <a href="board.md" class="sidebar-link">📋 Board</a>
       <div class="sidebar-section" style="margin-top:auto">Sistema</div>
-      <a href="#" class="sidebar-link">⚙️ Configuración</a>
+      <a href="contacto.html" class="sidebar-link">📧 Contacto</a>
     </aside>
 
     <main class="main-content">
       <div class="topbar">
         <div>
-          <h1>Dashboard</h1>
-          <p>Bienvenido de nuevo, Oscar — resumen de tu agencia</p>
+          <h1>Dashboard Comercial</h1>
+          <p id="lastUpdated">Actualizado: —</p>
         </div>
         <div class="flex items-center gap-3">
           <span class="badge badge-green">● En vivo</span>
@@ -188,133 +82,129 @@
         </div>
       </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="label">Proyectos Activos</div>
-          <div class="value">12</div>
-          <div class="change up">+3 esta semana</div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Clientes</div>
-          <div class="value">8</div>
-          <div class="change up">+2 este mes</div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Ingresos (este mes)</div>
-          <div class="value" style="font-size:1.5rem">€3,196</div>
-          <div class="change up">+15% vs mes anterior</div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Plan 15 Días</div>
-          <div class="value">5/15</div>
-          <div class="change up">33% completado</div>
-        </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="label">Leads Totales</div><div class="value" id="statLeads">0</div></div>
+        <div class="stat-card"><div class="label">Propuestas Enviadas</div><div class="value" id="statProps">0</div></div>
+        <div class="stat-card"><div class="label">Valor Potencial</div><div class="value" id="statValue" style="font-size:1.5rem">$0</div></div>
+        <div class="stat-card"><div class="label">Clientes Cerrados</div><div class="value" id="statClients">0</div></div>
       </div>
 
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:2rem">
-        <!-- Recent Activity -->
-        <div class="card">
+      <div class="leads-grid">
+        <div class="card" id="leads">
           <div class="card-header">
-            <span class="card-title">Actividad Reciente</span>
-            <a href="#" style="font-size:0.8rem;color:var(--accent-violet-light);text-decoration:none">Ver todo</a>
+            <span class="card-title">🎯 Leads Activos</span>
+            <span class="badge badge-violet" id="leadsCount">0</span>
           </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--accent-green)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Deploy automático activado</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">GitHub Actions — master</div>
-            </div>
-            <span style="font-size:0.75rem;color:var(--text-muted)">Hoy</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--accent-violet)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Stripe Skill completado</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Checkout + Webhooks + Tests</div>
-            </div>
-            <span style="font-size:0.75rem;color:var(--text-muted)">Ayer</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--accent-blue)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Auth Skill completado</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">NextAuth + Providers + Middleware</div>
-            </div>
-            <span style="font-size:0.75rem;color:var(--text-muted)">Ayer</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--accent-orange)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Terraform infraestructura AWS</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">S3 + CloudFront configurados</div>
-            </div>
-            <span style="font-size:0.75rem;color:var(--text-muted)">Ayer</span>
-          </div>
+          <div id="leadsList"><div class="empty-state"><div class="icon">📭</div><p>Cargando leads...</p></div></div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Acciones Rápidas</span>
+        <div id="proposals">
+          <div class="card" style="margin-bottom:1rem">
+            <div class="card-header">
+              <span class="card-title">📄 Propuestas</span>
+              <span class="badge badge-violet" id="propsCount">0</span>
+            </div>
+            <div id="propsList"><div class="empty-state"><div class="icon">📄</div><p>Cargando propuestas...</p></div></div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:0.75rem">
-            <a href="dashboard_15day_plan.html" class="btn btn-primary btn-sm" style="justify-content:center">📋 Ver Plan 15 Días</a>
-            <a href="payments/public/checkout.html" class="btn btn-secondary btn-sm" style="justify-content:center">💰 Probar Checkout</a>
-            <a href="index.html" class="btn btn-secondary btn-sm" style="justify-content:center">🌐 Ver Sitio Web</a>
-            <a href="#" class="btn btn-secondary btn-sm" style="justify-content:center">👥 Nuevo Cliente</a>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📊 Ingresos Estimados</span>
+            </div>
+            <canvas id="revenueChart" style="max-height:200px"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- Recent Projects -->
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Proyectos Recientes</span>
-          <div class="tabs">
-            <button class="tab active">Todos</button>
-            <button class="tab">En curso</button>
-            <button class="tab">Completados</button>
-          </div>
+          <span class="card-title">🚀 Acciones Rápidas</span>
         </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Proyecto</th>
-              <th>Cliente</th>
-              <th>Estado</th>
-              <th>Vencimiento</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="font-semibold">Video Corporativo</span></td>
-              <td><span class="text-muted">TechCorp</span></td>
-              <td><span class="badge badge-green">Completado</span></td>
-              <td><span class="text-muted-light">12 Jun 2026</span></td>
-              <td><button class="btn btn-ghost btn-sm">⋯</button></td>
-            </tr>
-            <tr>
-              <td><span class="font-semibold">Intro Animada</span></td>
-              <td><span class="text-muted">StreamMax</span></td>
-              <td><span class="badge badge-orange">En curso</span></td>
-              <td><span class="text-muted-light">20 Jun 2026</span></td>
-              <td><button class="btn btn-ghost btn-sm">⋯</button></td>
-            </tr>
-            <tr>
-              <td><span class="font-semibold">Reels Instagram</span></td>
-              <td><span class="text-muted">FitLife</span></td>
-              <td><span class="badge badge-blue">En revisión</span></td>
-              <td><span class="text-muted-light">15 Jun 2026</span></td>
-              <td><button class="btn btn-ghost btn-sm">⋯</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+          <a href="leads/2026-06-09-upwork-leads.md" class="btn btn-primary btn-sm" style="gap:0.5rem">📋 Leads Upwork</a>
+          <a href="leads/2026-06-09-freelancer-leads.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📋 Leads Freelancer</a>
+          <a href="proposals/2026-06-09-upwork-reel-editor-propuesta.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">✏️ Editar Propuesta</a>
+          <a href="va-upwork-profile.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">👤 Perfil Upwork</a>
+          <a href="va-cold-email-template.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📧 Cold Email</a>
+        </div>
       </div>
     </main>
   </div>
 
   <script>
+    const LEADS = [
+      {cliente:"Creator LA, US", proyecto:"Viral YouTube Shorts & Ad Video Editor", presupuesto:"$20 fixed", plataforma:"Upwork", estado:"Potencial"},
+      {cliente:"Creator PAK", proyecto:"Professional YouTube Video Editor", presupuesto:"$100 fixed", plataforma:"Upwork", estado:"Potencial"},
+      {cliente:"SaaS startup", proyecto:"SaaS Demo Video Editor", presupuesto:"Hourly (1-3 meses)", plataforma:"Upwork", estado:"Potencial"},
+      {cliente:"Brand (sin nombre)", proyecto:"Vertical / Reel Video Editor (12 reels)", presupuesto:"$400 fixed", plataforma:"Upwork", estado:"Potencial"},
+      {cliente:"Brand ropa", proyecto:"Marketing clothing brand (foto+video)", presupuesto:"$696 fixed", plataforma:"PeoplePerHour", estado:"Potencial"},
+      {cliente:"Creator", proyecto:"Looking for video editor", presupuesto:"$100/semana", plataforma:"PeoplePerHour", estado:"Potencial"},
+      {cliente:"NLP Coach Portugal", proyecto:"Transform Retreat Footage Into Reels", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial"},
+      {cliente:"Boxing Championship Suiza", proyecto:"Promo video evento", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial"},
+    ];
+    const PROPS = [
+      {cliente:"Upwork — Reel Editor (12 reels)", plan:"Básico (por proyecto)", valor:"$400", estado:"Borrador", archivo:"proposals/2026-06-09-upwork-reel-editor-propuesta.md"},
+    ];
+
+    function renderDashboard() {
+      document.getElementById('lastUpdated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CO');
+      document.getElementById('statLeads').textContent = LEADS.length;
+      document.getElementById('statProps').textContent = PROPS.length;
+      document.getElementById('statClients').textContent = '0';
+
+      const totalValue = LEADS.reduce((sum, l) => {
+        const num = parseFloat(l.presupuesto.replace(/[^0-9.]/g, ''));
+        return sum + (isNaN(num) ? 0 : num);
+      }, 0);
+      document.getElementById('statValue').textContent = '$' + totalValue;
+      document.getElementById('leadsCount').textContent = LEADS.length;
+      document.getElementById('propsCount').textContent = PROPS.length;
+
+      const leadsList = document.getElementById('leadsList');
+      leadsList.innerHTML = LEADS.map(l => `
+        <div class="activity-item" style="cursor:default">
+          <div class="activity-dot" style="background:var(--accent-orange)"></div>
+          <div style="flex:1">
+            <div style="font-size:0.875rem;font-weight:500">${l.cliente}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">${l.proyecto} · ${l.plataforma}</div>
+          </div>
+          <span style="font-size:0.8rem;font-weight:600;color:var(--accent-green)">${l.presupuesto}</span>
+        </div>
+      `).join('');
+
+      const propsList = document.getElementById('propsList');
+      propsList.innerHTML = PROPS.map(p => `
+        <div class="activity-item" style="cursor:pointer" onclick="window.open('${p.archivo}','_blank')">
+          <div class="activity-dot" style="background:var(--accent-violet)"></div>
+          <div style="flex:1">
+            <div style="font-size:0.875rem;font-weight:500">${p.cliente}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">${p.plan} · ${p.estado}</div>
+          </div>
+          <span style="font-size:0.8rem;font-weight:600;color:var(--accent-cyan)">${p.valor}</span>
+        </div>
+      `).join('');
+
+      new Chart(document.getElementById('revenueChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Upwork', 'PeoplePerHour', 'Freelancer'],
+          datasets: [{
+            label: 'Valor potencial ($)',
+            data: [520, 796, 150],
+            backgroundColor: ['#8b5cf6', '#06b6d4', '#22c55e'],
+            borderRadius: 6,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { display: false } },
+            y: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } }
+          }
+        }
+      });
+    }
+
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('overlay').classList.toggle('show');
@@ -323,6 +213,8 @@
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('show');
     });
+
+    renderDashboard();
   </script>
 </body>
 </html>

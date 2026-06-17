@@ -1,59 +1,172 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout — Dreamscape</title>
-  <link rel="stylesheet" href="https://oscarlugocar-lang.github.io/Dreamstartup/assets/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dreamscape — Checkout seguro para planes de edición de video con IA. Paga de forma segura con Stripe.">
+<title>Checkout — Dreamscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<style>
+.checkout-container{max-width:600px;margin:0 auto;padding:2rem 0}
+.checkout-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;margin-bottom:1.5rem}
+.checkout-card h2{font-size:1.3rem;font-weight:700;margin-bottom:1.5rem}
+.plan-summary{display:flex;justify-content:space-between;align-items:center;padding:1.25rem;background:var(--bg-primary);border-radius:var(--radius-md);margin-bottom:1.5rem}
+.plan-summary .plan-name{font-weight:600;font-size:1.1rem}
+.plan-summary .plan-price{font-size:1.5rem;font-weight:800;background:var(--gradient-accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.feature-row{display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--border);font-size:0.9rem;color:var(--text-secondary)}
+.feature-row:last-child{border-bottom:none}
+.feature-row .check{color:var(--accent-green)}
+.total-row{display:flex;justify-content:space-between;padding:1rem 0;font-size:1.1rem;font-weight:700;border-top:2px solid var(--accent-violet);margin-top:0.5rem}
+.secure-badge{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--text-muted);font-size:0.85rem;margin-top:1.5rem;padding:1rem;border-top:1px solid var(--border)}
+.stripe-badge{text-align:center;margin-top:1rem}
+.stripe-badge img{max-width:140px;opacity:0.5}
+</style>
 </head>
 <body>
-<nav>
-  <a href="index.html" class="nav-brand">DREAMSCAPE</a>
-  <div class="nav-links">
-    <a href="index.html">Inicio</a>
-    <a href="servicios.html">Servicios</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="precios.html">Precios</a>
-    <a href="contacto.html">Contacto</a>
+<nav class="nav">
+  <div class="container">
+    <a href="../../index.html" class="nav-brand">DREAMSCAPE</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../servicios.html">Servicios</a>
+      <a href="../../portfolio.html">Portfolio</a>
+      <a href="../../precios.html">Precios</a>
+      <a href="../../contacto.html">Contacto</a>
+    </div>
+    <button class="nav-toggle hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <section class="page-header">
-  <h1>Completa tu Suscripción</h1>
-  <p>Serás redirigido a Stripe para el pago seguro.</p>
+  <div class="container">
+    <div class="section-tag">Checkout</div>
+    <h1>Completa tu Suscripción</h1>
+    <p>Pago 100% seguro procesado por Stripe</p>
+  </div>
 </section>
 
-<section style="text-align:center;padding:4rem 2rem">
-  <div id="loading" style="font-size:1.2rem;color:var(--text-secondary)">Preparando checkout...</div>
-  <div id="error" style="display:none;color:var(--red);font-size:1.1rem"></div>
-  <button id="checkout-btn" style="display:none" class="btn btn-primary">Ir a pagar</button>
+<section class="section">
+  <div class="container checkout-container">
+    <div class="checkout-card">
+      <h2>Resumen del Plan</h2>
+      <div class="plan-summary">
+        <div>
+          <div class="plan-name" id="planName">Plan Profesional</div>
+          <div style="font-size:0.85rem;color:var(--text-muted);margin-top:4px">Suscripción mensual · Cancela cuando quieras</div>
+        </div>
+        <div class="plan-price" id="planPrice">$799</div>
+      </div>
+      <div id="planFeatures">
+        <div class="feature-row"><span>Proyectos por mes</span><span>10</span></div>
+        <div class="feature-row"><span>IA avanzada + edición manual</span><span class="check">✓</span></div>
+        <div class="feature-row"><span>Corrección de color premium</span><span class="check">✓</span></div>
+        <div class="feature-row"><span>Entrega en 24 horas</span><span class="check">✓</span></div>
+        <div class="feature-row"><span>Soporte prioritario 24/7</span><span class="check">✓</span></div>
+        <div class="feature-row"><span>Gerente de proyecto dedicado</span><span class="check">✓</span></div>
+        <div class="feature-row"><span>Prueba gratuita 14 días</span><span class="check">✓</span></div>
+      </div>
+      <div class="total-row"><span>Total mensual</span><span id="totalPrice">$799 USD</span></div>
+      <button class="btn btn-primary" id="checkoutBtn" style="width:100%;justify-content:center;padding:16px;font-size:1.1rem;margin-top:1.5rem">
+        Ir a Pagar con Stripe →
+      </button>
+      <div class="secure-badge">🔒 Pagos seguros encriptados SSL · Stripe</div>
+      <div style="color:var(--text-muted);font-size:0.8rem;text-align:center;margin-top:0.5rem">
+        Al hacer clic aceptas nuestros <a href="#" style="color:var(--accent-violet-light)">Términos</a>
+      </div>
+    </div>
+
+    <div class="checkout-card" style="text-align:center">
+      <p style="color:var(--text-secondary);font-size:0.9rem">¿Dudas? Contáctanos</p>
+      <div style="display:flex;gap:1rem;justify-content:center;margin-top:0.75rem">
+        <a href="mailto:latamdreamscape@gmail.com" style="color:var(--accent-violet-light);font-size:0.9rem">📧 latamdreamscape@gmail.com</a>
+        <a href="https://wa.me/573011822651" target="_blank" style="color:var(--accent-violet-light);font-size:0.9rem">📱 WhatsApp</a>
+      </div>
+    </div>
+  </div>
 </section>
 
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-brand">DREAMSCAPE</div>
+        <p>Edición de video profesional impulsada por inteligencia artificial.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="../../servicios.html">Automatización Inteligente</a></li>
+          <li><a href="../../servicios.html">Flujo Acelerado</a></li>
+          <li><a href="../../servicios.html">Creatividad Potenciada</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Compañía</h4>
+        <ul>
+          <li><a href="../../portfolio.html">Portfolio</a></li>
+          <li><a href="../../precios.html">Precios</a></li>
+          <li><a href="../../contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Dreamscape. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/main.js"></script>
 <script>
-const params = new URLSearchParams(window.location.search);
-const plan = params.get('plan') || 'professional';
-const prices = { basic: 'price_basic', professional: 'price_professional' };
-const priceId = prices[plan];
+const plans = {
+  basic: { name: 'Plan Básico', price: 350, priceId: 'price_basic', features: ['2 proyectos por mes', 'Edición con IA automatizada', 'Corrección de color básica', 'Entrega en 72 horas', 'Soporte por email'] },
+  professional: { name: 'Plan Profesional', price: 799, priceId: 'price_professional', features: ['10 proyectos por mes', 'IA avanzada + edición manual', 'Corrección de color premium', 'Entrega en 24 horas', 'Soporte prioritario 24/7', 'Gerente de proyecto dedicado'] },
+  enterprise: { name: 'Plan Empresa', price: null, priceId: null, features: ['Proyectos ilimitados', 'Pipeline IA personalizado', 'Post-producción integral', 'Entregas express', 'Soporte dedicado 24/7', 'API y automatizaciones'] },
+};
 
-document.getElementById('checkout-btn').addEventListener('click', async () => {
+const params = new URLSearchParams(window.location.search);
+const planKey = params.get('plan') || 'professional';
+const plan = plans[planKey] || plans.professional;
+
+document.getElementById('planName').textContent = plan.name;
+document.getElementById('planPrice').textContent = plan.price ? '$' + plan.price : 'Personalizado';
+document.getElementById('totalPrice').textContent = plan.price ? '$' + plan.price + ' USD' : 'A consultar';
+
+const featuresEl = document.getElementById('planFeatures');
+featuresEl.innerHTML = '';
+plan.features.forEach(f => {
+  featuresEl.innerHTML += '<div class="feature-row"><span>' + f + '</span><span class="check">✓</span></div>';
+});
+
+document.getElementById('checkoutBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('checkoutBtn');
+  btn.textContent = '⏳ Redirigiendo a Stripe...';
+  btn.disabled = true;
+
+  if (!plan.priceId) {
+    window.location.href = '../../contacto.html';
+    return;
+  }
+
   try {
-    const res = await fetch('/api/create-checkout-session', {
+    const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ priceId, successUrl: window.location.origin + '/success.html', cancelUrl: window.location.origin + '/precios.html' })
+      body: JSON.stringify({
+        priceId: plan.priceId,
+        successUrl: window.location.origin + '/success.html',
+        cancelUrl: window.location.origin + '/precios.html',
+      })
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
-    else throw new Error('No URL received');
+    else window.location.href = '../../contacto.html';
   } catch (e) {
-    document.getElementById('error').style.display = 'block';
-    document.getElementById('error').textContent = 'Error: ' + e.message;
-    document.getElementById('loading').style.display = 'none';
+    window.location.href = '../../contacto.html';
   }
 });
-
-document.getElementById('loading').style.display = 'none';
-document.getElementById('checkout-btn').style.display = 'inline-flex';
 </script>
 </body>
 </html>

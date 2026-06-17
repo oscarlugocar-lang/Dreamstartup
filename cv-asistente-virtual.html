@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oscar Lugo — Asistente Virtual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --white: #ffffff;
+  --light: #f8f9fa;
+  --border: #e2e6ea;
+  --primary: #1e293b;
+  --accent: #2563eb;
+  --green: #059669;
+  --text: #0f172a;
+  --text2: #475569;
+  --muted: #94a3b8;
+}
+body {
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background: #f1f5f9;
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  max-width: 210mm;
+  margin: 2rem auto;
+  background: var(--white);
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+.header {
+  background: var(--primary);
+  padding: 2.5rem 3rem 1.75rem;
+  color: var(--white);
+}
+.header-content { display: flex; gap: 2rem; align-items: flex-start; }
+.header-info { flex: 1; }
+.header-info h1 {
+  font-size: 2.2rem; font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.15rem;
+}
+.header-info .title {
+  font-size: 1rem; font-weight: 400;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 0.75rem;
+}
+.badge-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.badge {
+  font-size: 0.65rem; font-weight: 600; padding: 0.2rem 0.7rem;
+  border-radius: 4px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.8);
+  border: 1px solid rgba(255,255,255,.15);
+}
+.contact-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+.contact-item {
+  font-size: 0.78rem; color: rgba(255,255,255,.65);
+  text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+}
+.body { display: grid; grid-template-columns: 1fr 2.1fr; }
+
+.sidebar {
+  background: var(--light);
+  padding: 2rem 1.75rem;
+  border-right: 1px solid var(--border);
+}
+.sb-section { margin-bottom: 1.75rem; }
+.sb-section:last-child { margin-bottom: 0; }
+.sb-label {
+  font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+}
+.sb-text { font-size: 0.78rem; color: var(--text2); line-height: 1.6; }
+
+.sb-list { list-style: none; }
+.sb-list li {
+  font-size: 0.78rem; color: var(--text2);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.sb-list li:last-child { border-bottom: none; }
+.sb-list li::before { content: '▸ '; color: var(--accent); font-weight: 700; }
+
+.skill { margin-bottom: 0.6rem; }
+.skill .name {
+  font-size: 0.78rem; font-weight: 500;
+  margin-bottom: 0.2rem; display: flex; justify-content: space-between;
+}
+.skill .name span { color: var(--muted); font-weight: 400; font-size: 0.7rem; }
+.skill-bar { width: 100%; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.skill-bar .fill { height: 100%; border-radius: 2px; background: var(--accent); }
+
+.lang {
+  display: flex; justify-content: space-between;
+  padding: 0.35rem 0; border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.lang:last-child { border-bottom: none; }
+.lang .level { color: var(--accent); font-weight: 600; font-size: 0.7rem; }
+
+.main { padding: 2rem 2rem; }
+.m-section { margin-bottom: 1.75rem; }
+.m-section:last-child { margin-bottom: 0; }
+.m-header {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.75rem; padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+}
+.m-header h2 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); }
+
+.exp { margin-bottom: 1.25rem; }
+.exp:last-child { margin-bottom: 0; }
+.exp-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.15rem; }
+.exp-top h3 { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.exp-top .date { font-size: 0.7rem; color: var(--muted); font-weight: 500; white-space: nowrap; }
+.exp-sub { font-size: 0.76rem; color: var(--accent); font-weight: 500; margin-bottom: 0.3rem; }
+.exp ul { list-style: none; }
+.exp ul li {
+  font-size: 0.76rem; color: var(--text2);
+  padding: 0.1rem 0 0.1rem 0.8rem; position: relative;
+}
+.exp ul li::before { content: '–'; position: absolute; left: 0; color: var(--muted); }
+
+.h-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.h-item {
+  background: var(--light); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.7rem; text-align: center;
+}
+.h-item .num { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+.h-item .desc { font-size: 0.68rem; color: var(--text2); margin-top: 0.15rem; }
+
+.footer {
+  padding: 0.75rem 2rem; border-top: 1px solid var(--border);
+  text-align: center; font-size: 0.7rem; color: var(--muted);
+}
+
+@media print {
+  body { background: #fff; }
+  .page { max-width: 100%; margin: 0; box-shadow: none; }
+  .m-section, .exp, .sb-section { break-inside: avoid; }
+}
+@media (max-width: 700px) {
+  .body { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  .header-content { flex-direction: column; }
+  .page { margin: 0; }
+  .h-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-content">
+      <div class="header-info">
+        <h1>Oscar Lugo</h1>
+        <div class="title">Asistente Virtual & Project Coordinator</div>
+        <div class="badge-row">
+          <span class="badge">📅 Gestión de calendarios</span>
+          <span class="badge">📧 Email management</span>
+          <span class="badge">📊 Notion & CRM</span>
+          <span class="badge">🌎 Bilingüe</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-item">📧 latamdreamscape@gmail.com</span>
+          <span class="contact-item">📱 +57 301 182 2651</span>
+          <span class="contact-item">💼 linkedin.com/in/dreamscape-ia</span>
+          <span class="contact-item">🌐 Disponible remoto · LATAM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="sidebar">
+
+      <div class="sb-section">
+        <div class="sb-label">Perfil</div>
+        <p class="sb-text">
+          Asistente Virtual bilingüe con 6+ años de experiencia en gestión de proyectos, coordinación de equipos creativos y producción de contenido digital. Fundador de Dreamscape, donde he liderado equipos, manejado clientes, administrado flujos de trabajo en Notion y optimizado procesos operativos. Enfoque en organización, proactividad y comunicación clara.
+        </p>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Habilidades VA</div>
+        <div class="skill">
+          <div class="name">Gestión de calendarios & email <span>Experto</span></div>
+          <div class="skill-bar"><div class="fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="name">Notion · CRM · bases de datos <span>Experto</span></div>
+          <div class="skill-bar"><div class="fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="name">Google Suite / Workspace <span>Experto</span></div>
+          <div class="skill-bar"><div class="fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="name">Gestión de redes sociales <span>Avanzado</span></div>
+          <div class="skill-bar"><div class="fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="name">Coordinación de equipos <span>Avanzado</span></div>
+          <div class="skill-bar"><div class="fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="name">Atención al cliente <span>Avanzado</span></div>
+          <div class="skill-bar"><div class="fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="name">Meta Ads / Google Analytics <span>Intermedio</span></div>
+          <div class="skill-bar"><div class="fill" style="width:78%"></div></div>
+        </div>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Herramientas</div>
+        <ul class="sb-list">
+          <li>Notion · Slack · Trello · Asana</li>
+          <li>Google Calendar · Gmail · Drive</li>
+          <li>Meta Business Suite · LinkedIn</li>
+          <li>Canva Pro · Adobe Suite</li>
+          <li>Google Analytics · Meta Ads</li>
+          <li>WhatsApp Business · Zoom · Meet</li>
+        </ul>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Idiomas</div>
+        <div class="lang"><span>Español</span><span class="level">Nativo</span></div>
+        <div class="lang"><span>Inglés</span><span class="level">B2 — Avanzado</span></div>
+      </div>
+
+    </div>
+
+    <div class="main">
+
+      <div class="m-section">
+        <div class="m-header"><h2>💼 Experiencia Profesional</h2></div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>CEO & Director Creativo · Dreamscape Productions</h3><span class="date">Mar 2023 · Actualidad</span></div>
+          <div class="exp-sub">Gestión operativa y administrativa de la agencia</div>
+          <ul>
+            <li>Coordinación de equipos creativos (diseñadores, editores, freelancers) con flujos de aprobación vía Notion.</li>
+            <li>Gestión de comunicación con clientes: briefings, seguimiento, reportes y resolución de incidencias.</li>
+            <li>Administración de calendarios, deadlines y entregas multicanal (Instagram, TikTok, YouTube, LinkedIn).</li>
+            <li>Manejo de presupuestos, cotizaciones y facturación recurrente (Stripe).</li>
+            <li>Organización de bases de datos de leads, clientes y proyectos en Notion.</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>Editor & Coordinador de Contenido · CIFES Online</h3><span class="date">2022 · 2024</span></div>
+          <div class="exp-sub">Producción educativa y corporativa</div>
+          <ul>
+            <li>Coordinación de entregables multicanal con KPIs de rendimiento para iteración basada en datos.</li>
+            <li>Gestión de cronogramas de producción y comunicación con stakeholders internos.</li>
+            <li>Organización y archivo de activos digitales para equipos multidisciplinarios.</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>Editor & Social Media · Tech Institute</h3><span class="date">2019 · 2022</span></div>
+          <div class="exp-sub">Gestión de redes y contenido institucional</div>
+          <ul>
+            <li>Soporte en gestión de redes sociales, programación de contenido y atención a audiencia.</li>
+            <li>Coordinación con equipo de comunicación para alinear calendarios editoriales.</li>
+            <li>Creación y mantenimiento de bases de datos de contenido y métricas.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="m-section">
+        <div class="m-header"><h2>🛠️ Servicios de Asistente Virtual</h2></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem">
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">📧 Email & Calendar</div>
+            <div style="font-size:0.72rem;color:var(--text2);margin-top:0.2rem">Gestión de bandeja de entrada, filtrado, respuestas programadas. Coordinación de reuniones y agenda.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">📊 Notion & CRM</div>
+            <div style="font-size:0.72rem;color:var(--text2);margin-top:0.2rem">Bases de datos, pipelines de clientes, tracking de proyectos, automatizaciones.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">📱 Social Media Management</div>
+            <div style="font-size:0.72rem;color:var(--text2);margin-top:0.2rem">Programación de contenido, engagement, análisis de métricas, reporting semanal.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">👥 Coordinación de equipos</div>
+            <div style="font-size:0.72rem;color:var(--text2);margin-top:0.2rem">Briefings, asignación de tareas, seguimiento de deadlines, reportes de progreso.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">✍️ Redacción & Traducción</div>
+            <div style="font-size:0.72rem;color:var(--text2);margin-top:0.2rem">Corrección de textos, traducciones EN-ES, redacción de correos, propuestas y documentos.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">🔍 Research & Leads</div>
+            <div style="font-size:0.72rem;color:var(--text2);margin-top:0.2rem">Investigación de mercado, prospección de clientes, bases de datos de contactos.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-section">
+        <div class="m-header"><h2>📈 Logros Clave</h2></div>
+        <div class="h-grid">
+          <div class="h-item"><div class="num">50+</div><div class="desc">Clientes gestionados</div></div>
+          <div class="h-item"><div class="num">6+ años</div><div class="desc">Experiencia en gestión</div></div>
+          <div class="h-item"><div class="num">4</div><div class="desc">Canales coordinados</div></div>
+          <div class="h-item"><div class="num">B2</div><div class="desc">Inglés avanzado</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    Oscar Lugo · Asistente Virtual · latamdreamscape@gmail.com · +57 301 182 2651 · Disponible remoto inmediato
+  </div>
+
+</div>
+</body>
+</html>

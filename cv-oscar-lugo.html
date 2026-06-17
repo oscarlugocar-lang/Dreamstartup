@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oscar Lugo — Hoja de Vida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --white: #ffffff;
+  --light: #f8f9fa;
+  --border: #e2e6ea;
+  --primary: #1e293b;
+  --secondary: #475569;
+  --muted: #94a3b8;
+  --accent: #2563eb;
+  --green: #059669;
+  --text: #0f172a;
+  --text2: #475569;
+}
+body {
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background: #f1f5f9;
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  max-width: 210mm;
+  margin: 2rem auto;
+  background: var(--white);
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+.header {
+  background: var(--primary);
+  padding: 2.5rem 3rem 1.75rem;
+  color: var(--white);
+}
+.header-content { display: flex; gap: 2rem; align-items: flex-start; }
+.header-info { flex: 1; }
+.header-info h1 {
+  font-size: 2.2rem; font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.15rem;
+}
+.header-info .title {
+  font-size: 1rem; font-weight: 400;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 0.75rem;
+}
+.contact-row {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+}
+.contact-item {
+  font-size: 0.78rem; color: rgba(255,255,255,.65);
+  text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+}
+.body { display: grid; grid-template-columns: 1fr 2.1fr; }
+
+.sidebar {
+  background: var(--light);
+  padding: 2rem 1.75rem;
+  border-right: 1px solid var(--border);
+}
+.sb-section { margin-bottom: 1.75rem; }
+.sb-section:last-child { margin-bottom: 0; }
+.sb-label {
+  font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+}
+.sb-text {
+  font-size: 0.78rem; color: var(--text2); line-height: 1.6;
+}
+
+.sb-list {
+  list-style: none;
+}
+.sb-list li {
+  font-size: 0.78rem; color: var(--text2);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.sb-list li:last-child { border-bottom: none; }
+.sb-list li::before { content: '▸ '; color: var(--accent); font-weight: 700; }
+
+.skill {
+  margin-bottom: 0.6rem;
+}
+.skill .name {
+  font-size: 0.78rem; font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.skill-bar {
+  width: 100%; height: 4px;
+  background: var(--border); border-radius: 2px;
+  overflow: hidden;
+}
+.skill-bar .fill {
+  height: 100%; border-radius: 2px;
+  background: var(--accent);
+}
+.lang {
+  display: flex; justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.lang:last-child { border-bottom: none; }
+.lang .level { color: var(--accent); font-weight: 600; font-size: 0.7rem; }
+
+.h-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+}
+.h-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem;
+  text-align: center;
+}
+.h-item .num {
+  font-size: 1.3rem; font-weight: 700; color: var(--accent);
+}
+.h-item .desc {
+  font-size: 0.68rem; color: var(--text2); margin-top: 0.15rem;
+}
+
+.main { padding: 2rem 2rem; }
+.m-section { margin-bottom: 1.75rem; }
+.m-section:last-child { margin-bottom: 0; }
+.m-header {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+}
+.m-header h2 {
+  font-size: 0.85rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--primary);
+}
+
+.exp { margin-bottom: 1.25rem; }
+.exp:last-child { margin-bottom: 0; }
+.exp-top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 0.15rem;
+}
+.exp-top h3 {
+  font-size: 0.88rem; font-weight: 600; color: var(--text);
+}
+.exp-top .date {
+  font-size: 0.7rem; color: var(--muted); font-weight: 500; white-space: nowrap;
+}
+.exp-sub {
+  font-size: 0.76rem; color: var(--accent); font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+.exp ul { list-style: none; }
+.exp ul li {
+  font-size: 0.76rem; color: var(--text2);
+  padding: 0.1rem 0 0.1rem 0.8rem;
+  position: relative;
+}
+.exp ul li::before {
+  content: '–';
+  position: absolute; left: 0;
+  color: var(--muted);
+}
+
+.cref {
+  font-size: 0.76rem; color: var(--text2);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.cref:last-child { border-bottom: none; }
+.cref .name { font-weight: 600; color: var(--text); }
+.cref .role { font-size: 0.72rem; }
+.cref .contact { color: var(--accent); font-size: 0.72rem; }
+
+.footer {
+  padding: 0.75rem 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+@media print {
+  body { background: #fff; }
+  .page { max-width: 100%; margin: 0; box-shadow: none; }
+  .m-section, .exp, .sb-section { break-inside: avoid; }
+}
+@media (max-width: 700px) {
+  .body { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  .header-content { flex-direction: column; }
+  .page { margin: 0; }
+  .h-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="header">
+    <div class="header-content">
+      <div class="header-info">
+        <h1>Oscar Lugo</h1>
+        <div class="title">Creative Designer & Realizador Audiovisual</div>
+        <div class="contact-row">
+          <span class="contact-item">📧 latamdreamscape@gmail.com</span>
+          <span class="contact-item">📱 +57 301 182 2651</span>
+          <span class="contact-item">💼 linkedin.com/in/dreamscape-ia</span>
+          <span class="contact-item">🎨 behance.net/highway43</span>
+          <span class="contact-item">🌐 oscarlugocar-lang.github.io/Dreamstartup</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <div class="sb-section">
+        <div class="sb-label">Perfil</div>
+        <p class="sb-text">
+          Creative Designer y Realizador Audiovisual con más de 6 años de experiencia creando identidades visuales sólidas para marcas digitales. Fundador de Dreamscape Productions, he liderado la producción de contenido multicanal (Instagram, TikTok, YouTube, LinkedIn) combinando storytelling estratégico, diseño basado en datos y gestión de equipos creativos.
+        </p>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Herramientas de Diseño</div>
+        <ul class="sb-list">
+          <li>Adobe Premiere Pro</li>
+          <li>After Effects</li>
+          <li>Photoshop</li>
+          <li>Illustrator</li>
+          <li>InDesign</li>
+          <li>Canva Pro · CapCut Pro</li>
+        </ul>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Estrategia & Performance</div>
+        <ul class="sb-list">
+          <li>Identidad visual & Brandbooks</li>
+          <li>Contenido para Meta, TikTok, YouTube, LinkedIn</li>
+          <li>KPIs: CTR, engagement, visualización</li>
+          <li>Google Analytics & Meta Ads Manager</li>
+        </ul>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Gestión</div>
+        <ul class="sb-list">
+          <li>Liderazgo creativo de equipos</li>
+          <li>Notion · Flujos de aprobación</li>
+          <li>Coordinación multicanal</li>
+        </ul>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Idiomas</div>
+        <div class="lang"><span>Español</span><span class="level">Nativo</span></div>
+        <div class="lang"><span>Inglés</span><span class="level">B1/B2 — Intermedio Avanzado</span></div>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Formación</div>
+        <p class="sb-text" style="margin-bottom:0.25rem"><strong>Realización Audiovisual</strong></p>
+        <p class="sb-text" style="font-size:0.72rem">Universitaria Agustiniana · Graduado 2021</p>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Certificaciones</div>
+        <ul class="sb-list">
+          <li>Google Analytics & Google Ads</li>
+          <li>Storytelling para campañas digitales</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <div class="m-section">
+        <div class="m-header"><h2>💼 Experiencia Profesional</h2></div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>CEO & Director Creativo · Dreamscape Productions</h3><span class="date">Mar 2023 · Actualidad</span></div>
+          <div class="exp-sub">Bogotá, Colombia — Agencia propia</div>
+          <ul>
+            <li>Diseño, lidero y mantengo la coherencia visual de múltiples marcas simultáneamente, siendo responsable del brandbook, tono gráfico y adaptación por canal.</li>
+            <li>Desarrollo parrillas de contenido gráfico y audiovisual para Instagram, TikTok, YouTube y LinkedIn adaptadas a audiencia y plataforma.</li>
+            <li>Aumento de visibilidad en redes para clientes en un 40% mediante optimización de piezas y análisis de desempeño (CTR, engagement, tasa de visualización).</li>
+            <li>Coordino equipos creativos (diseñadores, editores, clientes) con flujos de aprobación y entrega vía Notion.</li>
+            <li>Aplico herramientas de IA generativa (Midjourney, ChatGPT) y tendencias de diseño para mantener contenido fresco y competitivo.</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>Editor & Diseñador Gráfico · CIFES Online</h3><span class="date">2022 · 2024</span></div>
+          <div class="exp-sub">Producción de contenidos educativos y corporativos</div>
+          <ul>
+            <li>Producción integral desde guiones hasta edición final: video, motion graphics, PDFs interactivos y piezas gráficas (sectores educación, salud y tecnología).</li>
+            <li>Coordinación de entregables multicanal con KPIs de visualización, CTR y engagement para iteración basada en datos.</li>
+            <li>Animaciones y piezas adaptadas a formatos e-learning y redes sociales.</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>Realizador Audiovisual · RECIVE</h3><span class="date">2019 · 2022</span></div>
+          <div class="exp-sub">Campañas publicitarias y contenido para redes</div>
+          <ul>
+            <li>Edición de video para campañas digitales y diseño gráfico de identidades visuales de marca.</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-top"><h3>Editor de Video & Realizador · Tech Institute</h3><span class="date">2019 · 2022</span></div>
+          <div class="exp-sub">Graficación, diseño y social media</div>
+          <ul>
+            <li>Edición, graficación y soporte en gestión de redes sociales para contenidos institucionales.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="m-section">
+        <div class="m-header"><h2>📊 Logros Destacados</h2></div>
+        <div class="h-grid">
+          <div class="h-item"><div class="num">40%</div><div class="desc">Aumento de visibilidad en redes para clientes</div></div>
+          <div class="h-item"><div class="num">6+ años</div><div class="desc">Creando contenido digital multiformato</div></div>
+          <div class="h-item"><div class="num">4</div><div class="desc">Canales: IG, TikTok, YouTube, LinkedIn</div></div>
+          <div class="h-item"><div class="num">5+</div><div class="desc">Herramientas Adobe Suite</div></div>
+        </div>
+      </div>
+
+      <div class="m-section">
+        <div class="m-header"><h2>🌐 Proyectos Web</h2></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem">
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">Dreamstartup Web</div>
+            <div style="font-size:0.7rem;color:var(--accent);margin:0.15rem 0">oscarlugocar-lang.github.io/Dreamstartup</div>
+            <div style="font-size:0.7rem;color:var(--text2);line-height:1.3">Sitio web completo con dashboard, plan de 15 días, integración Stripe y despliegue automatizado.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">Dashboard 15-Day Plan</div>
+            <div style="font-size:0.7rem;color:var(--accent);margin:0.15rem 0">Dashboard interactivo con KPIs, charts y Notion sync</div>
+            <div style="font-size:0.7rem;color:var(--text2);line-height:1.3">Tablero de seguimiento con progreso por categoría, carga diaria y distribución de esfuerzo.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">Sistema de Pagos Stripe</div>
+            <div style="font-size:0.7rem;color:var(--accent);margin:0.15rem 0">Checkout + Webhooks + Customer Portal</div>
+            <div style="font-size:0.7rem;color:var(--text2);line-height:1.3">Suscripciones con 3 planes, webhooks de eventos, pruebas automatizadas y esquema Prisma.</div>
+          </div>
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:6px;padding:0.75rem">
+            <div style="font-size:0.8rem;font-weight:600">Autenticación NextAuth</div>
+            <div style="font-size:0.7rem;color:var(--accent);margin:0.15rem 0">GitHub + Google + Magic Link</div>
+            <div style="font-size:0.7rem;color:var(--text2);line-height:1.3">Login con 3 providers, JWT, middleware de protección de rutas y panel de administración.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-section">
+        <div class="m-header"><h2>📞 Referencias</h2></div>
+        <div class="cref">
+          <div class="name">Geraldine Escalona</div>
+          <div class="role">Jefa Auditora, Tech Institute</div>
+          <div class="contact">gescalona@techtitute.com · +34 677 260 460</div>
+        </div>
+        <div class="cref">
+          <div class="name">María del Pilar Rojas</div>
+          <div class="role">Directora Comercial</div>
+          <div class="contact">mpilar2012@gmail.com · 310 777 8238</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    Oscar Lugo · Creative Designer & Realizador Audiovisual · latamdreamscape@gmail.com · +57 301 182 2651
+  </div>
+
+</div>
+
+</body>
+</html>

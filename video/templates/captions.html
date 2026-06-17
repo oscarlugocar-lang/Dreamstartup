@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dreamscape — Captions</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0f; overflow: hidden; }
+    .scene {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 4rem 6rem;
+    }
+    .caption {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #f8fafc;
+      max-width: 800px;
+    }
+    .caption .highlight {
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .caption .fade {
+      color: #64748b;
+    }
+    .timestamp {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      font-size: 0.8rem;
+      color: #64748b;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="caption">
+      <span class="highlight">Dreamscape</span>
+      <span class="fade">donde la creatividad humana</span><br>
+      se encuentra con el poder de la
+      <span class="highlight">inteligencia artificial</span>
+    </div>
+    <div class="timestamp">00:00 / 00:30</div>
+  </div>
+</body>
+</html>

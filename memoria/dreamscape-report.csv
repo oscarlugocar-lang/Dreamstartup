@@ -1,6 +1,13 @@
 Dia,Fecha,Area,Tarea,Estado,Notas
 1,2026-06-16,DevOps,GitHub Actions + deploy automático,Completado,Creado workflows deploy.yml y quality.yml
-2,2026-06-16,DevOps,Terraform + infra AWS + monitoring,Completado,Estructura Terraform + scripts + status badges en footer
-3,2026-06-16,Payments,Stripe Skill - Checkout + suscripciones + webhooks,Completado,API checkout + webhooks + pagina publica + botones en landing
-4,2026-06-16,Payments,Stripe Skill - Prisma schema + testing + go-live,Completado,Schema + Jest tests + checklist produccion
-5,2026-06-16,Auth,NextAuth.js + providers + middleware,Completado,Tres providers + JWT + route protection + login UI
+2,2026-06-16,DevOps,Terraform + infra AWS + monitoring,Completado,main.tf + variables + outputs + backend + deploy.sh
+3,2026-06-16,Payments,Stripe Skill - Checkout + suscripciones + webhooks,Completado,checkout.js + webhook.js + config.js + checkout.html
+4,2026-06-16,Payments,Stripe Skill - Prisma schema + testing + go-live,Completado,schema.prisma + jest tests + GO-LIVE.md + SETUP.md
+5,2026-06-16,Auth,NextAuth.js + providers + middleware,Completado,auth.ts + middleware.ts + login page + schema + tests
+6,2026-06-17,Frontend,Design System + componentes base,Completado,design-tokens.css + components.css
+7,2026-06-17,Frontend,Dashboard responsive + layout,Completado,dashboard.html con sidebar + stats + tabla proyectos
+8,2026-06-17,Backend,API REST + validación + OpenAPI,Completado,server.js + routes + openapi.yaml + tests
+9,2026-06-17,Video,Pipeline HyperFrames + 3 plantillas,Completado,explicador + producto + captions + render.sh
+10,2026-06-17,Mobile,React Native + Expo scaffold,Completado,App.tsx + 3 screens + API client
+11,2026-06-17,AI/ML,LLM integration + RAG pattern,Completado,llm.js + rag.js + routes + tests
+12,2026-06-17,Docs,Wiki técnica + setup guide + CI/CD,Completado,architecture.md + setup-guide.md + ci-cd.yml

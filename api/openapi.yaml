@@ -1,0 +1,171 @@
+openapi: "3.0.3"
+info:
+  title: Dreamscape API
+  description: API REST para la agencia Dreamscape
+  version: "1.0.0"
+  contact:
+    email: latamdreamscape@gmail.com
+
+servers:
+  - url: http://localhost:3001
+    description: Desarrollo local
+  - url: https://dreamscape-api.vercel.app
+    description: Producción
+
+paths:
+  /api/health:
+    get:
+      summary: Health check
+      tags: [System]
+      responses:
+        "200":
+          description: API saludable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+
+  /api/projects:
+    get:
+      summary: Listar proyectos
+      tags: [Projects]
+      responses:
+        "200":
+          description: Lista de proyectos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Project"
+                  total:
+                    type: integer
+    post:
+      summary: Crear proyecto
+      tags: [Projects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProject"
+      responses:
+        "201":
+          description: Proyecto creado
+        "400":
+          description: Validación falló
+
+  /api/projects/{id}:
+    get:
+      summary: Obtener proyecto por ID
+      tags: [Projects]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Proyecto encontrado
+        "404":
+          description: No encontrado
+
+  /api/clients:
+    get:
+      summary: Listar clientes
+      tags: [Clients]
+      responses:
+        "200":
+          description: Lista de clientes
+    post:
+      summary: Crear cliente
+      tags: [Clients]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClient"
+      responses:
+        "201":
+          description: Cliente creado
+
+components:
+  schemas:
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+          example: 1.0.0
+        uptime:
+          type: number
+        services:
+          type: object
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        client:
+          type: string
+        status:
+          type: string
+          enum: [pending, active, completed]
+        deadline:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateProject:
+      type: object
+      required: [name, client]
+      properties:
+        name:
+          type: string
+        client:
+          type: string
+        status:
+          type: string
+        deadline:
+          type: string
+
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        company:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    CreateClient:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        company:
+          type: string

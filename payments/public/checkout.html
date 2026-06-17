@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Dreamscape</title>
+  <link rel="stylesheet" href="https://oscarlugocar-lang.github.io/Dreamstartup/assets/css/style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">DREAMSCAPE</a>
+  <div class="nav-links">
+    <a href="index.html">Inicio</a>
+    <a href="servicios.html">Servicios</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="precios.html">Precios</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</nav>
+
+<section class="page-header">
+  <h1>Completa tu Suscripción</h1>
+  <p>Serás redirigido a Stripe para el pago seguro.</p>
+</section>
+
+<section style="text-align:center;padding:4rem 2rem">
+  <div id="loading" style="font-size:1.2rem;color:var(--text-secondary)">Preparando checkout...</div>
+  <div id="error" style="display:none;color:var(--red);font-size:1.1rem"></div>
+  <button id="checkout-btn" style="display:none" class="btn btn-primary">Ir a pagar</button>
+</section>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const plan = params.get('plan') || 'professional';
+const prices = { basic: 'price_basic', professional: 'price_professional' };
+const priceId = prices[plan];
+
+document.getElementById('checkout-btn').addEventListener('click', async () => {
+  try {
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId, successUrl: window.location.origin + '/success.html', cancelUrl: window.location.origin + '/precios.html' })
+    });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
+    else throw new Error('No URL received');
+  } catch (e) {
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('error').textContent = 'Error: ' + e.message;
+    document.getElementById('loading').style.display = 'none';
+  }
+});
+
+document.getElementById('loading').style.display = 'none';
+document.getElementById('checkout-btn').style.display = 'inline-flex';
+</script>
+</body>
+</html>

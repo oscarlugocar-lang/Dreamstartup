@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dreamscape — Producto</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: linear-gradient(135deg, #0a0a0f, #1a1a2e); color: #f8fafc; overflow: hidden; }
+    .scene {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 4rem;
+      text-align: center;
+    }
+    .plan-tag {
+      padding: 0.35rem 1.25rem;
+      background: rgba(6,182,212,0.15);
+      border: 1px solid #06b6d4;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #06b6d4;
+      margin-bottom: 1rem;
+    }
+    h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .price { font-size: 4rem; font-weight: 800; background: linear-gradient(135deg, #8b5cf6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.25rem; }
+    .price span { font-size: 1.25rem; color: #94a3b8; }
+    .features { display: flex; gap: 2rem; margin-top: 2rem; }
+    .feature { text-align: center; }
+    .feature .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .feature .label { font-size: 0.9rem; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="plan-tag">MÁS POPULAR</div>
+    <h1>Plan Profesional</h1>
+    <div class="price">€799<span>/mes</span></div>
+    <div class="features">
+      <div class="feature"><div class="icon">🎬</div><div class="label">200h/mes</div></div>
+      <div class="feature"><div class="icon">🤖</div><div class="label">IA Avanzada</div></div>
+      <div class="feature"><div class="icon">🎨</div><div class="label">Color Premium</div></div>
+    </div>
+  </div>
+</body>
+</html>

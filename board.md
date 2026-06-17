@@ -1,6 +1,6 @@
 # Dreamscape — Board de Proyectos
 
-> Última actualización: 2026-06-16
+> Última actualización: 2026-06-17
 
 ## Leads
 | Fecha | Cliente | Servicio | Presupuesto | Estado |
@@ -17,7 +17,10 @@
 ## Propuestas
 | Fecha | Cliente | Plan | Valor | Estado |
 |-------|---------|------|-------|--------|
-| 2026-06-09 | Upwork — Reel Editor (12 reels) | Básico (por proyecto) | $400 | Borrador listo para aplicar |
+| 2026-06-17 | PPH — Brand ropa (foto+video) | Personalizado | $696 | Lista para enviar |
+| 2026-06-17 | Upwork — SaaS Demo Video | Hourly ($25/hr) | — | Lista para enviar |
+| 2026-06-17 | Upwork — Viral Shorts Editor | Prueba | $20 | Lista para enviar |
+| 2026-06-09 | Upwork — Reel Editor (12 reels) | Básico (por proyecto) | $400 | Lista para enviar |
 
 ## Plan 15 Días — Progreso
 | Día | Área | Estado | Fecha |
@@ -44,7 +47,9 @@
 | Métrica | Valor |
 |---------|-------|
 | Leads nuevos | 8 |
-| Propuestas enviadas | 1 (borrador) |
+| Propuestas listas | 4 (lista para enviar) |
 | Clientes cerrados | 0 |
-| Ingresos estimados | €0 |
+| Valor total propuestas | $1,116+ |
 | Videos entregados | 0 |
+| CVs VA creados | 2 (asistente-virtual + oscar-lugo) |
+| Plantillas VA | 3 (Upwork perfil, propuesta, cold email) |

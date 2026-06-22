@@ -17,13 +17,18 @@
 
 | Plataforma | Cliente | Proyecto | Presupuesto |
 |------------|---------|----------|-------------|
-| Upwork | Creator PAK | YouTube Video Editor | $100 fixed |
 | Upwork | Brand (sin nombre) | Video Editing Post-Production | Hourly |
 | Upwork | Brand (sin nombre) | Video Editor 9:16 Format | $100 fixed |
 | PeoplePerHour | Creator | Looking for video editor | $100/semana |
 | PeoplePerHour | Creator | Video editing only | $135 fixed |
-| Freelancer | NLP Coach Portugal | Retreat Footage → Reels | $75 avg |
-| Freelancer | Boxing Championship Suiza | Promo video evento | $75 avg |
+
+## ✅ Propuestas Creadas Hoy
+
+| Fecha | Cliente | Plataforma | Valor | Archivo |
+|-------|---------|------------|-------|---------|
+| 2026-06-22 | Creator PAK | Upwork | $100 | [ver](2026-06-22-upwork-creator-pak-propuesta.md) |
+| 2026-06-22 | NLP Coach Portugal | Freelancer | $75 | [ver](2026-06-22-freelancer-nlp-coach-propuesta.md) |
+| 2026-06-22 | Boxing Championship Suiza | Freelancer | $75 | [ver](2026-06-22-freelancer-boxing-champ-propuesta.md) |
 
 ## 📬 Historial de Envíos
 

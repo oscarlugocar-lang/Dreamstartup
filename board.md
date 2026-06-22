@@ -116,8 +116,14 @@
 | Dashboard pipeline | ✅ Sección en dashboard con enlaces |
 
 ## Envío de Propuestas
-1. Brand ropa — PeoplePerHour ($696) → copiar [propuesta](proposals/2026-06-17-pph-brand-ropa-propuesta.md)
-2. SaaS Demo — Upwork ($25/hr) → copiar [propuesta](proposals/2026-06-17-upwork-saas-demo-propuesta.md)
-3. Reel Editor — Upwork ($400) → copiar [propuesta](proposals/2026-06-09-upwork-reel-editor-propuesta.md)
-4. True Crime — Upwork ($200) → copiar [propuesta](proposals/2026-06-17-upwork-true-crime-propuesta.md)
-5. Viral Shorts — Upwork ($20) → copiar [propuesta](proposals/2026-06-17-upwork-viral-shorts-propuesta.md)
+### Prioritarias (5 existentes)
+1. Brand ropa — PeoplePerHour ($696) → [propuesta](proposals/2026-06-17-pph-brand-ropa-propuesta.md)
+2. SaaS Demo — Upwork ($25/hr) → [propuesta](proposals/2026-06-17-upwork-saas-demo-propuesta.md)
+3. Reel Editor — Upwork ($400) → [propuesta](proposals/2026-06-09-upwork-reel-editor-propuesta.md)
+4. True Crime — Upwork ($200) → [propuesta](proposals/2026-06-17-upwork-true-crime-propuesta.md)
+5. Viral Shorts — Upwork ($20) → [propuesta](proposals/2026-06-17-upwork-viral-shorts-propuesta.md)
+
+### Nuevas (3 creadas hoy)
+6. Creator PAK — Upwork ($100) → [propuesta](proposals/2026-06-22-upwork-creator-pak-propuesta.md)
+7. NLP Coach Portugal — Freelancer ($75) → [propuesta](proposals/2026-06-22-freelancer-nlp-coach-propuesta.md)
+8. Boxing Championship Suiza — Freelancer ($75) → [propuesta](proposals/2026-06-22-freelancer-boxing-champ-propuesta.md)

@@ -81,6 +81,8 @@
 | DB produccion | Railway PostgreSQL (reseau.proxy.rlwy.net) |
 | API URL | https://dreamstartup-production.up.railway.app |
 | Dashboard API | Apunta a Railway por defecto (con fallback local) |
+| Video pipeline | HyperFrames v0.7.0 · Chrome + FFmpeg · render 15s en 34s |
+| Intro showreel | `dreamscape-video/` — 4 escenas, logo+tagline+servicios+CTA |
 
 ## Deploy a Producción
 | Archivo | Propósito |
@@ -96,6 +98,17 @@
 3. Agregar variable `DATABASE_URL=file:./data/prod.db` (persistente)
 4. Agregar volume persistente montado en `/app/data/`
 5. El `Dockerfile` + `railway.json` se detectan automáticamente
+
+## Pipeline de Video (HyperFrames)
+| Componente | Estado |
+|------------|--------|
+| HyperFrames CLI | ✅ v0.7.0 instalado |
+| FFmpeg | ✅ 8.1.1 |
+| Chrome headless | ✅ cacheado |
+| Intro showreel (15s) | ✅ renderizado — 4 escenas con GSAP |
+| Flujo: HTML → lint → validate → inspect → render | ✅ probado |
+| Próximo: TTS + BGM + voz en off | ⏳ Pendiente |
+| Próximo: Catálogo de plantillas para clientes | ⏳ Pendiente |
 
 ## Envío de Propuestas
 1. Brand ropa — PeoplePerHour ($696) → copiar [propuesta](proposals/2026-06-17-pph-brand-ropa-propuesta.md)

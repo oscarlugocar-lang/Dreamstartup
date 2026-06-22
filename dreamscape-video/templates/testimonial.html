@@ -1,0 +1,39 @@
+<template>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .tt-root { width:1920px; height:1080px; overflow:hidden; background:#0a0a0f; position:relative; font-family:system-ui,sans-serif; display:flex; align-items:center; justify-content:center; padding:0 200px; }
+    .tt-quote { font-size:28px; font-weight:300; color:#94a3b8; text-align:center; line-height:1.6; font-style:italic; }
+    .tt-author { font-size:20px; font-weight:600; color:#fff; margin-top:40px; }
+    .tt-role { font-size:16px; font-weight:300; color:#64748b; margin-top:4px; }
+    .tt-stars { font-size:32px; margin-bottom:30px; color:#f59e0b; letter-spacing:6px; }
+  </style>
+  <div id="root" class="tt-root" data-composition-id="testimonial" data-start="0" data-duration="8" data-width="1920" data-height="1080" data-composition-variables='[{"id":"quote","type":"string","default":"Great work, exceeded expectations"},{"id":"author","type":"string","default":"Client Name"},{"id":"role","type":"string","default":"CEO, Company"},{"id":"stars","type":"number","default":"5"}]'>
+
+    <div id="tt-bg" style="position:absolute;inset:0;background:radial-gradient(ellipse at center,#1a1a2e 0%,#0a0a0f 70%)"></div>
+
+    <div id="tt-content" class="clip" data-start="0" data-duration="8" data-track-index="1" style="position:relative;z-index:1;text-align:center;opacity:0">
+      <div id="tt-stars" class="tt-stars">★★★★★</div>
+      <div id="tt-quote" class="tt-quote">"Great work, exceeded expectations"</div>
+      <div id="tt-line" style="width:0;height:2px;background:linear-gradient(90deg,transparent,#8b5cf6,transparent);margin:30px auto"></div>
+      <div id="tt-author" class="tt-author">Client Name</div>
+      <div id="tt-role" class="tt-role">CEO, Company</div>
+    </div>
+
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    const v = window.__hyperframes?.getVariables?.() || {};
+    document.getElementById("tt-quote").textContent = '"' + (v.quote || "Great work, exceeded expectations") + '"';
+    document.getElementById("tt-author").textContent = v.author || "Client Name";
+    document.getElementById("tt-role").textContent = v.role || "CEO, Company";
+    const stars = Math.min(5, Math.max(1, parseInt(v.stars) || 5));
+    document.getElementById("tt-stars").textContent = "★".repeat(stars) + "☆".repeat(5 - stars);
+
+    tl.fromTo("#tt-content", { opacity: 0, y: 40, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out" }, 0.3);
+    tl.to("#tt-line", { width: 100, duration: 0.8, ease: "power2.out" }, 1.8);
+    tl.fromTo("#tt-content", { opacity: 1 }, { opacity: 0, duration: 0.8 }, 6.5);
+    window.__timelines["testimonial"] = tl;
+  </script>
+</template>

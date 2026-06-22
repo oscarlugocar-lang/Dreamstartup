@@ -1,0 +1,42 @@
+<template>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .pd-root { width:1920px; height:1080px; overflow:hidden; background:linear-gradient(135deg,#0a0a0f 0%,#1a1a2e 100%); position:relative; font-family:system-ui,sans-serif; }
+    .pd-card { width:300px; height:300px; border-radius:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; }
+    .pd-icon { font-size:48px; font-weight:800; margin-bottom:8px; }
+    .pd-label { font-size:22px; font-weight:600; color:#fff; }
+  </style>
+  <div id="root" class="pd-root" data-composition-id="product-demo" data-start="0" data-duration="10" data-width="1920" data-height="1080" data-composition-variables='[{"id":"productName","type":"string","default":"Our Product"},{"id":"tagline","type":"string","default":"Built for growth"},{"id":"feature1","type":"string","default":"Fast"},{"id":"feature2","type":"string","default":"Secure"},{"id":"feature3","type":"string","default":"Scalable"}]'>
+
+    <div id="pd-hero" class="clip" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 200px">
+      <div id="pd-name" style="font-size:72px;font-weight:800;color:#fff;letter-spacing:4px;text-align:center;opacity:0">Product</div>
+      <div id="pd-tag" style="font-size:24px;font-weight:300;color:#8b5cf6;margin-top:16px;opacity:0;letter-spacing:2px">Tagline</div>
+      <div id="pd-line" style="width:0;height:2px;background:linear-gradient(90deg,transparent,#8b5cf6,transparent);margin-top:24px"></div>
+    </div>
+
+    <div id="pd-features" class="clip" data-start="5" data-duration="5" data-track-index="1" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:40px;padding:0 160px">
+      <div class="pd-card" style="border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.06)"><div class="pd-icon" style="color:#8b5cf6">01</div><div class="pd-label" id="f1">Fast</div></div>
+      <div class="pd-card" style="border:1px solid rgba(6,182,212,0.3);background:rgba(6,182,212,0.06)"><div class="pd-icon" style="color:#06b6d4">02</div><div class="pd-label" id="f2">Secure</div></div>
+      <div class="pd-card" style="border:1px solid rgba(34,197,94,0.3);background:rgba(34,197,94,0.06)"><div class="pd-icon" style="color:#22c55e">03</div><div class="pd-label" id="f3">Scalable</div></div>
+    </div>
+
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    const v = window.__hyperframes?.getVariables?.() || {};
+    document.getElementById("pd-name").textContent = v.productName || "Our Product";
+    document.getElementById("pd-tag").textContent = v.tagline || "Built for growth";
+    document.getElementById("f1").textContent = v.feature1 || "Fast";
+    document.getElementById("f2").textContent = v.feature2 || "Secure";
+    document.getElementById("f3").textContent = v.feature3 || "Scalable";
+
+    tl.fromTo("#pd-name", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, 0.3);
+    tl.fromTo("#pd-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 1.2);
+    tl.to("#pd-line", { width: 120, duration: 0.8, ease: "power2.out" }, 1.8);
+    tl.to("#pd-hero", { opacity: 0, duration: 0.5 }, 4.2);
+    tl.fromTo(".pd-card", { opacity: 0, y: 40, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.15, ease: "power3.out" }, 5.3);
+    window.__timelines["product-demo"] = tl;
+  </script>
+</template>

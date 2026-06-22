@@ -83,6 +83,10 @@
 | Dashboard API | Apunta a Railway por defecto (con fallback local) |
 | Video pipeline | HyperFrames v0.7.0 · Chrome + FFmpeg · render 15s en 34s |
 | Intro showreel | `dreamscape-video/` — 4 escenas, logo+tagline+servicios+CTA |
+| TTS | ✅ PowerShell SAPI (Helena Desktop ES) · 13.4s · WAV |
+| BGM | ✅ FFmpeg ambient drone · 15s · C minor chord + pink noise |
+| Plantillas | 3: product-demo, testimonial, social-reel (variables) |
+| Dashboard pipeline | ✅ Sección Video Pipeline con templates + render |
 
 ## Deploy a Producción
 | Archivo | Propósito |
@@ -106,9 +110,10 @@
 | FFmpeg | ✅ 8.1.1 |
 | Chrome headless | ✅ cacheado |
 | Intro showreel (15s) | ✅ renderizado — 4 escenas con GSAP |
+| TTS + BGM | ✅ Voz en off (Helena ES) + música ambiente |
 | Flujo: HTML → lint → validate → inspect → render | ✅ probado |
-| Próximo: TTS + BGM + voz en off | ⏳ Pendiente |
-| Próximo: Catálogo de plantillas para clientes | ⏳ Pendiente |
+| Plantillas variables | 3 templates con data-composition-variables |
+| Dashboard pipeline | ✅ Sección en dashboard con enlaces |
 
 ## Envío de Propuestas
 1. Brand ropa — PeoplePerHour ($696) → copiar [propuesta](proposals/2026-06-17-pph-brand-ropa-propuesta.md)

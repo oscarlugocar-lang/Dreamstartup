@@ -78,7 +78,9 @@
 | API status | Express :3001 · Prisma + SQLite · CORS habilitado |
 | Dashboard | Conectado a API con fallback a datos locales |
 | Deploy API | Dockerfile + Procfile + railway.json listos |
-| DB produccion | SQLite con volumen persistente (Railway) |
+| DB produccion | Railway PostgreSQL (reseau.proxy.rlwy.net) |
+| API URL | https://dreamstartup-production.up.railway.app |
+| Dashboard API | Apunta a Railway por defecto (con fallback local) |
 
 ## Deploy a Producción
 | Archivo | Propósito |

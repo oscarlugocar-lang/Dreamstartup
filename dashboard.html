@@ -134,7 +134,7 @@
   </div>
 
   <script>
-    const API_BASE = 'http://localhost:3001/api';
+    const API_BASE = localStorage.getItem('dreamscape_api') || 'http://localhost:3001/api';
     const DISPATCH_KEY = 'dreamscape_dispatch';
     let apiConnected = false;
 
@@ -216,6 +216,10 @@
       saveDispatch(d);
       renderDispatch();
       renderDashboard();
+    }
+
+    function currentApiUrl() {
+      return localStorage.getItem('dreamscape_api') || 'http://localhost:3001/api';
     }
 
     async function renderDashboard() {

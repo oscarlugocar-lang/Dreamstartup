@@ -15,11 +15,12 @@ const LEADS = [
 async function main() {
   console.log('Seeding leads...');
   for (const lead of LEADS) {
-    await prisma.client.upsert({
-      where: { id: lead.name },
-      create: lead,
-      update: {},
-    });
+    const existing = await prisma.client.findFirst({ where: { name: lead.name } });
+    if (existing) {
+      await prisma.client.update({ where: { id: existing.id }, data: lead });
+    } else {
+      await prisma.client.create({ data: lead });
+    }
   }
   console.log(`Seeded ${LEADS.length} leads`);
 }

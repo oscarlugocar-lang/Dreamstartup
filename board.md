@@ -145,7 +145,7 @@
 |------------|---------|
 | Landing pública | `landing-va.html` — landing profesional completa con hero, servicios, about, pricing, testimonios, FAQ, CTA |
 | URL interna | `va-service.html` — versión simple interna |
-| Planes | Esencial ($149/mes · 8h/sem), Profesional ($349/mes · 15h/sem), Completo ($599/mes · 25h/sem) |
+| Planes | Básico ($79/mes · 5h/sem), Estándar ($149/mes · 10h/sem), Completo ($299/mes · 20h/sem) |
 | Servicios | Email & Calendar, Notion CRM, Social Media, Coordinación equipos, Redacción/Traducción, Research & Leads |
 | CV | `cv-asistente-virtual.html` — Oscar Lugo, 6+ años, 50+ clientes, B2 inglés |
 | Templates | `va-cold-email-template.md` + `va-proposal-template.md` para outreach en Upwork/PPH |

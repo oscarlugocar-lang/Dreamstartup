@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oscar Lugo — Asistente Virtual Bilingüe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg: #f8fafc; --bg2: #ffffff; --bg3: #f1f5f9;
+      --text: #0f172a; --text2: #475569; --muted: #94a3b8;
+      --accent: #2563eb; --accent2: #7c3aed; --green: #059669;
+      --border: #e2e8f0;
+    }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .container { max-width:1100px; margin:0 auto; padding:0 24px; }
+
+    .nav { display:flex; align-items:center; justify-content:space-between; padding:16px 32px; background:var(--bg2); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+    .nav-brand { font-size:18px; font-weight:800; color:var(--accent); }
+    .nav-links { display:flex; gap:24px; align-items:center; }
+    .nav-links a { color:var(--text2); text-decoration:none; font-size:14px; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--accent); }
+    .nav-cta { background:var(--accent); color:#fff !important; padding:8px 20px; border-radius:8px; font-weight:600; }
+    .nav-cta:hover { background:#1d4ed8; }
+
+    .hero { padding:100px 24px 80px; text-align:center; position:relative; overflow:hidden; }
+    .hero-bg { position:absolute; inset:0; background:linear-gradient(135deg,#eff6ff 0%,#f5f3ff 50%,#f0fdf4 100%); z-index:0; }
+    .hero-content { position:relative; z-index:1; max-width:800px; margin:0 auto; }
+    .hero-badge { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid var(--border); padding:6px 16px; border-radius:100px; font-size:13px; font-weight:600; color:var(--accent); margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+    .hero h1 { font-size:56px; font-weight:900; letter-spacing:-2px; line-height:1.05; margin-bottom:20px; }
+    .hero h1 span { background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero p { font-size:18px; color:var(--text2); max-width:600px; margin:0 auto 32px; line-height:1.7; }
+    .hero-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 32px; border-radius:10px; font-size:15px; font-weight:600; text-decoration:none; border:none; cursor:pointer; transition:all .2s; }
+    .btn-primary { background:var(--accent); color:#fff; box-shadow:0 4px 14px rgba(37,99,235,.3); }
+    .btn-primary:hover { background:#1d4ed8; transform:translateY(-1px); }
+    .btn-secondary { background:var(--bg2); color:var(--text); border:1px solid var(--border); }
+    .btn-secondary:hover { border-color:var(--accent); }
+    .hero-stats { display:flex; gap:48px; justify-content:center; margin-top:48px; }
+    .hero-stat { text-align:center; }
+    .hero-stat .num { font-size:32px; font-weight:900; color:var(--accent); }
+    .hero-stat .lbl { font-size:13px; color:var(--muted); margin-top:2px; }
+
+    section { padding:80px 0; }
+    .s-header { text-align:center; margin-bottom:48px; }
+    .s-header h2 { font-size:36px; font-weight:800; letter-spacing:-1px; margin-bottom:12px; }
+    .s-header p { color:var(--text2); font-size:16px; max-width:520px; margin:0 auto; }
+    .tag { display:inline-block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); margin-bottom:8px; }
+
+    .services { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .s-card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all .2s; }
+    .s-card:hover { border-color:var(--accent); box-shadow:0 8px 30px rgba(0,0,0,.06); transform:translateY(-2px); }
+    .s-icon { width:48px; height:48px; background:#eff6ff; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:16px; }
+    .s-card h3 { font-size:16px; font-weight:700; margin-bottom:6px; }
+    .s-card p { font-size:13px; color:var(--text2); line-height:1.6; }
+
+    .about { display:grid; grid-template-columns:240px 1fr; gap:40px; align-items:start; background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:40px; }
+    .about-avatar { width:240px; height:240px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:72px; font-weight:900; color:#fff; }
+    .about h3 { font-size:24px; font-weight:800; margin-bottom:4px; }
+    .about .role { color:var(--accent); font-weight:600; font-size:14px; margin-bottom:16px; }
+    .about p { color:var(--text2); font-size:14px; margin-bottom:12px; line-height:1.7; }
+    .about-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+    .about-tags span { background:var(--bg3); border:1px solid var(--border); padding:4px 12px; border-radius:6px; font-size:12px; color:var(--text2); font-weight:500; }
+
+    .pricing { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:start; }
+    .p-card { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:36px 28px; position:relative; }
+    .p-card.featured { border-color:var(--accent); box-shadow:0 8px 32px rgba(37,99,235,.12); }
+    .p-card.featured::after { content:'Más Popular'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--accent); color:#fff; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:4px 16px; border-radius:100px; }
+    .p-name { font-size:18px; font-weight:700; margin-bottom:2px; }
+    .p-sub { font-size:13px; color:var(--muted); margin-bottom:16px; }
+    .p-price { margin-bottom:20px; }
+    .p-price .amt { font-size:44px; font-weight:900; }
+    .p-price .per { font-size:15px; color:var(--text2); font-weight:400; }
+    .p-features { list-style:none; margin-bottom:24px; }
+    .p-features li { font-size:14px; padding:10px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+    .p-features li:last-child { border-bottom:none; }
+    .p-features li::before { content:'✓'; color:var(--green); font-weight:700; font-size:16px; }
+    .p-features li.na { color:var(--muted); }
+    .p-features li.na::before { content:'✗'; color:var(--muted); }
+    .p-card .btn { width:100%; justify-content:center; }
+
+    .testimonials { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+    .t-card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:28px; }
+    .t-stars { color:#f59e0b; font-size:16px; margin-bottom:10px; }
+    .t-text { font-size:14px; color:var(--text2); line-height:1.7; margin-bottom:16px; font-style:italic; }
+    .t-author { display:flex; align-items:center; gap:12px; }
+    .t-avatar { width:40px; height:40px; border-radius:50%; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:var(--accent); }
+    .t-name { font-size:14px; font-weight:600; }
+    .t-role { font-size:12px; color:var(--muted); }
+
+    .process { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; counter-reset:step; }
+    .step { text-align:center; position:relative; }
+    .step:not(:last-child)::after { content:'→'; position:absolute; right:-16px; top:32px; font-size:24px; color:var(--muted); }
+    .step-num { width:56px; height:56px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:22px; font-weight:800; color:#fff; }
+    .step h4 { font-size:15px; font-weight:700; margin-bottom:4px; }
+    .step p { font-size:13px; color:var(--text2); }
+
+    .faq { max-width:700px; margin:0 auto; }
+    .faq-item { border-bottom:1px solid var(--border); padding:18px 0; }
+    .faq-q { font-size:15px; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; user-select:none; }
+    .faq-q::after { content:'+'; font-size:20px; color:var(--muted); transition:transform .2s; }
+    .faq-q.open::after { content:'−'; }
+    .faq-a { font-size:14px; color:var(--text2); line-height:1.7; margin-top:12px; display:none; }
+    .faq-a.open { display:block; }
+
+    .cta-section { background:linear-gradient(135deg,#eff6ff,#f5f3ff); border-radius:24px; padding:80px 40px; text-align:center; margin:0 24px; }
+    .cta-section h2 { font-size:36px; font-weight:800; margin-bottom:12px; }
+    .cta-section p { color:var(--text2); max-width:480px; margin:0 auto 24px; font-size:16px; }
+    .cta-flex { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+    .footer { text-align:center; padding:40px 24px; border-top:1px solid var(--border); margin-top:80px; }
+    .footer-links { display:flex; justify-content:center; gap:20px; margin-bottom:12px; flex-wrap:wrap; }
+    .footer-links a { color:var(--text2); text-decoration:none; font-size:13px; }
+    .footer-links a:hover { color:var(--accent); }
+    .footer p { font-size:12px; color:var(--muted); }
+
+    @media (max-width:900px) {
+      .services { grid-template-columns:repeat(2,1fr); }
+      .pricing { grid-template-columns:1fr; max-width:400px; margin:0 auto; }
+      .about { grid-template-columns:1fr; text-align:center; }
+      .about-avatar { margin:0 auto; }
+      .hero-stats { gap:24px; flex-wrap:wrap; }
+      .process { grid-template-columns:repeat(2,1fr); }
+      .process .step:nth-child(2)::after { display:none; }
+    }
+    @media (max-width:600px) {
+      .services { grid-template-columns:1fr; }
+      .testimonials { grid-template-columns:1fr; }
+      .process { grid-template-columns:1fr; }
+      .process .step::after { display:none; }
+      .hero h1 { font-size:36px; }
+      .hero-stats { flex-direction:column; gap:16px; }
+      .nav-links a:not(.nav-cta) { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-brand">OSCAR LUGO</div>
+    <div class="nav-links">
+      <a href="#services">Servicios</a>
+      <a href="#about">Sobre mí</a>
+      <a href="#pricing">Planes</a>
+      <a href="#faq">FAQ</a>
+      <a href="cv-asistente-virtual.html">CV</a>
+      <a href="#contact" class="nav-cta">Contratar</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ Experto en productividad · Bilingüe EN/ES</div>
+      <h1>Deja las tareas operativas.<br><span>Yo las gestiono por ti.</span></h1>
+      <p>Soy Oscar Lugo, Asistente Virtual bilingüe con 6+ años de experiencia. Ayudo a emprendedores y agencias a recuperar su tiempo mientras yo me encargo de la operación del día a día.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">📅 Agendar llamada gratis</a>
+        <a href="#services" class="btn btn-secondary">Ver servicios</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">6+</div><div class="lbl">Años de experiencia</div></div>
+        <div class="hero-stat"><div class="num">50+</div><div class="lbl">Clientes gestionados</div></div>
+        <div class="hero-stat"><div class="num">4</div><div class="lbl">Canales coordinados</div></div>
+        <div class="hero-stat"><div class="num">B2</div><div class="lbl">Inglés avanzado</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section id="services">
+      <div class="s-header">
+        <div class="tag">Servicios</div>
+        <h2>¿En qué puedo ayudarte?</h2>
+        <p>Servicios diseñados para liberar tu carga operativa y que te enfoques en crecer</p>
+      </div>
+      <div class="services">
+        <div class="s-card">
+          <div class="s-icon">📧</div>
+          <h3>Email & Calendar Management</h3>
+          <p>Gestión completa de tu bandeja de entrada: filtrado, respuestas, organización por prioridades. Coordino reuniones y optimizo tu agenda semanal.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon">📊</div>
+          <h3>Notion & CRM</h3>
+          <p>Construyo y administro bases de datos de clientes, pipelines de ventas, tracking de proyectos y automatizaciones para mantener tu negocio organizado.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon">📱</div>
+          <h3>Social Media Management</h3>
+          <p>Programación estratégica de contenido, gestión de comunidad, análisis de métricas y reporting semanal con recomendaciones accionables.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon">👥</div>
+          <h3>Coordinación de Equipos</h3>
+          <p>Briefings claros, asignación de tareas, seguimiento de deadlines, comunicación con freelancers y reportes de progreso para mantener a todos alineados.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon">✍️</div>
+          <h3>Redacción & Traducción</h3>
+          <p>Corrección de textos profesionales, traducciones inglés-español, redacción de correos, propuestas, documentos y contenido para redes.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon">🔍</div>
+          <h3>Research & Prospección</h3>
+          <p>Investigación de mercado, identificación de leads calificados, bases de datos de contactos B2B y análisis de competencia para impulsar tu growth.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="s-header">
+        <div class="tag">Sobre mí</div>
+        <h2>Conoce a tu asistente</h2>
+      </div>
+      <div class="about">
+        <div class="about-avatar">OL</div>
+        <div>
+          <h3>Oscar Lugo</h3>
+          <div class="role">Asistente Virtual &amp; Project Coordinator</div>
+          <p>Fundé <strong>Dreamscape Productions</strong> hace 3 años, donde he liderado equipos creativos, gestionado decenas de clientes internacionales y construido sistemas operativos desde cero. Antes de eso, trabajé como coordinador de contenido y social media durante 4 años en empresas de tecnología y educación.</p>
+          <p>Mi superpoder: convertir el caos en orden. Si tienes una bandeja de entrada con 500 correos, un Notion vacío, o una lista interminable de tareas, yo sé exactamente por dónde empezar.</p>
+          <p>Bilingüe (inglés B2+), trabajo remoto desde LATAM en husos horarios US. Disponible 10-40h/semana según el plan.</p>
+          <div class="about-tags">
+            <span>Notion Certified</span>
+            <span>Google Workspace</span>
+            <span>Meta Ads</span>
+            <span>Slack &amp; Asana</span>
+            <span>Canva Pro</span>
+            <span>CRM</span>
+          </div>
+          <div style="margin-top:16px">
+            <a href="cv-asistente-virtual.html" class="btn btn-secondary" style="font-size:13px;padding:10px 20px">📄 Ver CV completo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="s-header">
+        <div class="tag">Planes</div>
+        <h2>Inversión mensual</h2>
+        <p>Planes flexibles que se adaptan a tu carga de trabajo. Todos incluyen comunicación vía Slack/WhatsApp y reporte semanal.</p>
+      </div>
+      <div class="pricing">
+        <div class="p-card">
+          <div class="p-name">Starter</div>
+          <div class="p-sub">Para emprendedores en solitario</div>
+          <div class="p-price"><span class="amt">$349</span> <span class="per">/ mes</span></div>
+          <ul class="p-features">
+            <li>10 horas por semana</li>
+            <li>Email & calendar management</li>
+            <li>Notion CRM básico</li>
+            <li>Social media scheduling</li>
+            <li>Reporte semanal</li>
+            <li class="na">Coordinación de equipos</li>
+            <li class="na">Traducciones EN/ES</li>
+            <li class="na">Research & leads</li>
+          </ul>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Plan%20Starter%20VA" class="btn btn-secondary">Elegir Starter</a>
+        </div>
+        <div class="p-card featured">
+          <div class="p-name">Professional</div>
+          <div class="p-sub">Para agencias y negocios en crecimiento</div>
+          <div class="p-price"><span class="amt">$699</span> <span class="per">/ mes</span></div>
+          <ul class="p-features">
+            <li>20 horas por semana</li>
+            <li>Email & calendar management</li>
+            <li>Notion CRM avanzado + automatizaciones</li>
+            <li>Social media + analytics</li>
+            <li>Coordinación de equipos</li>
+            <li>Redacción & traducciones</li>
+            <li>Reporte semanal detallado</li>
+            <li class="na">Research & leads</li>
+          </ul>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Plan%20Professional%20VA" class="btn btn-primary">Elegir Professional</a>
+        </div>
+        <div class="p-card">
+          <div class="p-name">Enterprise</div>
+          <div class="p-sub">Para empresas con alto volumen operativo</div>
+          <div class="p-price"><span class="amt">$1,299</span> <span class="per">/ mes</span></div>
+          <ul class="p-features">
+            <li>40 horas por semana (dedicado)</li>
+            <li>Todos los servicios incluidos</li>
+            <li>CRM completo + automatizaciones</li>
+            <li>Social media + ads management</li>
+            <li>Coordinación multicanal</li>
+            <li>Redacción & traducciones ilimitadas</li>
+            <li>Research & prospección de leads</li>
+            <li>Reporte ejecutivo semanal</li>
+          </ul>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Plan%20Enterprise%20VA" class="btn btn-secondary">Elegir Enterprise</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="s-header">
+        <div class="tag">Testimonios</div>
+        <h2>Lo que dicen mis clientes</h2>
+      </div>
+      <div class="testimonials">
+        <div class="t-card">
+          <div class="t-stars">★★★★★</div>
+          <div class="t-text">"Oscar transformó nuestro desorden operativo en un sistema que funciona solo. Ahora tengo tiempo real para enfocarme en crecer el negocio."</div>
+          <div class="t-author">
+            <div class="t-avatar">MR</div>
+            <div><div class="t-name">María Rodríguez</div><div class="t-role">CEO · Creativa Agency</div></div>
+          </div>
+        </div>
+        <div class="t-card">
+          <div class="t-stars">★★★★★</div>
+          <div class="t-text">"Su capacidad para redactar emails profesionales en inglés y coordinar con clientes internacionales nos ahorró horas cada semana. Altamente recomendado."</div>
+          <div class="t-author">
+            <div class="t-avatar">JD</div>
+            <div><div class="t-name">John Davis</div><div class="t-role">Founder · Launchpad Studio</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="s-header">
+        <div class="tag">Proceso</div>
+        <h2>Cómo empezar</h2>
+        <p>En 4 pasos empezamos a trabajar juntos</p>
+      </div>
+      <div class="process">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Llamada de 15 min</h4>
+          <p>Conversamos sobre tu negocio, tus necesidades y definimos el plan ideal.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Onboarding</h4>
+          <p>Accedo a tus herramientas, entiendo tus procesos y configuro todo.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Empiezo a gestionar</h4>
+          <p>Tomo las riendas de las tareas acordadas con reportes de progreso.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h4>Ajustamos y escalamos</h4>
+          <p>Iteramos basado en resultados. Ajustamos horas o servicios según creces.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="s-header">
+        <div class="tag">FAQ</div>
+        <h2>Preguntas frecuentes</h2>
+      </div>
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">¿En qué huso horario trabajas?</div>
+          <div class="faq-a">Trabajo desde LATAM (GMT-5 / Colombia). Estoy disponible en horarios de US mañana y tarde. Si necesitas cobertura en horas específicas, lo coordinamos.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">¿Cómo nos comunicamos?</div>
+          <div class="faq-a">Normalmente por Slack o WhatsApp para el día a día, con reuniones semanales vía Zoom/Google Meet para revisar avances y prioridades.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">¿Puedo cancelar o cambiar de plan cuando quiera?</div>
+          <div class="faq-a">Sí. Los planes son mensuales sin contrato fijo. Puedes subir, bajar o cancelar con 7 días de aviso.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">¿Qué herramientas necesito tener?</div>
+          <div class="faq-a">Con que me des acceso a tu email y herramientas principales (Notion, Slack, Google Workspace), yo configuro el resto. No necesitas comprar nada adicional.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">¿Cómo manejan la confidencialidad?</div>
+          <div class="faq-a">Firmo NDA (acuerdo de confidencialidad) desde el día 1. Toda tu información se maneja con estrictos estándares de seguridad.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="cta-section" id="contact">
+    <h2>¿Listo para delegar?</h2>
+    <p>Agenda una llamada de 15 minutos sin compromiso. Te escucho, entiendo tu situación y te digo si puedo ayudarte.</p>
+    <div class="cta-flex">
+      <a href="mailto:latamdreamscape@gmail.com?subject=Agendar%20llamada%20VA" class="btn btn-primary">📅 Agendar llamada gratis</a>
+      <a href="cv-asistente-virtual.html" class="btn btn-secondary">📄 Ver CV completo</a>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:var(--muted)">✉️ latamdreamscape@gmail.com · 📱 +57 301 182 2651</p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#services">Servicios</a>
+      <a href="#about">Sobre mí</a>
+      <a href="#pricing">Planes</a>
+      <a href="#faq">FAQ</a>
+      <a href="cv-asistente-virtual.html">CV</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <p>© 2026 Oscar Lugo — Asistente Virtual Bilingüe · Hecho en Colombia 🇨🇴</p>
+  </footer>
+</body>
+</html>

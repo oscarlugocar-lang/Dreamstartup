@@ -67,26 +67,28 @@
 | Métrica | Valor |
 |---------|-------|
 | Leads nuevos | 8 |
-| Propuestas listas | 5 |
+| Propuestas listas | 8 |
 | Propuestas enviadas | 0 (dashboard: marcar manual) |
 | Clientes cerrados | 0 |
-| Valor total propuestas | $1,316+ |
+| Valor total propuestas | $1,516+ |
 | Videos entregados | 0 |
 | CVs VA creados | 2 (asistente-virtual + oscar-lugo) |
 | Plantillas VA | 3 (Upwork perfil, propuesta, cold email) |
 | Tests totales | 38 (4 suites: api 28, auth 4, payments 3, ai 3) |
-| API status | Express :3001 · Prisma + SQLite · CORS habilitado |
-| Dashboard | Conectado a API con fallback a datos locales |
-| Deploy API | Dockerfile + Procfile + railway.json listos |
-| DB produccion | Railway PostgreSQL (reseau.proxy.rlwy.net) |
+| API status | Express :3001 · Prisma + Railway PostgreSQL · 6 rutas |
+| Dashboard | Conectado a API con fallback a datos locales + badge conexión |
+| Deploy API | Auto-deploy desde GitHub master → Railway |
+| DB produccion | Railway PostgreSQL (reseau.proxy.rlwy.net:35414) |
 | API URL | https://dreamstartup-production.up.railway.app |
-| Dashboard API | Apunta a Railway por defecto (con fallback local) |
+| Dashboard API | Apunta a Railway por defecto (con fallback local + override) |
 | Video pipeline | HyperFrames v0.7.0 · Chrome + FFmpeg · render 15s en 34s |
 | Intro showreel | `dreamscape-video/` — 4 escenas, logo+tagline+servicios+CTA |
 | TTS | ✅ PowerShell SAPI (Helena Desktop ES) · 13.4s · WAV |
 | BGM | ✅ FFmpeg ambient drone · 15s · C minor chord + pink noise |
-| Plantillas | 3: product-demo, testimonial, social-reel (variables) |
+| Plantillas | **5**: product-demo, testimonial, social-reel, **outro**, **kinetic-typography** |
 | Dashboard pipeline | ✅ Sección Video Pipeline con templates + render |
+| Follow-ups | ✅ Sistema completo: modelo DB + API CRUD + sección dashboard |
+| Portal cliente | ✅ `portal-cliente.html` con proyectos, entregables, progreso |
 
 ## Deploy a Producción
 | Archivo | Propósito |
@@ -97,11 +99,12 @@
 | `.github/workflows/deploy-api.yml` | Auto-deploy en push a master (paths: api/ prisma/ Dockerfile) |
 
 ## Cómo Deployar
-1. Ir a [Railway.app](https://railway.app) → New Project → Deploy from GitHub repo
-2. Conectar repo `oscarlugocar-lang/dreamscape-landing1`
-3. Agregar variable `DATABASE_URL=file:./data/prod.db` (persistente)
-4. Agregar volume persistente montado en `/app/data/`
-5. El `Dockerfile` + `railway.json` se detectan automáticamente
+1. Push a GitHub master → Railway auto-deploy (GitHub Integration)
+2. Railway detecta `Dockerfile` + `railway.json` automáticamente
+3. Variables de entorno se configuran desde Railway dashboard
+4. Railway PostgreSQL está pre-configurado con la DB de producción
+5. Railway CLI v3 usa formato declarativo (`railway.ts`) — no `railway login` tradicional
+6. Para token de GitHub Actions: generar desde Railway dashboard → Settings → Tokens
 
 ## Pipeline de Video (HyperFrames)
 | Componente | Estado |
@@ -112,8 +115,25 @@
 | Intro showreel (15s) | ✅ renderizado — 4 escenas con GSAP |
 | TTS + BGM | ✅ Voz en off (Helena ES) + música ambiente |
 | Flujo: HTML → lint → validate → inspect → render | ✅ probado |
-| Plantillas variables | 3 templates con data-composition-variables |
+| Plantillas variables | **5**: product-demo, testimonial, social-reel, **outro**, **kinetic-typography** |
 | Dashboard pipeline | ✅ Sección en dashboard con enlaces |
+
+## Sistema de Follow-Up
+| Componente | Detalle |
+|------------|---------|
+| Modelo DB | `FollowUp` en Prisma schema: clientName, platform, proposalFile, sentAt, followUpAt, status, notes |
+| API endpoints | GET `/api/followups` (con computed: daysSinceSent, daysUntilFollowUp, isOverdue, isDueSoon), POST, PATCH |
+| Seed | 3 follow-ups de ejemplo (Brand ropa, SaaS Demo, Reel Editor) |
+| Dashboard | Sección Follow-ups con badge rojo (atrasado), ámbar (pronto), verde (ok) |
+| Persistencia | Railway PostgreSQL — sobrevive cierres de navegador |
+
+## Portal de Cliente
+| Componente | Detalle |
+|------------|---------|
+| URL | `portal-cliente.html` — página independiente |
+| Proyectos | Carga desde API `/api/projects` con status, entregables, deadline |
+| Barra progreso | Visual dinámica según estado (10% pendiente → 100% completado) |
+| Navegación | Enlace desde dashboard + nav interna |
 
 ## Envío de Propuestas
 ### Prioritarias (5 existentes)

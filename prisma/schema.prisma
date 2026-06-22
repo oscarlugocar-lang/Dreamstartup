@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @map("refresh_token")
+  access_token      String? @map("access_token")
+  expires_at        Int?    @map("expires_at")
+  token_type        String? @map("token_type")
+  scope             String?
+  id_token          String? @map("id_token")
+  session_state     String? @map("session_state")
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires      DateTime
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  role          String    @default("user")
+  accounts      Account[]
+  sessions      Session[]
+  projects      Project[]
+  clients       Client[]
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Customer {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  stripeId      String?        @unique @map("stripe_id")
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  @@map("customers")
+}
+
+model Subscription {
+  id             String     @id @default(cuid())
+  customerId     String     @map("customer_id")
+  customer       Customer   @relation(fields: [customerId], references: [id])
+  stripeId       String?    @unique @map("stripe_id")
+  status         String     @default("active")
+  plan           String
+  currentPeriodStart DateTime? @map("current_period_start")
+  currentPeriodEnd   DateTime? @map("current_period_end")
+  invoices          Invoice[]
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  @@map("subscriptions")
+}
+
+model Invoice {
+  id             String       @id @default(cuid())
+  subscriptionId String       @map("subscription_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  stripeId       String?      @unique @map("stripe_id")
+  amount         Int
+  currency       String       @default("eur")
+  status         String       @default("pending")
+  paidAt         DateTime?    @map("paid_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  @@map("invoices")
+}
+
+model Client {
+  id        String    @id @default(cuid())
+  name      String
+  email     String?
+  company   String?
+  phone     String?
+  platform  String?
+  source    String?
+  status    String    @default("lead")
+  budget    String?
+  notes     String?
+  userId    String?   @map("user_id")
+  user      User?     @relation(fields: [userId], references: [id])
+  projects  Project[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("clients")
+}
+
+model Project {
+  id         String   @id @default(cuid())
+  name       String
+  clientId   String   @map("client_id")
+  client     Client   @relation(fields: [clientId], references: [id])
+  userId     String?  @map("user_id")
+  user       User?    @relation(fields: [userId], references: [id])
+  status     String   @default("pending")
+  deadline   DateTime?
+  budget     String?
+  description String?
+  deliverables String?
+  platforms  String?
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("projects")
+}

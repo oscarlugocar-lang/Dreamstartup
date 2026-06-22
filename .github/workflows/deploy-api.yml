@@ -1,0 +1,24 @@
+name: Deploy API
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'api/**'
+      - 'prisma/**'
+      - 'package.json'
+      - 'Dockerfile'
+      - 'railway.json'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        uses: bervProject/railway-deploy@v1.0.1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service_name: dreamscape-api

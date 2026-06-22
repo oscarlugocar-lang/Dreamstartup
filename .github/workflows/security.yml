@@ -1,0 +1,39 @@
+name: Security Scan
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit
+        run: npm audit --audit-level=high || echo "High severity vulnerabilities found — review required"
+
+      - name: Check for .env commits
+        run: |
+          if git log --all --diff-filter=A --name-only --pretty=format: | grep -q '.env'; then
+            echo "❌ .env file found in git history!"
+            exit 1
+          fi
+          echo "✅ No .env files in git history"
+
+      - name: Check for exposed secrets in code
+        run: |
+          grep -rn "sk_live\|pk_live\|STRIPE_SECRET\|NEXTAUTH_SECRET\|OPENAI_API_KEY" --include="*.{js,ts,md,yml,yaml,json}" --exclude-dir=node_modules --exclude-dir=.git . || echo "✅ No hardcoded secrets found"

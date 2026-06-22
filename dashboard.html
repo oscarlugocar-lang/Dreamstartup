@@ -65,6 +65,7 @@
       <div class="sidebar-section">Comercial</div>
       <a href="#leads" class="sidebar-link">👥 Leads</a>
       <a href="#proposals" class="sidebar-link">📁 Propuestas</a>
+      <a href="#proposals" class="sidebar-link">📤 Dispatch</a>
       <a href="board.md" class="sidebar-link">📋 Board</a>
       <div class="sidebar-section" style="margin-top:auto">Sistema</div>
       <a href="contacto.html" class="sidebar-link">📧 Contacto</a>
@@ -115,14 +116,16 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="dispatch">
         <div class="card-header">
-          <span class="card-title">🚀 Acciones Rápidas</span>
+          <span class="card-title">📤 Dispatch Queue</span>
+          <span class="badge badge-violet" id="dispatchPend">5 pendientes</span>
         </div>
-        <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
-          <a href="leads/2026-06-09-upwork-leads.md" class="btn btn-primary btn-sm" style="gap:0.5rem">📋 Leads Upwork</a>
+        <div id="dispatchList"></div>
+        <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+          <a href="proposals/dispatch.md" class="btn btn-primary btn-sm" style="gap:0.5rem">📋 Ver Dispatch Log</a>
+          <a href="leads/2026-06-09-upwork-leads.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📋 Leads Upwork</a>
           <a href="leads/2026-06-09-freelancer-leads.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📋 Leads Freelancer</a>
-          <a href="proposals/2026-06-09-upwork-reel-editor-propuesta.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">✏️ Editar Propuesta</a>
           <a href="va-upwork-profile.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">👤 Perfil Upwork</a>
           <a href="va-cold-email-template.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📧 Cold Email</a>
         </div>
@@ -131,36 +134,116 @@
   </div>
 
   <script>
-    const LEADS = [
+    const API_BASE = 'http://localhost:3001/api';
+    const DISPATCH_KEY = 'dreamscape_dispatch';
+    let apiConnected = false;
+
+    function loadDispatch() { try { return JSON.parse(localStorage.getItem(DISPATCH_KEY)) || {}; } catch(e) { return {}; } }
+    function saveDispatch(d) { localStorage.setItem(DISPATCH_KEY, JSON.stringify(d)); }
+
+    const DISPATCH_QUEUE = [
+      { id:1, prio:"🔴 Alta", cliente:"Brand ropa (foto+video)", plataforma:"PeoplePerHour", valor:"$696", archivo:"proposals/2026-06-17-pph-brand-ropa-propuesta.md" },
+      { id:2, prio:"🔴 Alta", cliente:"Upwork — SaaS Demo Video", plataforma:"Upwork", valor:"$25/hr", archivo:"proposals/2026-06-17-upwork-saas-demo-propuesta.md" },
+      { id:3, prio:"🟡 Media", cliente:"Upwork — Reel Editor (12 reels)", plataforma:"Upwork", valor:"$400", archivo:"proposals/2026-06-09-upwork-reel-editor-propuesta.md" },
+      { id:4, prio:"🟡 Media", cliente:"Upwork — True Crime Docs", plataforma:"Upwork", valor:"$200", archivo:"proposals/2026-06-17-upwork-true-crime-propuesta.md" },
+      { id:5, prio:"🟢 Baja", cliente:"Upwork — Viral Shorts Editor", plataforma:"Upwork", valor:"$20", archivo:"proposals/2026-06-17-upwork-viral-shorts-propuesta.md" },
+    ];
+
+    const LEADS_FALLBACK = [
       {cliente:"Creator LA, US", proyecto:"Viral YouTube Shorts & Ad Video Editor", presupuesto:"$20 fixed", plataforma:"Upwork", estado:"Potencial"},
       {cliente:"Creator PAK", proyecto:"Professional YouTube Video Editor", presupuesto:"$100 fixed", plataforma:"Upwork", estado:"Potencial"},
-      {cliente:"SaaS startup", proyecto:"SaaS Demo Video Editor", presupuesto:"Hourly (1-3 meses)", plataforma:"Upwork", estado:"Potencial"},
+      {cliente:"SaaS startup", proyecto:"SaaS Demo Video Editor", presupuesto:"Hourly", plataforma:"Upwork", estado:"Potencial"},
       {cliente:"Brand (sin nombre)", proyecto:"Vertical / Reel Video Editor (12 reels)", presupuesto:"$400 fixed", plataforma:"Upwork", estado:"Potencial"},
       {cliente:"Brand ropa", proyecto:"Marketing clothing brand (foto+video)", presupuesto:"$696 fixed", plataforma:"PeoplePerHour", estado:"Potencial"},
       {cliente:"Creator", proyecto:"Looking for video editor", presupuesto:"$100/semana", plataforma:"PeoplePerHour", estado:"Potencial"},
       {cliente:"NLP Coach Portugal", proyecto:"Transform Retreat Footage Into Reels", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial"},
       {cliente:"Boxing Championship Suiza", proyecto:"Promo video evento", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial"},
     ];
-    const PROPS = [
-      {cliente:"Upwork — Reel Editor (12 reels)", plan:"Básico (por proyecto)", valor:"$400", estado:"Borrador", archivo:"proposals/2026-06-09-upwork-reel-editor-propuesta.md"},
+    const PROPS_FALLBACK = [
+      {cliente:"PPH — Brand ropa (foto+video)", plan:"Personalizado", valor:"$696", estado:"Lista para enviar", archivo:"proposals/2026-06-17-pph-brand-ropa-propuesta.md"},
+      {cliente:"Upwork — SaaS Demo Video", plan:"Hourly ($25/hr)", valor:"—", estado:"Lista para enviar", archivo:"proposals/2026-06-17-upwork-saas-demo-propuesta.md"},
+      {cliente:"Upwork — Reel Editor (12 reels)", plan:"Básico (por proyecto)", valor:"$400", estado:"Lista para enviar", archivo:"proposals/2026-06-09-upwork-reel-editor-propuesta.md"},
+      {cliente:"Upwork — True Crime Documentaries", plan:"Edición narrativa", valor:"$200", estado:"Lista para enviar", archivo:"proposals/2026-06-17-upwork-true-crime-propuesta.md"},
+      {cliente:"Upwork — Viral Shorts Editor", plan:"Prueba", valor:"$20", estado:"Lista para enviar", archivo:"proposals/2026-06-17-upwork-viral-shorts-propuesta.md"},
     ];
 
-    function renderDashboard() {
-      document.getElementById('lastUpdated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CO');
-      document.getElementById('statLeads').textContent = LEADS.length;
-      document.getElementById('statProps').textContent = PROPS.length;
-      document.getElementById('statClients').textContent = '0';
+    async function apiGet(path) {
+      try {
+        const res = await fetch(API_BASE + path, { signal: AbortSignal.timeout(3000) });
+        if (!res.ok) return null;
+        return await res.json();
+      } catch { return null; }
+    }
 
-      const totalValue = LEADS.reduce((sum, l) => {
-        const num = parseFloat(l.presupuesto.replace(/[^0-9.]/g, ''));
+    async function loadLeads() {
+      const data = await apiGet('/leads');
+      if (data && data.data && data.source !== 'local') {
+        apiConnected = true;
+        return data.data.map(l => ({
+          cliente: l.name, proyecto: l.notes || '', presupuesto: l.budget ? '$' + l.budget : '—', plataforma: l.platform || '—', estado: l.status,
+        }));
+      }
+      apiConnected = false;
+      return LEADS_FALLBACK;
+    }
+
+    function renderDispatch() {
+      const sent = loadDispatch();
+      const el = document.getElementById('dispatchList');
+      const pend = DISPATCH_QUEUE.filter(d => !sent[d.id]).length;
+      document.getElementById('dispatchPend').textContent = pend + ' pendientes';
+      el.innerHTML = DISPATCH_QUEUE.map(d => {
+        const isSent = !!sent[d.id];
+        return `
+          <div class="activity-item" style="cursor:default">
+            <div class="activity-dot" style="background:${isSent?'var(--accent-green)':'var(--accent-orange)'}"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:500">${d.prio} ${d.cliente}</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">${d.plataforma} · ${d.valor}</div>
+            </div>
+            ${isSent
+              ? `<span style="font-size:0.75rem;color:var(--accent-green);font-weight:600">✅ Enviado ${sent[d.id]}</span>`
+              : `<button onclick="markSent(${d.id})" class="btn btn-primary btn-sm" style="gap:0.25rem;padding:4px 12px;font-size:0.75rem">📤 Marcar enviado</button>
+                 <a href="${d.archivo}" target="_blank" class="btn btn-secondary btn-sm" style="padding:4px 12px;font-size:0.75rem">👁 Ver</a>`
+            }
+          </div>`;
+      }).join('');
+    }
+
+    function markSent(id) {
+      const d = loadDispatch();
+      d[id] = new Date().toLocaleDateString('es-CO');
+      saveDispatch(d);
+      renderDispatch();
+      renderDashboard();
+    }
+
+    async function renderDashboard() {
+      const dispatchSent = loadDispatch();
+      const sentCount = Object.keys(dispatchSent).length;
+      document.getElementById('lastUpdated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CO');
+
+      const liveBadge = document.querySelector('.badge-green');
+      if (liveBadge) {
+        liveBadge.textContent = apiConnected ? '● API conectada' : '● Datos locales';
+        liveBadge.style.background = apiConnected ? 'rgba(34,197,94,0.15)' : 'rgba(245,158,11,0.15)';
+        liveBadge.style.color = apiConnected ? 'var(--accent-green)' : 'var(--accent-orange)';
+      }
+
+      const leads = await loadLeads();
+      const totalValue = leads.reduce((sum, l) => {
+        const num = parseFloat(String(l.presupuesto || '0').replace(/[^0-9.]/g, ''));
         return sum + (isNaN(num) ? 0 : num);
       }, 0);
-      document.getElementById('statValue').textContent = '$' + totalValue;
-      document.getElementById('leadsCount').textContent = LEADS.length;
-      document.getElementById('propsCount').textContent = PROPS.length;
 
-      const leadsList = document.getElementById('leadsList');
-      leadsList.innerHTML = LEADS.map(l => `
+      document.getElementById('statLeads').textContent = leads.length;
+      document.getElementById('statProps').textContent = sentCount + '/' + PROPS_FALLBACK.length;
+      document.getElementById('statClients').textContent = apiConnected ? '—' : '0';
+      document.getElementById('statValue').textContent = '$' + totalValue.toFixed(0);
+      document.getElementById('leadsCount').textContent = leads.length;
+      document.getElementById('propsCount').textContent = PROPS_FALLBACK.length;
+
+      document.getElementById('leadsList').innerHTML = leads.map(l => `
         <div class="activity-item" style="cursor:default">
           <div class="activity-dot" style="background:var(--accent-orange)"></div>
           <div style="flex:1">
@@ -171,8 +254,7 @@
         </div>
       `).join('');
 
-      const propsList = document.getElementById('propsList');
-      propsList.innerHTML = PROPS.map(p => `
+      document.getElementById('propsList').innerHTML = PROPS_FALLBACK.map(p => `
         <div class="activity-item" style="cursor:pointer" onclick="window.open('${p.archivo}','_blank')">
           <div class="activity-dot" style="background:var(--accent-violet)"></div>
           <div style="flex:1">
@@ -183,14 +265,18 @@
         </div>
       `).join('');
 
+      const statsData = await apiGet('/leads/stats');
+      const chartLabels = statsData ? Object.keys(statsData.byPlatform) : ['Upwork', 'PeoplePerHour', 'Freelancer'];
+      const chartValues = statsData ? Object.values(statsData.byPlatform) : [520, 796, 150];
+
       new Chart(document.getElementById('revenueChart'), {
         type: 'bar',
         data: {
-          labels: ['Upwork', 'PeoplePerHour', 'Freelancer'],
+          labels: chartLabels,
           datasets: [{
             label: 'Valor potencial ($)',
-            data: [520, 796, 150],
-            backgroundColor: ['#8b5cf6', '#06b6d4', '#22c55e'],
+            data: chartValues,
+            backgroundColor: ['#8b5cf6', '#06b6d4', '#22c55e', '#f59e0b', '#ec4899'],
             borderRadius: 6,
           }]
         },
@@ -215,6 +301,7 @@
     });
 
     renderDashboard();
+    renderDispatch();
   </script>
 </body>
 </html>

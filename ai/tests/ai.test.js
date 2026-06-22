@@ -1,4 +1,23 @@
+jest.mock('openai', () => {
+  const mockCreate = jest.fn().mockResolvedValue({
+    data: [{ embedding: [0.1, 0.2, 0.3] }],
+  });
+  return {
+    OpenAI: jest.fn(() => ({
+      embeddings: { create: mockCreate },
+      chat: {
+        completions: {
+          create: jest.fn().mockResolvedValue({
+            choices: [{ message: { content: 'Mock answer' } }],
+          }),
+        },
+      },
+    })),
+  };
+});
+
 const { RAGService } = require('../rag/rag');
+process.env.OPENAI_API_KEY = 'test-key';
 
 describe('RAG Service', () => {
   let rag;

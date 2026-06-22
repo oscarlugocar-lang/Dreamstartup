@@ -147,6 +147,8 @@
 | CV | `cv-asistente-virtual.html` — Oscar Lugo, 6+ años, 50+ clientes, B2 inglés |
 | Templates | `va-cold-email-template.md` + `va-proposal-template.md` para outreach en Upwork/PPH |
 | Dashboard | Sección dedicada con enlaces a servicio, CV, plantillas y CTA de contratación |
+| Leads VA | `leads/va-leads-2026-06-22.md` — 9 leads clasificados por match (⭐⭐⭐⭐⭐ top) |
+| Propuesta VA | `proposals/2026-06-22-upwork-va-shortform-propuesta.md` — primera propuesta VA lista |
 
 ## Envío de Propuestas
 ### Prioritarias (5 existentes)

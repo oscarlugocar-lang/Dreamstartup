@@ -2,6 +2,8 @@
 
 > Cola de envíos + registro de respuestas
 > Última actualización: 2026-06-22
+>
+> **Nuevo:** Servicio de Asistente Virtual disponible. Leads VA en `../leads/va-leads-2026-06-22.md`
 
 ## 📤 Cola de Envíos (Priorizado)
 
@@ -29,6 +31,20 @@
 | 2026-06-22 | Creator PAK | Upwork | $100 | [ver](2026-06-22-upwork-creator-pak-propuesta.md) |
 | 2026-06-22 | NLP Coach Portugal | Freelancer | $75 | [ver](2026-06-22-freelancer-nlp-coach-propuesta.md) |
 | 2026-06-22 | Boxing Championship Suiza | Freelancer | $75 | [ver](2026-06-22-freelancer-boxing-champ-propuesta.md) |
+
+## 🆕 Leads VA Encontrados
+
+| # | Cliente | Plataforma | Match | Archivo |
+|---|---------|------------|-------|---------|
+| 1 | Short-Form Video Brand — Social Media VA | Upwork | ⭐⭐⭐⭐⭐ | [ver](../leads/va-leads-2026-06-22.md) |
+| 2 | Agency — Social Media VA (reels, Canva) | Upwork | ⭐⭐⭐⭐⭐ | [ver](../leads/va-leads-2026-06-22.md) |
+| 3 | Health Brand — Social Media Assistant | PeoplePerHour | ⭐⭐⭐⭐ | [ver](../leads/va-leads-2026-06-22.md) |
+
+## ✅ Propuesta VA Creada
+
+| Fecha | Cliente | Plataforma | Valor | Archivo |
+|-------|---------|------------|-------|---------|
+| 2026-06-22 | Short-Form Video Brand | Upwork | Hourly | [ver](2026-06-22-upwork-va-shortform-propuesta.md) |
 
 ## 📬 Historial de Envíos
 

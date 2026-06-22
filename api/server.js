@@ -23,6 +23,7 @@ app.use('/api/health', require('./routes/health'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/clients', require('./routes/clients'));
 app.use('/api/leads', require('./routes/leads'));
+app.use('/api/followups', require('./routes/followups'));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

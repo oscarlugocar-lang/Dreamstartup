@@ -157,6 +157,14 @@
         </div>
       </div>
 
+      <div class="card" id="followups-card">
+        <div class="card-header">
+          <span class="card-title">🔔 Follow-ups</span>
+          <span class="badge badge-red" id="followupOverdue">0</span>
+        </div>
+        <div id="followupsList"><div class="activity-item" style="cursor:default"><div style="font-size:0.8rem;color:var(--text-muted);padding:8px 0">Cargando...</div></div></div>
+      </div>
+
       <div class="card" id="dispatch">
         <div class="card-header">
           <span class="card-title">📤 Dispatch Queue</span>
@@ -226,6 +234,33 @@
       }
       apiConnected = false;
       return LEADS_FALLBACK;
+    }
+
+    async function renderFollowups() {
+      const data = await apiGet('/followups');
+      const el = document.getElementById('followupsList');
+      const badge = document.getElementById('followupOverdue');
+      if (!data || !data.data) {
+        el.innerHTML = '<div class="activity-item" style="cursor:default"><div style="font-size:0.8rem;color:var(--text-muted);padding:8px 0">Sin datos de seguimiento</div></div>';
+        if (badge) badge.textContent = '0';
+        return;
+      }
+      const overdue = data.data.filter(f => f.isOverdue);
+      badge.textContent = overdue.length;
+      badge.style.background = overdue.length > 0 ? 'var(--accent-red-bg, rgba(239,68,68,0.15))' : 'rgba(34,197,94,0.15)';
+      badge.style.color = overdue.length > 0 ? 'var(--accent-red, #ef4444)' : 'var(--accent-green)';
+      el.innerHTML = data.data.slice(0, 8).map(f => {
+        const statusColor = f.isOverdue ? 'var(--accent-red, #ef4444)' : f.isDueSoon ? 'var(--accent-orange)' : 'var(--accent-green)';
+        const statusText = f.isOverdue ? '🔴 ' + f.daysUntilFollowUp + 'd atrasado' : f.isDueSoon ? '🟡 Follow-up pronto' : '✅ ' + f.daysSinceSent + 'd env.';
+        return '<div class="activity-item" style="cursor:default">' +
+          '<div class="activity-dot" style="background:' + statusColor + '"></div>' +
+          '<div style="flex:1">' +
+            '<div style="font-size:0.875rem;font-weight:500">' + f.clientName + '</div>' +
+            '<div style="font-size:0.75rem;color:var(--text-muted)">' + (f.platform || '—') + '</div>' +
+          '</div>' +
+          '<span style="font-size:0.75rem;font-weight:600;color:' + statusColor + '">' + statusText + '</span>' +
+        '</div>';
+      }).join('');
     }
 
     function renderDispatch() {
@@ -347,6 +382,7 @@
 
     renderDashboard();
     renderDispatch();
+    renderFollowups();
   </script>
 </body>
 </html>

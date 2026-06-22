@@ -120,6 +120,21 @@ model Client {
   @@map("clients")
 }
 
+model FollowUp {
+  id           String   @id @default(cuid())
+  clientName   String   @map("client_name")
+  platform     String?
+  proposalFile String?  @map("proposal_file")
+  sentAt       DateTime @default(now()) @map("sent_at")
+  followUpAt   DateTime @map("follow_up_at")
+  status       String   @default("pending")
+  notes        String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("follow_ups")
+}
+
 model Project {
   id         String   @id @default(cuid())
   name       String

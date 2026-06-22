@@ -40,11 +40,13 @@
 | 2 | Agency — Social Media VA (reels, Canva) | Upwork | ⭐⭐⭐⭐⭐ | [ver](../leads/va-leads-2026-06-22.md) |
 | 3 | Health Brand — Social Media Assistant | PeoplePerHour | ⭐⭐⭐⭐ | [ver](../leads/va-leads-2026-06-22.md) |
 
-## ✅ Propuesta VA Creada
+## ✅ Propuestas VA Creadas
 
 | Fecha | Cliente | Plataforma | Valor | Archivo |
 |-------|---------|------------|-------|---------|
 | 2026-06-22 | Short-Form Video Brand | Upwork | Hourly | [ver](2026-06-22-upwork-va-shortform-propuesta.md) |
+| 2026-06-22 | Agency — Social Media VA | Upwork | Hourly | [ver](2026-06-22-upwork-va-agency-social-propuesta.md) |
+| 2026-06-22 | Health Brand — Social Media | PeoplePerHour | Hourly | [ver](2026-06-22-pph-va-health-brand-propuesta.md) |
 
 ## 📬 Historial de Envíos
 

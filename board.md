@@ -66,11 +66,14 @@
 ## Métricas Semanales
 | Métrica | Valor |
 |---------|-------|
-| Leads nuevos | 8 |
-| Propuestas listas | 8 |
+| Leads nuevos | 9 (8 video + 1 VA documentados) |
+| Leads VA | 9 leads clasificados (3 prioridad alta) |
+| Propuestas listas | 11 (8 video + 3 VA) |
+| Propuestas VA listas | 3 (Upwork x2, PeoplePerHour x1) |
 | Propuestas enviadas | 0 (dashboard: marcar manual) |
 | Clientes cerrados | 0 |
-| Valor total propuestas | $1,516+ |
+| Valor total propuestas | $1,516+ (video) + VA hourly |
+| Landing VA pública | https://oscarlugocar-lang.github.io/Dreamstartup/landing-va.html |
 | Videos entregados | 0 |
 | CVs VA creados | 2 (asistente-virtual + oscar-lugo) |
 | Plantillas VA | 3 (Upwork perfil, propuesta, cold email) |
@@ -148,7 +151,8 @@
 | Templates | `va-cold-email-template.md` + `va-proposal-template.md` para outreach en Upwork/PPH |
 | Dashboard | Sección dedicada con enlaces a servicio, CV, plantillas y CTA de contratación |
 | Leads VA | `leads/va-leads-2026-06-22.md` — 9 leads clasificados por match (⭐⭐⭐⭐⭐ top) |
-| Propuesta VA | `proposals/2026-06-22-upwork-va-shortform-propuesta.md` — primera propuesta VA lista |
+| Propuestas VA | 3 listas: Short-Form Brand (Upwork), Agency Social (Upwork), Health Brand (PPH) |
+| GH Pages VA | Pública: https://oscarlugocar-lang.github.io/Dreamstartup/landing-va.html |
 
 ## Envío de Propuestas
 ### Prioritarias (5 existentes)

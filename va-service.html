@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asistente Virtual — Dreamscape</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b12; --bg2: #12121e; --bg3: #1a1a2e;
+      --text: #eaeef2; --text2: #94a3b8; --muted: #475569;
+      --accent: #8b5cf6; --accent2: #06b6d4; --green: #22c55e;
+      --border: rgba(255,255,255,0.06);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    .nav { display:flex; align-items:center; justify-content:space-between; padding:16px 32px; background:var(--bg2); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+    .nav-brand { font-size:20px; font-weight:800; color:var(--accent); letter-spacing:2px; }
+    .nav-links { display:flex; gap:16px; align-items:center; }
+    .nav-links a { color:var(--text2); text-decoration:none; font-size:14px; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--accent); }
+    .hero { text-align:center; padding:80px 24px 60px; max-width:800px; margin:0 auto; }
+    .hero-tag { display:inline-block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--accent); border:1px solid rgba(139,92,246,0.3); padding:6px 16px; border-radius:20px; margin-bottom:24px; }
+    .hero h1 { font-size:52px; font-weight:900; letter-spacing:-2px; line-height:1.05; margin-bottom:20px; }
+    .hero h1 span { background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero p { font-size:18px; color:var(--text2); line-height:1.6; max-width:600px; margin:0 auto 32px; }
+    .hero-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 28px; border-radius:12px; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer; border:none; transition:all 0.2s; }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { background:#7c3aed; transform:translateY(-1px); }
+    .btn-secondary { background:var(--bg3); color:var(--text); border:1px solid var(--border); }
+    .btn-secondary:hover { background:#22223a; }
+    .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+    .section { padding:80px 0; }
+    .section-header { text-align:center; margin-bottom:48px; }
+    .section-header h2 { font-size:36px; font-weight:800; letter-spacing:-1px; margin-bottom:12px; }
+    .section-header p { color:var(--text2); font-size:16px; max-width:500px; margin:0 auto; }
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+    .s-card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all 0.2s; }
+    .s-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+    .s-icon { font-size:28px; margin-bottom:12px; }
+    .s-card h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+    .s-card p { font-size:13px; color:var(--text2); line-height:1.6; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; align-items:start; }
+    .p-card { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:32px; position:relative; }
+    .p-card.featured { border-color:var(--accent); background:linear-gradient(135deg,var(--bg3),var(--bg2)); }
+    .p-card.featured::before { content:'Más Popular'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--accent); color:#fff; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:4px 16px; border-radius:20px; }
+    .p-name { font-size:20px; font-weight:800; margin-bottom:4px; }
+    .p-price { margin:16px 0; }
+    .p-price .amount { font-size:42px; font-weight:900; color:#fff; }
+    .p-price .period { font-size:15px; color:var(--text2); font-weight:400; }
+    .p-desc { font-size:13px; color:var(--text2); margin-bottom:20px; line-height:1.5; }
+    .p-features { list-style:none; margin-bottom:24px; }
+    .p-features li { font-size:13px; padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    .p-features li::before { content:'✓'; color:var(--green); font-weight:700; }
+    .p-features li.na { color:var(--muted); }
+    .p-features li.na::before { content:'✗'; color:var(--muted); }
+    .p-card .btn { width:100%; justify-content:center; }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; }
+    .stat { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:28px; text-align:center; }
+    .stat .num { font-size:36px; font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .stat .label { font-size:13px; color:var(--text2); margin-top:4px; }
+    .cta { text-align:center; padding:80px 24px; background:linear-gradient(180deg,var(--bg3),var(--bg)); border-radius:24px; margin:0 24px; }
+    .cta h2 { font-size:36px; font-weight:800; margin-bottom:12px; }
+    .cta p { color:var(--text2); font-size:16px; max-width:500px; margin:0 auto 24px; }
+    .footer { text-align:center; padding:32px; font-size:12px; color:var(--muted); border-top:1px solid var(--border); margin-top:80px; }
+    @media (max-width:600px) {
+      .hero h1 { font-size:32px; }
+      .nav { padding:12px 16px; }
+      .section { padding:48px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-brand">DREAMSCAPE</div>
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="portal-cliente.html">Clientes</a>
+      <a href="va-service.html">VA</a>
+      <a href="cv-asistente-virtual.html">CV</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Asistente Virtual Bilingüe</div>
+    <h1>Libera tu tiempo.<br><span>Nosotros gestionamos.</span></h1>
+    <p>Deja las tareas operativas en manos de un asistente virtual profesional. Mientras tú te enfocas en hacer crecer tu negocio, yo gestiono tu calendario, emails, redes sociales y proyectos.</p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn btn-primary">Ver Planes</a>
+      <a href="mailto:latamdreamscape@gmail.com?subject=Quiero%20un%20Asistente%20Virtual" class="btn btn-secondary">Contáctame</a>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="section" id="services">
+      <div class="section-header">
+        <h2>Servicios Incluidos</h2>
+        <p>Todo lo que necesitas para delegar sin preocupaciones</p>
+      </div>
+      <div class="services-grid">
+        <div class="s-card"><div class="s-icon">📧</div><h3>Email & Calendar</h3><p>Gestión completa de bandeja de entrada, filtrado, respuestas programadas, coordinación de reuniones y optimización de agenda.</p></div>
+        <div class="s-card"><div class="s-icon">📊</div><h3>Notion & CRM</h3><p>Bases de datos de clientes, pipeline de ventas, tracking de proyectos y automatizaciones para mantener todo organizado.</p></div>
+        <div class="s-card"><div class="s-icon">📱</div><h3>Social Media</h3><p>Programación de contenido, gestión de comunidad, análisis de métricas y reporting semanal en todos tus canales.</p></div>
+        <div class="s-card"><div class="s-icon">👥</div><h3>Coordinación Equipos</h3><p>Briefings, asignación de tareas, seguimiento de deadlines, comunicación con freelancers y reportes de progreso.</p></div>
+        <div class="s-card"><div class="s-icon">✍️</div><h3>Redacción & Traducción</h3><p>Corrección de textos, traducciones inglés-español, redacción de correos, propuestas y documentos profesionales.</p></div>
+        <div class="s-card"><div class="s-icon">🔍</div><h3>Research & Leads</h3><p>Investigación de mercado, prospección de clientes, bases de datos de contactos y análisis de competencia.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="section-header">
+        <h2>Planes Flexibles</h2>
+        <p>Elige el plan que mejor se adapte a tu carga de trabajo</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="p-card">
+          <div class="p-name">Starter</div>
+          <div class="p-price"><span class="amount">$349</span> <span class="period">/ mes</span></div>
+          <div class="p-desc">Ideal para emprendedores que necesitan apoyo ligero y constante.</div>
+          <ul class="p-features">
+            <li>10 horas / semana</li>
+            <li>Email & calendar management</li>
+            <li>Notion CRM setup</li>
+            <li>Social media scheduling</li>
+            <li>Reporte semanal</li>
+            <li class="na">Coordinación de equipos</li>
+            <li class="na">Traducciones EN-ES</li>
+            <li class="na">Research & leads</li>
+          </ul>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Plan%20Starter%20VA" class="btn btn-secondary">Elegir Starter</a>
+        </div>
+        <div class="p-card featured">
+          <div class="p-name">Pro</div>
+          <div class="p-price"><span class="amount">$699</span> <span class="period">/ mes</span></div>
+          <div class="p-desc">Para agencias y negocios en crecimiento que necesitan gestión integral.</div>
+          <ul class="p-features">
+            <li>20 horas / semana</li>
+            <li>Email & calendar management</li>
+            <li>Notion CRM avanzado</li>
+            <li>Social media + analytics</li>
+            <li>Coordinación de equipos</li>
+            <li>Redacción & traducciones</li>
+            <li>Reporte semanal detallado</li>
+            <li class="na">Research & leads</li>
+          </ul>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Plan%20Pro%20VA" class="btn btn-primary">Elegir Pro</a>
+        </div>
+        <div class="p-card">
+          <div class="p-name">Enterprise</div>
+          <div class="p-price"><span class="amount">$1,299</span> <span class="period">/ mes</span></div>
+          <div class="p-desc">Para empresas con alto volumen operativo que necesitan un asistente dedicado.</div>
+          <ul class="p-features">
+            <li>40 horas / semana (dedicado)</li>
+            <li>Todos los servicios incluidos</li>
+            <li>CRM + automatizaciones</li>
+            <li>Social media + ads management</li>
+            <li>Coordinación multicanal</li>
+            <li>Redacción & traducciones</li>
+            <li>Research & prospección</li>
+            <li>Reporte ejecutivo semanal</li>
+          </ul>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Plan%20Enterprise%20VA" class="btn btn-secondary">Elegir Enterprise</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Por Qué Elegirme</h2>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">6+</div><div class="label">Años de experiencia</div></div>
+        <div class="stat"><div class="num">50+</div><div class="label">Clientes gestionados</div></div>
+        <div class="stat"><div class="num">4</div><div class="label">Plataformas coordinadas</div></div>
+        <div class="stat"><div class="num">B2</div><div class="label">Inglés avanzado</div></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="cta">
+    <h2>¿Listo para delegar?</h2>
+    <p>Agenda una llamada de 15 minutos sin compromiso y descubre cómo puedo ayudarte a recuperar tu tiempo.</p>
+    <div class="hero-btns">
+      <a href="mailto:latamdreamscape@gmail.com?subject=Agendar%20llamada%20VA" class="btn btn-primary">Agendar Llamada</a>
+      <a href="cv-asistente-virtual.html" class="btn btn-secondary">Ver mi CV</a>
+    </div>
+  </section>
+
+  <div class="footer">
+    Dreamscape Productions &mdash; Oscar Lugo &mdash; latamdreamscape@gmail.com &mdash; +57 301 182 2651 &mdash; Disponible remoto inmediato
+  </div>
+</body>
+</html>

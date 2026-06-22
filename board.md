@@ -89,6 +89,8 @@
 | Dashboard pipeline | ✅ Sección Video Pipeline con templates + render |
 | Follow-ups | ✅ Sistema completo: modelo DB + API CRUD + sección dashboard |
 | Portal cliente | ✅ `portal-cliente.html` con proyectos, entregables, progreso |
+| VA Service | ✅ `va-service.html` — 3 planes ($349/$699/$1299) + 6 servicios |
+| Dashboard VA | ✅ Sección VA con enlaces a servicio, CV, emails, propuestas |
 
 ## Deploy a Producción
 | Archivo | Propósito |
@@ -134,6 +136,16 @@
 | Proyectos | Carga desde API `/api/projects` con status, entregables, deadline |
 | Barra progreso | Visual dinámica según estado (10% pendiente → 100% completado) |
 | Navegación | Enlace desde dashboard + nav interna |
+
+## Servicio de Asistente Virtual
+| Componente | Detalle |
+|------------|---------|
+| URL | `va-service.html` — landing page completa |
+| Planes | Starter ($349/mes · 10h/sem), Pro ($699/mes · 20h/sem), Enterprise ($1,299/mes · 40h/sem) |
+| Servicios | Email & Calendar, Notion CRM, Social Media, Coordinación equipos, Redacción/Traducción, Research & Leads |
+| CV | `cv-asistente-virtual.html` — Oscar Lugo, 6+ años, 50+ clientes, B2 inglés |
+| Templates | `va-cold-email-template.md` + `va-proposal-template.md` para outreach en Upwork/PPH |
+| Dashboard | Sección dedicada con enlaces a servicio, CV, plantillas y CTA de contratación |
 
 ## Envío de Propuestas
 ### Prioritarias (5 existentes)

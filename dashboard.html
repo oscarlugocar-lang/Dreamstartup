@@ -62,6 +62,9 @@
       <a href="dashboard_15day_plan.html" class="sidebar-link">📋 Plan 15 Días</a>
       <a href="dreamscape-landing/index.html" class="sidebar-link">🌐 Landing Page</a>
       <a href="index.html" class="sidebar-link">🏠 Sitio Web</a>
+      <div class="sidebar-section">Servicios</div>
+      <a href="va-service.html" class="sidebar-link">🤖 Asistente Virtual</a>
+      <a href="cv-asistente-virtual.html" class="sidebar-link">📄 CV Asistente</a>
       <div class="sidebar-section">Comercial</div>
       <a href="#leads" class="sidebar-link">👥 Leads</a>
       <a href="#proposals" class="sidebar-link">📁 Propuestas</a>
@@ -157,6 +160,47 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🤖 Asistente Virtual</span>
+          <span class="badge badge-cyan">Servicio Activo</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem">
+          <div class="activity-item" style="cursor:pointer" onclick="window.open('va-service.html','_blank')">
+            <div class="activity-dot" style="background:var(--accent-violet)"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:500">Servicio VA</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Paquetes · Pricing · CTA</div>
+            </div>
+          </div>
+          <div class="activity-item" style="cursor:pointer" onclick="window.open('cv-asistente-virtual.html','_blank')">
+            <div class="activity-dot" style="background:var(--accent-cyan)"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:500">CV Asistente</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Oscar Lugo · VA Professional</div>
+            </div>
+          </div>
+          <div class="activity-item" style="cursor:pointer" onclick="window.open('va-cold-email-template.md','_blank')">
+            <div class="activity-dot" style="background:var(--accent-orange)"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:500">Cold Email VA</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Plantilla para outreach</div>
+            </div>
+          </div>
+          <div class="activity-item" style="cursor:pointer" onclick="window.open('va-proposal-template.md','_blank')">
+            <div class="activity-dot" style="background:var(--accent-green)"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:500">Propuesta VA</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Plantilla para Upwork/PPH</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+          <a href="mailto:latamdreamscape@gmail.com?subject=Quiero%20un%20Asistente%20Virtual" class="btn btn-primary btn-sm" style="gap:0.25rem">📧 Contratar VA</a>
+          <a href="va-service.html#pricing" class="btn btn-secondary btn-sm" style="gap:0.25rem">💰 Ver Planes</a>
+        </div>
+      </div>
+
       <div class="card" id="followups-card">
         <div class="card-header">
           <span class="card-title">🔔 Follow-ups</span>
@@ -196,6 +240,9 @@
       { id:3, prio:"🟡 Media", cliente:"Upwork — Reel Editor (12 reels)", plataforma:"Upwork", valor:"$400", archivo:"proposals/2026-06-09-upwork-reel-editor-propuesta.md" },
       { id:4, prio:"🟡 Media", cliente:"Upwork — True Crime Docs", plataforma:"Upwork", valor:"$200", archivo:"proposals/2026-06-17-upwork-true-crime-propuesta.md" },
       { id:5, prio:"🟢 Baja", cliente:"Upwork — Viral Shorts Editor", plataforma:"Upwork", valor:"$20", archivo:"proposals/2026-06-17-upwork-viral-shorts-propuesta.md" },
+      { id:6, prio:"🟡 Media", cliente:"Creator PAK", plataforma:"Upwork", valor:"$100", archivo:"proposals/2026-06-22-upwork-creator-pak-propuesta.md" },
+      { id:7, prio:"🟢 Baja", cliente:"NLP Coach Portugal", plataforma:"Freelancer", valor:"$75", archivo:"proposals/2026-06-22-freelancer-nlp-coach-propuesta.md" },
+      { id:8, prio:"🟢 Baja", cliente:"Boxing Championship Suiza", plataforma:"Freelancer", valor:"$75", archivo:"proposals/2026-06-22-freelancer-boxing-champ-propuesta.md" },
     ];
 
     const LEADS_FALLBACK = [
@@ -214,6 +261,9 @@
       {cliente:"Upwork — Reel Editor (12 reels)", plan:"Básico (por proyecto)", valor:"$400", estado:"Lista para enviar", archivo:"proposals/2026-06-09-upwork-reel-editor-propuesta.md"},
       {cliente:"Upwork — True Crime Documentaries", plan:"Edición narrativa", valor:"$200", estado:"Lista para enviar", archivo:"proposals/2026-06-17-upwork-true-crime-propuesta.md"},
       {cliente:"Upwork — Viral Shorts Editor", plan:"Prueba", valor:"$20", estado:"Lista para enviar", archivo:"proposals/2026-06-17-upwork-viral-shorts-propuesta.md"},
+      {cliente:"Creator PAK", plan:"YouTube Video Editor", valor:"$100", estado:"Lista para enviar", archivo:"proposals/2026-06-22-upwork-creator-pak-propuesta.md"},
+      {cliente:"NLP Coach Portugal", plan:"Retreat Footage → Reels", valor:"$75", estado:"Lista para enviar", archivo:"proposals/2026-06-22-freelancer-nlp-coach-propuesta.md"},
+      {cliente:"Boxing Championship Suiza", plan:"Promo video evento", valor:"$75", estado:"Lista para enviar", archivo:"proposals/2026-06-22-freelancer-boxing-champ-propuesta.md"},
     ];
 
     async function apiGet(path) {

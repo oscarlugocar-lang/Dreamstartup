@@ -5,54 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — Dreamscape</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="assets/css/design-tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <style>
-    body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); min-height: 100vh; }
     .app-layout { display: flex; min-height: 100vh; }
-    .sidebar { width: 240px; background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
-    .sidebar-brand { font-size: 1.25rem; font-weight: 800; background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding: 0.5rem 0.75rem; margin-bottom: 1.5rem; }
-    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.75rem; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: var(--transition); }
-    .sidebar-link:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-    .sidebar-link.active { background: rgba(139,92,246,0.1); color: var(--accent-violet-light); }
-    .sidebar-section { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); padding: 0.5rem 0.75rem; margin-top: 0.5rem; }
+    .sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.25rem; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+    .sidebar-brand { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; color: var(--accent); padding: 0.5rem 0.75rem; margin-bottom: 1.5rem; font-family: var(--font-mono); text-transform: uppercase; }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); color: var(--text2); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: var(--transition); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; }
+    .sidebar-link:hover { background: rgba(255,255,255,.03); color: var(--text); }
+    .sidebar-link.active { background: var(--accent-dim); color: var(--accent); }
+    .sidebar-section { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); padding: 0.5rem 0.75rem; margin-top: 0.75rem; font-family: var(--font-mono); }
     .main-content { margin-left: 240px; flex: 1; padding: 2rem; max-width: calc(100vw - 240px); }
     .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
-    .topbar h1 { font-size: 1.5rem; font-weight: 700; }
-    .topbar p { font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem; }
+    .topbar h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+    .topbar p { font-size: 0.75rem; color: var(--text2); font-family: var(--font-mono); margin-top: 0.25rem; }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
-    .activity-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .activity-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
     .activity-item:last-child { border-bottom: none; }
-    .activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .sidebar-toggle { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); width: 40px; height: 40px; font-size: 1.25rem; cursor: pointer; }
-    .badge-pending { background: rgba(100,116,139,0.15); color: var(--text-secondary); }
-    .badge-potencial { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
-    .badge-enviada { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
-    .badge-cerrada { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+    .activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
     .leads-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
-    .proposal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; transition: var(--transition); }
-    .proposal-card:hover { border-color: var(--accent-violet); }
-    .proposal-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .proposal-card .meta { font-size: 0.8rem; color: var(--text-muted); }
-    .proposal-card .meta strong { color: var(--accent-green); }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 999; }
+    .modal-backdrop.show { display: flex; align-items: center; justify-content: center; }
+    .modal-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+    .modal-box h3 { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; color: var(--accent); margin-bottom: 1rem; }
+    .modal-box label { font-size: 0.75rem; color: var(--text2); font-family: var(--font-mono); display: block; margin-bottom: 0.25rem; }
+    .modal-box input, .modal-box select { width: 100%; padding: 0.5rem 0.75rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text); font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 0.75rem; }
+    .modal-box input:focus, .modal-box select:focus { outline: none; border-color: var(--accent); }
+    .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; }
+    .progress-track { flex: 1; height: 20px; background: var(--bg-card); border-radius: var(--radius-sm); position: relative; overflow: hidden; border: 1px solid var(--border); }
+    .progress-track .fill { height: 100%; background: var(--accent); border-radius: var(--radius-sm); transition: width 1s var(--ease-power); display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; font-size: 0.6rem; font-weight: 600; color: #fff; font-family: var(--font-mono); min-width: 30px; }
+    .timeline-bar { display: flex; gap: 2px; align-items: flex-end; height: 60px; }
+    .timeline-bar .segment { flex: 1; border-radius: 2px 2px 0 0; transition: height 0.5s ease; min-width: 12px; }
+    .timeline-bar .segment:hover { opacity: 0.7; }
+    .funnel-step { display: flex; align-items: center; margin-bottom: 0.5rem; }
+    .funnel-step .label { min-width: 90px; font-size: 0.7rem; font-weight: 500; color: var(--text2); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-toggle { font-size: 0.7rem; color: var(--accent); cursor: pointer; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; background: none; border: none; padding: 0; }
+    .detail-toggle:hover { text-decoration: underline; }
     @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } }
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; max-width: 100vw; padding: 1.5rem; }
-      .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+      .sidebar-toggle { display: flex !important; }
       .stats-grid { grid-template-columns: 1fr; }
       .topbar { padding-left: 3rem; }
-      .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+      .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
       .overlay.show { display: block; }
     }
   </style>
 </head>
 <body>
   <div class="overlay" id="overlay"></div>
-  <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+  <button class="sidebar-toggle" id="sidebarToggle" style="display:none;position:fixed;top:1rem;left:1rem;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-md);color:var(--text);width:40px;height:40px;font-size:1.25rem;cursor:pointer;align-items:center;justify-content:center">☰</button>
 
   <div class="app-layout">
     <aside class="sidebar" id="sidebar">
@@ -61,14 +68,11 @@
       <a href="#" class="sidebar-link active">📊 Dashboard</a>
       <a href="dashboard_15day_plan.html" class="sidebar-link">📋 Plan 15 Días</a>
       <a href="index.html" class="sidebar-link">🌐 Landing Page</a>
-      <a href="index.html" class="sidebar-link">🏠 Sitio Web</a>
       <div class="sidebar-section">Servicios</div>
       <a href="landing-va.html" class="sidebar-link">🤖 Asistente Virtual</a>
       <a href="cv-asistente-virtual.html" class="sidebar-link">📄 CV Asistente</a>
       <div class="sidebar-section">Comercial</div>
-      <a href="#leads" class="sidebar-link">👥 Leads</a>
-      <a href="#proposals" class="sidebar-link">📁 Propuestas</a>
-      <a href="#proposals" class="sidebar-link">📤 Dispatch</a>
+      <a href="#" class="sidebar-link" onclick="openLeadModal()">➕ Nuevo Lead</a>
       <a href="board.md" class="sidebar-link">📋 Board</a>
       <div class="sidebar-section" style="margin-top:auto">Sistema</div>
       <a href="contacto.html" class="sidebar-link">📧 Contacto</a>
@@ -81,164 +85,217 @@
           <p id="lastUpdated">Actualizado: —</p>
         </div>
         <div class="flex items-center gap-3">
-          <span class="badge badge-green">● En vivo</span>
+          <span class="badge badge-green" id="liveBadge">● Datos locales</span>
           <div class="avatar">OL</div>
         </div>
       </div>
 
       <div class="stats-grid" id="statsGrid">
-        <div class="stat-card"><div class="label">Leads Totales</div><div class="value" id="statLeads">0</div></div>
-        <div class="stat-card"><div class="label">Propuestas Enviadas</div><div class="value" id="statProps">0</div></div>
-        <div class="stat-card"><div class="label">Valor Potencial</div><div class="value" id="statValue" style="font-size:1.5rem">$0</div></div>
-        <div class="stat-card"><div class="label">Clientes Cerrados</div><div class="value" id="statClients">0</div></div>
+        <div class="stat-card"><div class="kpi-icon">📈</div><div class="label">Leads Totales</div><div class="value" id="statLeads">0</div><div class="change up" id="statLeadsChange">+0 este mes</div></div>
+        <div class="stat-card"><div class="kpi-icon">📄</div><div class="label">Propuestas</div><div class="value" id="statProps">0</div><div class="change up" id="statPropsChange">0 enviadas</div></div>
+        <div class="stat-card"><div class="kpi-icon">💰</div><div class="label">Valor Potencial</div><div class="value" id="statValue" style="font-size:1.5rem">$0</div><div class="change up">Pool total</div></div>
+        <div class="stat-card"><div class="kpi-icon">✅</div><div class="label">Cerrados</div><div class="value" id="statClients">0</div><div class="change up">Clientes</div></div>
       </div>
 
       <div class="leads-grid">
         <div class="card" id="leads">
           <div class="card-header">
             <span class="card-title">🎯 Leads Activos</span>
-            <span class="badge badge-violet" id="leadsCount">0</span>
+            <span class="badge badge-accent" id="leadsCount">0</span>
+          </div>
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap">
+            <select id="leadFilter" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text2);font-family:var(--font-mono);font-size:0.7rem;padding:0.3rem 0.5rem">
+              <option value="all">Todos</option>
+              <option value="Potencial">Potencial</option>
+              <option value="Contactado">Contactado</option>
+              <option value="Cerrado">Cerrado</option>
+            </select>
+            <input type="text" id="leadSearch" placeholder="Buscar..." style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text2);font-family:var(--font-mono);font-size:0.7rem;padding:0.3rem 0.5rem;flex:1;min-width:100px">
           </div>
           <div id="leadsList"><div class="empty-state"><div class="icon">📭</div><p>Cargando leads...</p></div></div>
+          <div class="mt-2"><button class="btn btn-primary btn-sm" onclick="openLeadModal()">+ Nuevo Lead</button></div>
         </div>
 
         <div id="proposals">
           <div class="card" style="margin-bottom:1rem">
             <div class="card-header">
               <span class="card-title">📄 Propuestas</span>
-              <span class="badge badge-violet" id="propsCount">0</span>
+              <span class="badge badge-accent" id="propsCount">0</span>
             </div>
             <div id="propsList"><div class="empty-state"><div class="icon">📄</div><p>Cargando propuestas...</p></div></div>
           </div>
           <div class="card">
             <div class="card-header">
-              <span class="card-title">📊 Ingresos Estimados</span>
+              <span class="card-title">📊 Revenue por Plataforma</span>
             </div>
             <canvas id="revenueChart" style="max-height:200px"></canvas>
           </div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" style="margin-bottom:1.5rem">
+        <div class="card-header">
+          <span class="card-title">🔁 Pipeline de Ventas</span>
+        </div>
+        <div class="funnel-step">
+          <span class="label">Leads</span>
+          <div class="progress-track"><div class="fill" id="funnelLeads" style="width:100%;">0</div></div>
+        </div>
+        <div class="funnel-step">
+          <span class="label">Props</span>
+          <div class="progress-track"><div class="fill" id="funnelProps" style="width:60%;">0</div></div>
+        </div>
+        <div class="funnel-step">
+          <span class="label">Cerrados</span>
+          <div class="progress-track"><div class="fill" id="funnelClosed" style="width:20%;">0</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem">
         <div class="card-header">
           <span class="card-title">🎬 Video Pipeline</span>
-          <span class="badge badge-cyan">HyperFrames v0.7</span>
+          <span class="badge badge-accent">HyperFrames v0.7</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
           <div class="activity-item" style="cursor:pointer" onclick="window.open('dreamscape-video/templates/product-demo.html','_blank')">
-            <div class="activity-dot" style="background:var(--accent-violet)"></div>
+            <div class="activity-dot" style="background:var(--accent)"></div>
             <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Product Demo</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">3 features · 10s · variables</div>
+              <div style="font-size:0.85rem;font-weight:500">Product Demo</div>
+              <div style="font-size:0.7rem;color:var(--text2)">3 features · 10s · variables</div>
             </div>
           </div>
           <div class="activity-item" style="cursor:pointer" onclick="window.open('dreamscape-video/templates/testimonial.html','_blank')">
-            <div class="activity-dot" style="background:var(--accent-cyan)"></div>
+            <div class="activity-dot" style="background:var(--green)"></div>
             <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Testimonial</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Quote + autor · 8s · variables</div>
+              <div style="font-size:0.85rem;font-weight:500">Testimonial</div>
+              <div style="font-size:0.7rem;color:var(--text2)">Quote + autor · 8s · variables</div>
             </div>
           </div>
           <div class="activity-item" style="cursor:pointer" onclick="window.open('dreamscape-video/templates/social-reel.html','_blank')">
-            <div class="activity-dot" style="background:var(--accent-green)"></div>
+            <div class="activity-dot" style="background:#22c55e"></div>
             <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Social Reel</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">9:16 vertical · 10s · CTA</div>
+              <div style="font-size:0.85rem;font-weight:500">Social Reel</div>
+              <div style="font-size:0.7rem;color:var(--text2)">9:16 vertical · 10s · CTA</div>
             </div>
           </div>
           <div class="activity-item" style="cursor:pointer" onclick="window.open('dreamscape-video/renders/','_blank')">
-            <div class="activity-dot" style="background:var(--accent-orange)"></div>
+            <div class="activity-dot" style="background:var(--amber)"></div>
             <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Último Render</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Intro 15s · 939 KB · TTS+BGM</div>
+              <div style="font-size:0.85rem;font-weight:500">Último Render</div>
+              <div style="font-size:0.7rem;color:var(--text2)">Intro 15s · 939 KB · TTS+BGM</div>
             </div>
           </div>
         </div>
         <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap">
-          <a href="dreamscape-video/" class="btn btn-primary btn-sm" style="gap:0.25rem">🎬 Abrir proyecto</a>
-          <a href="dreamscape-video/index.html" class="btn btn-secondary btn-sm" style="gap:0.25rem">✏️ Editar composition</a>
+          <a href="dreamscape-video/" class="btn btn-primary btn-sm">🎬 Abrir proyecto</a>
+          <a href="dreamscape-video/index.html" class="btn btn-secondary btn-sm">✏️ Editar composition</a>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" style="margin-bottom:1.5rem">
         <div class="card-header">
           <span class="card-title">🤖 Asistente Virtual</span>
-          <span class="badge badge-cyan">Servicio Activo</span>
+          <span class="badge badge-green">Servicio Activo</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem">
           <div class="activity-item" style="cursor:pointer" onclick="window.open('landing-va.html','_blank')">
-            <div class="activity-dot" style="background:var(--accent-violet)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Landing VA</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Landing profesional · Planes · FAQ</div>
-            </div>
+            <div class="activity-dot" style="background:var(--accent)"></div>
+            <div style="flex:1"><div style="font-size:0.85rem;font-weight:500">Landing VA</div><div style="font-size:0.7rem;color:var(--text2)">Landing profesional · Planes · FAQ</div></div>
           </div>
           <div class="activity-item" style="cursor:pointer" onclick="window.open('cv-asistente-virtual.html','_blank')">
-            <div class="activity-dot" style="background:var(--accent-cyan)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">CV Asistente</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Oscar Lugo · VA Professional</div>
-            </div>
+            <div class="activity-dot" style="background:var(--green)"></div>
+            <div style="flex:1"><div style="font-size:0.85rem;font-weight:500">CV Asistente</div><div style="font-size:0.7rem;color:var(--text2)">Oscar Lugo · VA Professional</div></div>
           </div>
           <div class="activity-item" style="cursor:pointer" onclick="window.open('va-cold-email-template.md','_blank')">
-            <div class="activity-dot" style="background:var(--accent-orange)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Cold Email VA</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Plantilla para outreach</div>
-            </div>
+            <div class="activity-dot" style="background:var(--amber)"></div>
+            <div style="flex:1"><div style="font-size:0.85rem;font-weight:500">Cold Email VA</div><div style="font-size:0.7rem;color:var(--text2)">Plantilla para outreach</div></div>
           </div>
           <div class="activity-item" style="cursor:pointer" onclick="window.open('va-proposal-template.md','_blank')">
-            <div class="activity-dot" style="background:var(--accent-green)"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">Propuesta VA</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Plantilla para Upwork/PPH</div>
-            </div>
+            <div class="activity-dot" style="background:#22c55e"></div>
+            <div style="flex:1"><div style="font-size:0.85rem;font-weight:500">Propuesta VA</div><div style="font-size:0.7rem;color:var(--text2)">Plantilla para Upwork/PPH</div></div>
           </div>
         </div>
         <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap">
-          <a href="mailto:latamdreamscape@gmail.com?subject=Quiero%20un%20Asistente%20Virtual" class="btn btn-primary btn-sm" style="gap:0.25rem">📧 Contratar VA</a>
-          <a href="landing-va.html#pricing" class="btn btn-secondary btn-sm" style="gap:0.25rem">💰 Ver Planes</a>
+          <a href="mailto:latamdreamscape@gmail.com?subject=Quiero%20un%20Asistente%20Virtual" class="btn btn-primary btn-sm">📧 Contratar VA</a>
+          <a href="landing-va.html#pricing" class="btn btn-secondary btn-sm">💰 Ver Planes</a>
         </div>
-        <div style="margin-top:0.75rem;display:flex;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);flex-wrap:wrap">
-          <span>📋 <strong>3</strong> leads VA</span>
-          <span>📄 <strong>3</strong> propuestas VA listas</span>
-          <a href="leads/va-leads-2026-06-22.md" style="color:var(--accent-violet-light)">🔍 Ver leads VA</a>
-          <a href="proposals/dispatch.md" style="color:var(--accent-violet-light)">📤 Dispatch</a>
+        <div style="margin-top:0.75rem;display:flex;gap:0.5rem;font-size:0.75rem;color:var(--text2);flex-wrap:wrap;font-family:var(--font-mono)">
+          <span>📋 <strong id="vaLeadsCount">3</strong> leads VA</span>
+          <span>📄 <strong id="vaPropsCount">3</strong> propuestas VA listas</span>
+          <a href="leads/va-leads-2026-06-22.md" style="color:var(--accent)">🔍 Ver leads VA</a>
+          <a href="proposals/dispatch.md" style="color:var(--accent)">📤 Dispatch</a>
         </div>
       </div>
 
-      <div class="card" id="followups-card">
+      <div class="card" style="margin-bottom:1.5rem" id="followups-card">
         <div class="card-header">
           <span class="card-title">🔔 Follow-ups</span>
-          <span class="badge badge-red" id="followupOverdue">0</span>
+          <span class="badge badge-amber" id="followupOverdue">0</span>
         </div>
-        <div id="followupsList"><div class="activity-item" style="cursor:default"><div style="font-size:0.8rem;color:var(--text-muted);padding:8px 0">Cargando...</div></div></div>
+        <div id="followupsList"><div class="activity-item" style="cursor:default"><div style="font-size:0.8rem;color:var(--text2);padding:8px 0">Cargando...</div></div></div>
       </div>
 
       <div class="card" id="dispatch">
         <div class="card-header">
           <span class="card-title">📤 Dispatch Queue</span>
-          <span class="badge badge-violet" id="dispatchPend">5 pendientes</span>
+          <span class="badge badge-accent" id="dispatchPend">5 pendientes</span>
         </div>
         <div id="dispatchList"></div>
         <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap">
-          <a href="proposals/dispatch.md" class="btn btn-primary btn-sm" style="gap:0.5rem">📋 Ver Dispatch Log</a>
-          <a href="leads/2026-06-09-upwork-leads.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📋 Leads Upwork</a>
-          <a href="leads/2026-06-09-freelancer-leads.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📋 Leads Freelancer</a>
-          <a href="va-upwork-profile.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">👤 Perfil Upwork</a>
-          <a href="va-cold-email-template.md" class="btn btn-secondary btn-sm" style="gap:0.5rem">📧 Cold Email</a>
+          <a href="proposals/dispatch.md" class="btn btn-primary btn-sm">📋 Ver Dispatch Log</a>
+          <a href="leads/2026-06-09-upwork-leads.md" class="btn btn-secondary btn-sm">📋 Leads Upwork</a>
+          <a href="leads/2026-06-09-freelancer-leads.md" class="btn btn-secondary btn-sm">📋 Leads Freelancer</a>
+          <a href="va-upwork-profile.md" class="btn btn-secondary btn-sm">👤 Perfil Upwork</a>
+          <a href="va-cold-email-template.md" class="btn btn-secondary btn-sm">📧 Cold Email</a>
         </div>
       </div>
+
+      <div style="text-align:center;color:var(--text3);font-family:var(--font-mono);font-size:0.65rem;padding:2rem 0 1rem;border-top:1px solid var(--border);margin-top:2rem">
+        DREAMSCAPE &bull; DASHBOARD COMERCIAL
+      </div>
     </main>
+  </div>
+
+  <div class="modal-backdrop" id="leadModal">
+    <div class="modal-box">
+      <h3>➕ Nuevo Lead</h3>
+      <label>Cliente</label>
+      <input type="text" id="leadFormName" placeholder="Nombre del cliente / empresa">
+      <label>Proyecto</label>
+      <input type="text" id="leadFormProject" placeholder="Tipo de proyecto">
+      <label>Presupuesto</label>
+      <input type="text" id="leadFormBudget" placeholder="$">
+      <label>Plataforma</label>
+      <select id="leadFormPlatform">
+        <option value="Upwork">Upwork</option>
+        <option value="PeoplePerHour">PeoplePerHour</option>
+        <option value="Freelancer">Freelancer</option>
+        <option value="Fiverr">Fiverr</option>
+        <option value="Directo">Directo</option>
+      </select>
+      <label>Estado</label>
+      <select id="leadFormStatus">
+        <option value="Potencial">Potencial</option>
+        <option value="Contactado">Contactado</option>
+        <option value="Cerrado">Cerrado</option>
+      </select>
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-sm" onclick="closeLeadModal()">Cancelar</button>
+        <button class="btn btn-primary btn-sm" onclick="saveLead()">Guardar</button>
+      </div>
+    </div>
   </div>
 
   <script>
     const API_BASE = localStorage.getItem('dreamscape_api') || 'https://dreamstartup-production.up.railway.app/api';
     const DISPATCH_KEY = 'dreamscape_dispatch';
+    const LEADS_STORAGE_KEY = 'dreamscape_leads';
     let apiConnected = false;
 
     function loadDispatch() { try { return JSON.parse(localStorage.getItem(DISPATCH_KEY)) || {}; } catch(e) { return {}; } }
     function saveDispatch(d) { localStorage.setItem(DISPATCH_KEY, JSON.stringify(d)); }
+    function loadLocalLeads() { try { return JSON.parse(localStorage.getItem(LEADS_STORAGE_KEY)) || []; } catch(e) { return []; } }
+    function saveLocalLeads(leads) { localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads)); }
 
     const DISPATCH_QUEUE = [
       { id:1, prio:"🔴 Alta", cliente:"Brand ropa (foto+video)", plataforma:"PeoplePerHour", valor:"$696", archivo:"proposals/2026-06-17-pph-brand-ropa-propuesta.md" },
@@ -252,15 +309,16 @@
     ];
 
     const LEADS_FALLBACK = [
-      {cliente:"Creator LA, US", proyecto:"Viral YouTube Shorts & Ad Video Editor", presupuesto:"$20 fixed", plataforma:"Upwork", estado:"Potencial"},
-      {cliente:"Creator PAK", proyecto:"Professional YouTube Video Editor", presupuesto:"$100 fixed", plataforma:"Upwork", estado:"Potencial"},
-      {cliente:"SaaS startup", proyecto:"SaaS Demo Video Editor", presupuesto:"Hourly", plataforma:"Upwork", estado:"Potencial"},
-      {cliente:"Brand (sin nombre)", proyecto:"Vertical / Reel Video Editor (12 reels)", presupuesto:"$400 fixed", plataforma:"Upwork", estado:"Potencial"},
-      {cliente:"Brand ropa", proyecto:"Marketing clothing brand (foto+video)", presupuesto:"$696 fixed", plataforma:"PeoplePerHour", estado:"Potencial"},
-      {cliente:"Creator", proyecto:"Looking for video editor", presupuesto:"$100/semana", plataforma:"PeoplePerHour", estado:"Potencial"},
-      {cliente:"NLP Coach Portugal", proyecto:"Transform Retreat Footage Into Reels", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial"},
-      {cliente:"Boxing Championship Suiza", proyecto:"Promo video evento", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial"},
+      {cliente:"Creator LA, US", proyecto:"Viral YouTube Shorts & Ad Video Editor", presupuesto:"$20 fixed", plataforma:"Upwork", estado:"Potencial", fecha: "2026-06-09"},
+      {cliente:"Creator PAK", proyecto:"Professional YouTube Video Editor", presupuesto:"$100 fixed", plataforma:"Upwork", estado:"Potencial", fecha: "2026-06-22"},
+      {cliente:"SaaS startup", proyecto:"SaaS Demo Video Editor", presupuesto:"Hourly", plataforma:"Upwork", estado:"Potencial", fecha: "2026-06-17"},
+      {cliente:"Brand (sin nombre)", proyecto:"Vertical / Reel Video Editor (12 reels)", presupuesto:"$400 fixed", plataforma:"Upwork", estado:"Potencial", fecha: "2026-06-09"},
+      {cliente:"Brand ropa", proyecto:"Marketing clothing brand (foto+video)", presupuesto:"$696 fixed", plataforma:"PeoplePerHour", estado:"Potencial", fecha: "2026-06-17"},
+      {cliente:"Creator", proyecto:"Looking for video editor", presupuesto:"$100/semana", plataforma:"PeoplePerHour", estado:"Potencial", fecha: "2026-06-22"},
+      {cliente:"NLP Coach Portugal", proyecto:"Transform Retreat Footage Into Reels", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial", fecha: "2026-06-22"},
+      {cliente:"Boxing Championship Suiza", proyecto:"Promo video evento", presupuesto:"$75 avg", plataforma:"Freelancer", estado:"Potencial", fecha: "2026-06-22"},
     ];
+
     const PROPS_FALLBACK = [
       {cliente:"PPH — Brand ropa (foto+video)", plan:"Personalizado", valor:"$696", estado:"Lista para enviar", archivo:"proposals/2026-06-17-pph-brand-ropa-propuesta.md"},
       {cliente:"Upwork — SaaS Demo Video", plan:"Hourly ($25/hr)", valor:"—", estado:"Lista para enviar", archivo:"proposals/2026-06-17-upwork-saas-demo-propuesta.md"},
@@ -280,16 +338,48 @@
       } catch { return null; }
     }
 
+    function getLeads() {
+      const local = loadLocalLeads();
+      return [...LEADS_FALLBACK, ...local];
+    }
+
     async function loadLeads() {
       const data = await apiGet('/leads');
       if (data && data.data && data.source !== 'local') {
         apiConnected = true;
         return data.data.map(l => ({
-          cliente: l.name, proyecto: l.notes || '', presupuesto: l.budget ? '$' + l.budget : '—', plataforma: l.platform || '—', estado: l.status,
+          cliente: l.name, proyecto: l.notes || '', presupuesto: l.budget ? '$' + l.budget : '—', plataforma: l.platform || '—', estado: l.status, fecha: l.createdAt || '',
         }));
       }
       apiConnected = false;
-      return LEADS_FALLBACK;
+      return getLeads();
+    }
+
+    function openLeadModal() {
+      document.getElementById('leadModal').classList.add('show');
+    }
+
+    function closeLeadModal() {
+      document.getElementById('leadModal').classList.remove('show');
+      ['leadFormName', 'leadFormProject', 'leadFormBudget'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    function saveLead() {
+      const name = document.getElementById('leadFormName').value.trim();
+      if (!name) return;
+      const newLead = {
+        cliente: name,
+        proyecto: document.getElementById('leadFormProject').value.trim(),
+        presupuesto: document.getElementById('leadFormBudget').value.trim() || '—',
+        plataforma: document.getElementById('leadFormPlatform').value,
+        estado: document.getElementById('leadFormStatus').value,
+        fecha: new Date().toISOString().slice(0,10),
+      };
+      const leads = loadLocalLeads();
+      leads.push(newLead);
+      saveLocalLeads(leads);
+      closeLeadModal();
+      renderDashboard();
     }
 
     async function renderFollowups() {
@@ -297,24 +387,24 @@
       const el = document.getElementById('followupsList');
       const badge = document.getElementById('followupOverdue');
       if (!data || !data.data) {
-        el.innerHTML = '<div class="activity-item" style="cursor:default"><div style="font-size:0.8rem;color:var(--text-muted);padding:8px 0">Sin datos de seguimiento</div></div>';
+        el.innerHTML = '<div class="activity-item" style="cursor:default"><div style="font-size:0.8rem;color:var(--text2);padding:8px 0">Sin datos de seguimiento</div></div>';
         if (badge) badge.textContent = '0';
         return;
       }
       const overdue = data.data.filter(f => f.isOverdue);
       badge.textContent = overdue.length;
-      badge.style.background = overdue.length > 0 ? 'var(--accent-red-bg, rgba(239,68,68,0.15))' : 'rgba(34,197,94,0.15)';
-      badge.style.color = overdue.length > 0 ? 'var(--accent-red, #ef4444)' : 'var(--accent-green)';
+      badge.style.background = overdue.length > 0 ? 'var(--accent-dim)' : 'rgba(34,197,94,0.12)';
+      badge.style.color = overdue.length > 0 ? 'var(--accent)' : 'var(--green)';
       el.innerHTML = data.data.slice(0, 8).map(f => {
-        const statusColor = f.isOverdue ? 'var(--accent-red, #ef4444)' : f.isDueSoon ? 'var(--accent-orange)' : 'var(--accent-green)';
+        const statusColor = f.isOverdue ? 'var(--accent, #D60001)' : f.isDueSoon ? 'var(--amber)' : 'var(--green)';
         const statusText = f.isOverdue ? '🔴 ' + f.daysUntilFollowUp + 'd atrasado' : f.isDueSoon ? '🟡 Follow-up pronto' : '✅ ' + f.daysSinceSent + 'd env.';
         return '<div class="activity-item" style="cursor:default">' +
           '<div class="activity-dot" style="background:' + statusColor + '"></div>' +
           '<div style="flex:1">' +
-            '<div style="font-size:0.875rem;font-weight:500">' + f.clientName + '</div>' +
-            '<div style="font-size:0.75rem;color:var(--text-muted)">' + (f.platform || '—') + '</div>' +
+            '<div style="font-size:0.85rem;font-weight:500">' + f.clientName + '</div>' +
+            '<div style="font-size:0.7rem;color:var(--text2)">' + (f.platform || '—') + '</div>' +
           '</div>' +
-          '<span style="font-size:0.75rem;font-weight:600;color:' + statusColor + '">' + statusText + '</span>' +
+          '<span style="font-size:0.7rem;font-weight:600;color:' + statusColor + '">' + statusText + '</span>' +
         '</div>';
       }).join('');
     }
@@ -326,19 +416,18 @@
       document.getElementById('dispatchPend').textContent = pend + ' pendientes';
       el.innerHTML = DISPATCH_QUEUE.map(d => {
         const isSent = !!sent[d.id];
-        return `
-          <div class="activity-item" style="cursor:default">
-            <div class="activity-dot" style="background:${isSent?'var(--accent-green)':'var(--accent-orange)'}"></div>
-            <div style="flex:1">
-              <div style="font-size:0.875rem;font-weight:500">${d.prio} ${d.cliente}</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">${d.plataforma} · ${d.valor}</div>
-            </div>
-            ${isSent
-              ? `<span style="font-size:0.75rem;color:var(--accent-green);font-weight:600">✅ Enviado ${sent[d.id]}</span>`
-              : `<button onclick="markSent(${d.id})" class="btn btn-primary btn-sm" style="gap:0.25rem;padding:4px 12px;font-size:0.75rem">📤 Marcar enviado</button>
-                 <a href="${d.archivo}" target="_blank" class="btn btn-secondary btn-sm" style="padding:4px 12px;font-size:0.75rem">👁 Ver</a>`
-            }
-          </div>`;
+        return '<div class="activity-item" style="cursor:default">' +
+          '<div class="activity-dot" style="background:' + (isSent ? 'var(--green)' : 'var(--amber)') + '"></div>' +
+          '<div style="flex:1">' +
+            '<div style="font-size:0.85rem;font-weight:500">' + d.prio + ' ' + d.cliente + '</div>' +
+            '<div style="font-size:0.7rem;color:var(--text2)">' + d.plataforma + ' · ' + d.valor + '</div>' +
+          '</div>' +
+          (isSent
+            ? '<span style="font-size:0.7rem;color:var(--green);font-weight:600;font-family:var(--font-mono)">✅ Enviado ' + sent[d.id] + '</span>'
+            : '<button onclick="markSent(' + d.id + ')" class="btn btn-primary btn-sm" style="padding:3px 10px;font-size:0.65rem">📤 Marcar</button>' +
+              '<a href="' + d.archivo + '" target="_blank" class="btn btn-secondary btn-sm" style="padding:3px 10px;font-size:0.65rem">👁 Ver</a>'
+          ) +
+        '</div>';
       }).join('');
     }
 
@@ -350,20 +439,16 @@
       renderDashboard();
     }
 
-    function currentApiUrl() {
-      return localStorage.getItem('dreamscape_api') || 'http://localhost:3001/api';
-    }
-
     async function renderDashboard() {
       const dispatchSent = loadDispatch();
       const sentCount = Object.keys(dispatchSent).length;
       document.getElementById('lastUpdated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CO');
 
-      const liveBadge = document.querySelector('.badge-green');
+      const liveBadge = document.getElementById('liveBadge');
       if (liveBadge) {
         liveBadge.textContent = apiConnected ? '● API conectada' : '● Datos locales';
-        liveBadge.style.background = apiConnected ? 'rgba(34,197,94,0.15)' : 'rgba(245,158,11,0.15)';
-        liveBadge.style.color = apiConnected ? 'var(--accent-green)' : 'var(--accent-orange)';
+        liveBadge.style.background = apiConnected ? 'rgba(34,197,94,0.12)' : 'rgba(245,158,11,0.12)';
+        liveBadge.style.color = apiConnected ? 'var(--green)' : 'var(--amber)';
       }
 
       const leads = await loadLeads();
@@ -372,56 +457,82 @@
         return sum + (isNaN(num) ? 0 : num);
       }, 0);
 
+      const monthLeads = leads.filter(l => l.fecha && l.fecha.includes('2026-06')).length || leads.length;
+
       document.getElementById('statLeads').textContent = leads.length;
+      document.getElementById('statLeadsChange').textContent = '+' + monthLeads + ' este mes';
       document.getElementById('statProps').textContent = sentCount + '/' + PROPS_FALLBACK.length;
+      document.getElementById('statPropsChange').textContent = sentCount + ' enviadas';
       document.getElementById('statClients').textContent = apiConnected ? '—' : '0';
       document.getElementById('statValue').textContent = '$' + totalValue.toFixed(0);
       document.getElementById('leadsCount').textContent = leads.length;
       document.getElementById('propsCount').textContent = PROPS_FALLBACK.length;
 
-      document.getElementById('leadsList').innerHTML = leads.map(l => `
-        <div class="activity-item" style="cursor:default">
-          <div class="activity-dot" style="background:var(--accent-orange)"></div>
-          <div style="flex:1">
-            <div style="font-size:0.875rem;font-weight:500">${l.cliente}</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">${l.proyecto} · ${l.plataforma}</div>
-          </div>
-          <span style="font-size:0.8rem;font-weight:600;color:var(--accent-green)">${l.presupuesto}</span>
-        </div>
-      `).join('');
+      const filterVal = document.getElementById('leadFilter').value;
+      const searchVal = document.getElementById('leadSearch').value.toLowerCase();
+      const filtered = leads.filter(l => (filterVal === 'all' || l.estado === filterVal) && (!searchVal || l.cliente.toLowerCase().includes(searchVal) || l.proyecto.toLowerCase().includes(searchVal)));
 
-      document.getElementById('propsList').innerHTML = PROPS_FALLBACK.map(p => `
-        <div class="activity-item" style="cursor:pointer" onclick="window.open('${p.archivo}','_blank')">
-          <div class="activity-dot" style="background:var(--accent-violet)"></div>
-          <div style="flex:1">
-            <div style="font-size:0.875rem;font-weight:500">${p.cliente}</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">${p.plan} · ${p.estado}</div>
-          </div>
-          <span style="font-size:0.8rem;font-weight:600;color:var(--accent-cyan)">${p.valor}</span>
-        </div>
-      `).join('');
+      document.getElementById('leadsList').innerHTML = filtered.length
+        ? filtered.map(l => {
+            const statusColor = l.estado === 'Cerrado' ? 'var(--green)' : l.estado === 'Contactado' ? 'var(--amber)' : 'var(--accent)';
+            return '<div class="activity-item" style="cursor:default">' +
+              '<div class="activity-dot" style="background:' + statusColor + '"></div>' +
+              '<div style="flex:1">' +
+                '<div style="font-size:0.85rem;font-weight:500">' + l.cliente + '</div>' +
+                '<div style="font-size:0.7rem;color:var(--text2)">' + l.proyecto + ' · ' + l.plataforma + ' · ' + (l.estado || 'Potencial') + '</div>' +
+              '</div>' +
+              '<span style="font-size:0.75rem;font-weight:600;color:var(--green);font-family:var(--font-mono)">' + l.presupuesto + '</span>' +
+            '</div>';
+          }).join('')
+        : '<div class="empty-state"><div class="icon">🔍</div><p>Sin resultados</p></div>';
+
+      document.getElementById('propsList').innerHTML = PROPS_FALLBACK.map(p =>
+        '<div class="activity-item" style="cursor:pointer" onclick="window.open(\'' + p.archivo + '\',\'_blank\')">' +
+          '<div class="activity-dot" style="background:var(--accent)"></div>' +
+          '<div style="flex:1">' +
+            '<div style="font-size:0.85rem;font-weight:500">' + p.cliente + '</div>' +
+            '<div style="font-size:0.7rem;color:var(--text2)">' + p.plan + ' · ' + p.estado + '</div>' +
+          '</div>' +
+          '<span style="font-size:0.75rem;font-weight:600;color:var(--text2);font-family:var(--font-mono)">' + p.valor + '</span>' +
+        '</div>'
+      ).join('');
+
+      const totalLeads = leads.length;
+      const totalProps = PROPS_FALLBACK.length;
+      const totalClosed = apiConnected ? 0 : 0;
+      const maxVal = Math.max(totalLeads, 1);
+      document.getElementById('funnelLeads').style.width = '100%';
+      document.getElementById('funnelLeads').textContent = totalLeads;
+      document.getElementById('funnelProps').style.width = Math.round((totalProps / maxVal) * 100) + '%';
+      document.getElementById('funnelProps').textContent = totalProps;
+      document.getElementById('funnelClosed').style.width = Math.round((totalClosed / maxVal) * 100) + '%';
+      document.getElementById('funnelClosed').textContent = totalClosed;
+
+      const chartEl = document.getElementById('revenueChart');
+      const existing = Chart.getChart(chartEl);
+      if (existing) existing.destroy();
 
       const statsData = await apiGet('/leads/stats');
-      const chartLabels = statsData ? Object.keys(statsData.byPlatform) : ['Upwork', 'PeoplePerHour', 'Freelancer'];
-      const chartValues = statsData ? Object.values(statsData.byPlatform) : [520, 796, 150];
+      const chartLabels = statsData ? Object.keys(statsData.byPlatform) : ['Upwork', 'PeoplePerHour', 'Freelancer', 'Fiverr', 'Directo'];
+      const chartValues = statsData ? Object.values(statsData.byPlatform) : [520, 796, 150, 0, 0];
 
-      new Chart(document.getElementById('revenueChart'), {
+      new Chart(chartEl, {
         type: 'bar',
         data: {
           labels: chartLabels,
           datasets: [{
             label: 'Valor potencial ($)',
             data: chartValues,
-            backgroundColor: ['#8b5cf6', '#06b6d4', '#22c55e', '#f59e0b', '#ec4899'],
-            borderRadius: 6,
+            backgroundColor: chartValues.map((v, i) => i === 0 ? '#D60001' : i === 1 ? 'rgba(214,0,1,.7)' : i === 2 ? 'rgba(34,197,94,.6)' : i === 3 ? 'rgba(245,158,11,.6)' : 'rgba(255,255,255,.08)'),
+            borderRadius: 4,
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: true,
           plugins: { legend: { display: false } },
           scales: {
-            x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { display: false } },
-            y: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } }
+            x: { ticks: { color: 'var(--text3)', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: 'var(--text3)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.04)' } }
           }
         }
       });
@@ -435,6 +546,8 @@
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('show');
     });
+    document.getElementById('leadFilter').addEventListener('change', renderDashboard);
+    document.getElementById('leadSearch').addEventListener('input', renderDashboard);
 
     renderDashboard();
     renderDispatch();
